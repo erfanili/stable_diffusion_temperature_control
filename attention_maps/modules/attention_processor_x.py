@@ -62,8 +62,10 @@ class AttnProcessorX:
 
 
         #_x
-        self.attn_data_x = attn.get_attention_scores(key,value,attention_mask)
+        self.attn_data_x = attn.get_attention_scores(query,key,attention_mask)
+        
         #_x
+        #
         inner_dim = key.shape[-1]
         head_dim = inner_dim // attn.heads
 
