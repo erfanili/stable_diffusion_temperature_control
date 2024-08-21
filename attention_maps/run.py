@@ -25,7 +25,7 @@ pipe.unet.set_attn_processor(processor)
 
 pipe.to("cuda")
 prompt = "an apple on a desk near a window."
-image = pipe(prompt = prompt, num_inference_steps = 50 ).images[0]
+image = pipe(prompt = prompt, num_inference_steps = 10 ).images[0]
 output = pipe.attn_fetch_x.storage_x
 
 
