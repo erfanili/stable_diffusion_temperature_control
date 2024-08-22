@@ -62,8 +62,13 @@ class AttnProcessorX:
 
 
         #_x
+        # key_dict=(query,key,attention_mask).size()
+        # self.attm_data_x={key_dict:attn.get_attention_scores(query,key,attention_mask)}
         self.attn_data_x = attn.get_attention_scores(query,key,attention_mask)
-        
+        # print('query:', query.size())
+        # print('key:', key.size())
+        # print('prob:',self.attn_data_x.size())
+        # print('key:', key.size())
         #_x
         #
         inner_dim = key.shape[-1]

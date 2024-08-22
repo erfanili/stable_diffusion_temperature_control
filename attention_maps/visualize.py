@@ -11,11 +11,20 @@ def write_to_pickle(dict: dict,dir: str, file_name: str):
         pickle.dump(dict, f)
         
 
-def load_dict(file_path:str):
-    with open(file_path, 'rb') as f:
-        data = pickle.load(f)
+def load_dict(dir:str, file_name:str):
+    
+    file_path = os.path.join(dir,file_name)
+    if not os.path.exists(file_path):
         
-    return data 
+        print("File does not exist.")
+        
+    else:
+        
+        with open(file_path, 'rb') as f:
+            data = pickle.load(f)
+            
+        return data
+    
 
 
 
@@ -37,22 +46,22 @@ def tensors_to_cpu_numpy(data):
     
     
     
-def get_average_attn_by_layer(data):
-    avg_data = {}
-    for time in data.keys():
-        attn_stack = np.stack([attn for layer,attn in data[time]])
-        #avg over layers
-        layer_avg = np.mean(attn_stack, axis = 0)
-        #avg over heads
-        avg = np.mean(layer_avg, axis = 0)
-        avg_data[time] = avg
+def get_average_attn_over_time(data):
+    layers = ['down_0','down_1','down_2','mid','up_1','up_2','up_3']
+    output = {}
+    for layer in layers:
         
-    return avg_data
+        attn_arrays = np.array([data[time][layer] for time in data.keys()])
+        output[layer] = np.mean(attn_arrays,axis = 0)
 
-data = load_dict('./outputs/attn_data2.pkl')
-data = tensors_to_cpu_numpy(data)
-data = get_average_attn_by_layer(data)
-write_to_pickle(dict = data, dir='./outputs', file_name= 'attn_data_arr_avg.pkl')
+    return output
+
+def write_to_pickle(dict: dict,dir: str, file_name: str):
+    os.makedirs(dir, exist_ok = True)
+    file_path = os.path.join(dir,file_name)
+    with open (f'{file_path}', 'wb') as f:
+        pickle.dump(dict, f)
+
 
 
 
@@ -70,6 +79,12 @@ def visualize_attn(attn_array, token, output_dir, output_name):
     im = Image.fromarray(attn)
     im.save(file_path)
     
-
-for time in data.keys():
-    visualize_attn(data[time],1, './outputs/attn_by_time', f'{time}.png')
+if __name__ == "__main__":
+    
+    data = load_dict(dir= './outputs', file_name='attn_data.pkl')
+    data = tensors_to_cpu_numpy(data)
+    data = get_average_attn_over_time(data)
+    write_to_pickle(dict = data, dir='./outputs', file_name= 'attn_data_arr_avg.pkl')
+    for layer in data.keys():
+        visualize_attn(data[layer], token = 2, output_dir='./outputs/attn_by_layer',output_name= f'{layer}.png')
+    print(data)

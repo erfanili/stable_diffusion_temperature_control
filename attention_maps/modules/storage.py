@@ -1,11 +1,13 @@
-from collections import defaultdict
+
+
+import torch
+from modules.attention_processor_x import AttnProcessorX
 
 
 
 
 class AttnFetchX():
-    def __init__(self,unet):
-        self.unet = unet
+    def __init__(self):
         self.storage_x = {}
 
     def get_timestep_x(self):
@@ -18,26 +20,49 @@ class AttnFetchX():
         
         return self.unet.attn_data
         
-    def store_attn_by_timestep_x(self,time):
+    def store_attn_by_timestep_x(self,time,unet):
         
 
-        attn_data = self.get_unet_data_x()
+        attn_data = self.get_unet_data_x(unet)
         self.storage_x[time] = attn_data
+        # print(unet.timestep)
 
+    
+    def set_processor_x(self,unet):
 
-    def get_unet_data_x(self):
-        unet_attn_data = []
-        for i0, block in enumerate(self.unet.down_blocks):
-            # print(i0,block.__class__.__name__)
+        processors_x = {}
+        for layer in unet.attn_processors.keys():
+            processor = AttnProcessorX()
+            processors_x[layer] = processor
+        
+        unet.set_attn_processor(processors_x)
+
+    def get_unet_data_x(self,unet):
+        unet_attn_data = {}
+
+        for i0, block in enumerate(unet.down_blocks):
             if block.__class__.__name__ == "CrossAttnDownBlock2D":
-                for i1, transformer_model in enumerate(block.attentions):
-                    for i2, transformer_block in enumerate(transformer_model.transformer_blocks):
-                        attn_1 = transformer_block.attn1
-                        layer_1_address = (i0,i1,i2,1)
-                        attn_2 = transformer_block.attn2
-                        layer_2_address = (i0,i1,i2,2)
-                        unet_attn_data.append((layer_1_address,  attn_1.processor.attn_data_x))
-                        unet_attn_data.append((layer_2_address , attn_2.processor.attn_data_x))
-                        
-                    
+                data1 = block.attentions[0].transformer_blocks[0].attn2.processor.attn_data_x
+                data2 = block.attentions[1].transformer_blocks[0].attn2.processor.attn_data_x
+                data_cat = torch.cat((data1,data2), dim = 0)
+                data_mean = torch.mean(data_cat,dim=0)
+
+                unet_attn_data[f'down_{i0}'] = data_mean
+        
+        for i0, block in enumerate(unet.up_blocks):
+            if block.__class__.__name__ == "CrossAttnUpBlock2D":
+                data1 = block.attentions[0].transformer_blocks[0].attn2.processor.attn_data_x
+                data2 = block.attentions[1].transformer_blocks[0].attn2.processor.attn_data_x
+                data_cat = torch.cat((data1,data2), dim = 0)
+                data_mean = torch.mean(data_cat,dim=0)
+
+                unet_attn_data[f'up_{i0}'] = data_mean
+                
+        block = unet.mid_block
+        data1 = block.attentions[0].transformer_blocks[0].attn2.processor.attn_data_x
+        data_cat = data1
+        data_mean = torch.mean(data_cat,dim=0)
+
+        unet_attn_data['mid'] = data_mean
+                   
         return unet_attn_data

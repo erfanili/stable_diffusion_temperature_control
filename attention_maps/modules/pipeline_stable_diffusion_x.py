@@ -18,7 +18,6 @@
 from collections import defaultdict
 from modules.storage import AttnFetchX
 
-
 #X
 
 import inspect
@@ -278,7 +277,8 @@ class StableDiffusionPipelineX(
         self.register_to_config(requires_safety_checker=requires_safety_checker)
         
         ##_x
-        self.attn_fetch_x = AttnFetchX(self.unet)
+        self.attn_fetch_x = AttnFetchX()
+        self.attn_fetch_x.set_processor_x(self.unet)
         ##_x
     
 
@@ -1025,9 +1025,9 @@ class StableDiffusionPipelineX(
                     return_dict=False,
                 )[0]
                 
-                
-                self.attn_fetch_x.store_attn_by_timestep_x(t.item())
-
+                ##_x
+                self.attn_fetch_x.store_attn_by_timestep_x(t.item(),self.unet)
+                ##_X
                 # perform guidance
                 if self.do_classifier_free_guidance:
                     noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
