@@ -1026,6 +1026,7 @@ class StableDiffusionPipelineX(
                 )[0]
                 
                 ##_x
+                
                 self.attn_fetch_x.store_attn_by_timestep_x(t.item(),self.unet)
                 ##_X
                 # perform guidance

@@ -3,6 +3,7 @@ import torch.nn.functional as F
 from typing import Optional
 from diffusers.utils import deprecate, logging
 from diffusers.models.attention_processor import Attention
+import math
 
 class AttnProcessorX:
     r"""
@@ -13,6 +14,22 @@ class AttnProcessorX:
         if not hasattr(F, "scaled_dot_product_attention"):
             raise ImportError("AttnProcessor2_0 requires PyTorch 2.0, to use it, please upgrade PyTorch to 2.0.")
 
+    
+    
+    
+    def attn_prob(self,query, key) -> torch.Tensor:
+        L, S = query.size(-2), key.size(-2)
+        scale_factor = 1 / math.sqrt(query.size(-1))
+
+        
+        attn_weight = query @ key.transpose(-2, -1) * scale_factor
+
+        attn_weight = torch.softmax(attn_weight, dim=-1)
+        # attn_weight = torch.dropout(attn_weight, dropout_p, train=True)
+        return attn_weight
+        
+    
+    
     def __call__(
         self,
         attn: Attention,
@@ -60,11 +77,11 @@ class AttnProcessorX:
         key = attn.to_k(encoder_hidden_states)
         value = attn.to_v(encoder_hidden_states)
 
-
+        
         #_x
         # key_dict=(query,key,attention_mask).size()
         # self.attm_data_x={key_dict:attn.get_attention_scores(query,key,attention_mask)}
-        self.attn_data_x = attn.get_attention_scores(query,key,attention_mask)
+
         # print('query:', query.size())
         # print('key:', key.size())
         # print('prob:',self.attn_data_x.size())
@@ -73,18 +90,25 @@ class AttnProcessorX:
         #
         inner_dim = key.shape[-1]
         head_dim = inner_dim // attn.heads
-
+        # print(query.size())
         query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-
+        # print(query.size())
         key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
         value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
 
+        # if key.size()[-1] == 77:
+        # print(query.size())
+            # exit()
         
+        # if self.attn_data_x.size()[-1] == 77:
+        #     print(torch.sum(self.attn_data_x[1],dim = 0))
         
         if attn.norm_q is not None:
             query = attn.norm_q(query)
         if attn.norm_k is not None:
             key = attn.norm_k(key)
+            
+        self.attn_data_x = self.attn_prob(query,key)
 
         # the output of sdp = (batch, num_heads, seq_len, head_dim)
         # TODO: add support for attn.scale when we move to Torch 2.1

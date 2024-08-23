@@ -42,9 +42,10 @@ class AttnFetchX():
 
         for i0, block in enumerate(unet.down_blocks):
             if block.__class__.__name__ == "CrossAttnDownBlock2D":
-                data1 = block.attentions[0].transformer_blocks[0].attn2.processor.attn_data_x
-                data2 = block.attentions[1].transformer_blocks[0].attn2.processor.attn_data_x
-                data_cat = torch.cat((data1,data2), dim = 0)
+                data1 = block.attentions[0].transformer_blocks[0].attn2.processor.attn_data_x[1]
+                # print(data1.size())
+                data2 = block.attentions[1].transformer_blocks[0].attn2.processor.attn_data_x[1]
+                data_cat = torch.cat((data1.unsqueeze(0),data2.unsqueeze(0)), dim = 0)
                 data_mean = torch.mean(data_cat,dim=0)
 
                 unet_attn_data[f'down_{i0}'] = data_mean
