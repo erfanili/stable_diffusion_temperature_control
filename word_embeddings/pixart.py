@@ -19,9 +19,9 @@ for seed in seeds:
         
         
     embeds1 =pixart_generate_embeds(prompt1,device = 'cuda:4')
-    image1 = pixart_generate_image(embeds1,device = 'cuda:4',generator = generator,num_inference_steps = 20)
+    image1 = pixart_generate_image(embeds1,device = 'cuda:4',generator = generator,num_inference_steps = 15)
     embeds2 =pixart_generate_embeds(prompt2,device = 'cuda:4')
-    image2 = pixart_generate_image(embeds2,device = 'cuda:4', generator = generator,num_inference_steps = 20)
+    image2 = pixart_generate_image(embeds2,device = 'cuda:4', generator = generator,num_inference_steps = 15)
     save_image(image = image1, dir = f'./generation_outputs/pixar_cat_dog_whole', file_name = f'{seed}_1')
     save_image(image = image2, dir = f'./generation_outputs/pixar_cat_dog_whole', file_name = f'{seed}_2')
     

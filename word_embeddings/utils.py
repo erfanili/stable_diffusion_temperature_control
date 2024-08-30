@@ -163,7 +163,7 @@ def pixart_generate_embeds(prompt:str, device):
     )
 
     with torch.no_grad():
-        prompt = "cute cat"
+        prompt = prompt
         prompt_embeds, prompt_attention_mask, negative_embeds, negative_prompt_attention_mask = pipe.encode_prompt(prompt)
         gc.collect()
         torch.cuda.empty_cache()
@@ -190,7 +190,7 @@ def pixart_generate_image(embeds:tuple,device,generator,num_inference_steps = 20
         num_images_per_prompt=1,
         output_type="latent",
         generator = generator,
-        num_inference_steps = num_inference_stepsge
+        num_inference_steps = num_inference_steps
     ).images
 
     del pipe.transformer
