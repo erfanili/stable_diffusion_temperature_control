@@ -16,9 +16,7 @@
 #X
 # from modules.unet_2d_condition_x import UNet2DConditionModelX
 from collections import defaultdict
-from sd1_5.storage import AttnFetchX
 
-#X
 
 import inspect
 from typing import Any, Callable, Dict, List, Optional, Union
@@ -277,8 +275,10 @@ class StableDiffusionPipelineX(
         self.register_to_config(requires_safety_checker=requires_safety_checker)
         
         ##_x
-        self.attn_fetch_x = AttnFetchX()
-        self.attn_fetch_x.set_processor_x(self.unet)
+                ##_x
+        self.attn_fetch_x = None
+        # self.attn_fetch_x.set_processor_x(self.transformer)
+        ##_x
         ##_x
     
 
@@ -1026,8 +1026,10 @@ class StableDiffusionPipelineX(
                 )[0]
                 
                 ##_x
-                
-                self.attn_fetch_x.store_attn_by_timestep_x(t.item(),self.unet)
+                if self.attn_fetch_x is not None:
+                    self.attn_fetch_x.store_attn_by_timestep_x(t.item(),self.unet)
+                else:
+                    print('no attention_fetch. attention maps are not being stored.')
                 ##_X
                 # perform guidance
                 if self.do_classifier_free_guidance:

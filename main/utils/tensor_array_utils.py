@@ -39,26 +39,7 @@ from PIL import Image
 
 
 
-def resahpe_n_scale_array(array,size):
-    array = (array - np.min(array))/(np.max(array) -np.min(array))*255
-    array = array.reshape((size,size)).astype(np.uint16)
-    return array
 
-
-def save_attn_by_layer(attn_array, token, output_dir, output_name):
-    attn = attn_array[:,token]
-    size = int(math.sqrt(len(attn)))
-    attn = resahpe_n_scale_array(attn,size)
-    print(attn.shape)
-
-    os.makedirs(output_dir, exist_ok = True)
-    file_path = os.path.join(output_dir,output_name)
-    im = Image.fromarray(attn)
-    im = im.resize((256,256))
-    if im.mode == 'I;16':
-        im = im.convert('L')
-    im.save(file_path)
-    
     
     
 def rearrange_by_layer(data:dict) -> Dict:
@@ -102,17 +83,15 @@ def get_last_attn(data) -> Dict:
 
 
     
-def rearrange_by_layer(data:dict) -> Dict:
-    layers = ['down_0','down_1','down_2','mid','up_1','up_2','up_3']
+def rearrange_by_layers(data:dict) -> Dict:
+    layers = list(list(data.values())[0].keys())
     rearranged_output = {}
     for layer in layers:
-        attn_arrays = np.array([data[time][layer] for time in data.keys()])
-        rearranged_output[layer] = attn_arrays
-    def get_average_over_heads(data) -> Dict:
-        avg = {layer: np.mean(data[layer],axis = 1) for layer in data.keys()}    
-        return avg 
-    rearranged_head_avg = get_average_over_heads(rearranged_output)
-    return rearranged_head_avg
+        attn_tensors = torch.stack([data[time][layer] for time in data.keys()])
+        rearranged_output[layer] = attn_tensors
+
+
+    return rearranged_output
 
 
     
@@ -139,6 +118,23 @@ def get_last_attn(data) -> Dict:
         output[layer] = data[layer][-1]
     return output
 
+
+##tensor and array
+
+
+def data_structures_to_cpu_numpy(data):
+    if isinstance(data, torch.Tensor):
+        return data.cpu().numpy()
+    elif isinstance(data, dict):
+        return {key: data_structures_to_cpu_numpy(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [data_structures_to_cpu_numpy(item) for item in data]
+    elif isinstance(data, tuple):
+        return tuple(data_structures_to_cpu_numpy(item) for item in data)
+    else:
+        return data
+    
+    
 
 
 

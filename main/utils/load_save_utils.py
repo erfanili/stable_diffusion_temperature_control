@@ -4,8 +4,10 @@ from transformers import T5EncoderModel
 from diffusers import PixArtAlphaPipeline
 
 from sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
+from sd1_5.storage_sd1_5 import AttnFetchSDX
 
-
+from pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
+from pixart.storage_pixart import AttnFetchPixartX
 
 from scipy import spatial
 import torch 
@@ -28,13 +30,13 @@ from PIL import Image
 def save_dict(data: dict,directory: str, file_name: str):
     os.makedirs(directory, exist_ok = True)
     file_path = os.path.join(directory,file_name)
-    with open (f'{file_path}', 'wb') as f:
+    with open (f'{file_path}.pkl', 'wb') as f:
         pickle.dump(data, f)
         
         
 
 def load_dict(directory:str, file_name:str):
-    file_path = os.path.join(directory,file_name)
+    file_path = os.path.join(directory,file_name)+'.pkl'
     if not os.path.exists(file_path):
         print("File does not exist.")
     else:
@@ -54,6 +56,14 @@ def get_prompts_dict(directory:str, file_name = None):
         
         return lines
     
+    
+    
+def get_file_names(directory):
+
+    files = os.listdir(directory)
+    file_names = [os.path.splitext(file)[0] for file in files]
+    
+    return file_names
 ###image
 
 
@@ -96,7 +106,7 @@ def load_model(model_name,device):
         scheduler_class = DDIMScheduler
         model_id = "runwayml/stable-diffusion-v1-5"
         time_step_spacing = 'linspace'
-        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id)
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
         scheduler = scheduler_class.from_config(model.scheduler.config)
         model.scheduler = scheduler
         model.scheduler.config.timestep_spacing = time_step_spacing
@@ -106,17 +116,27 @@ def load_model(model_name,device):
         scheduler_class = DDIMScheduler
         model_id = "runwayml/stable-diffusion-v1-5"
         time_step_spacing = 'linspace'
-        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id)
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id, torch_dtype = torch.float16)
         scheduler = scheduler_class.from_config(model.scheduler.config)
         model.scheduler = scheduler
         model.scheduler.config.timestep_spacing = time_step_spacing
         model.to(device)
+        model.attn_fetch_x = AttnFetchSDX(positive_prompt = True)
+        model.attn_fetch_x.set_processor_x(model.unet)
     
     elif model_name == 'pixart':
         model_class = PixArtAlphaPipeline
-        model_id = "PixArt-alpha/PixArt-XL-2-1024-MS"
-        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id)
+        model_id = "PixArt-alpha/PixArt-XL-2-512x512"
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
         model.to(device)
+
+    elif model_name == 'pixart_x':
+        model_class = PixArtAlphaPipelineX
+        model_id = "PixArt-alpha/PixArt-XL-2-512x512"
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
+        model.to(device)
+        model.attn_fetch_x = AttnFetchPixartX(positive_prompt = True)
+        model.attn_fetch_x.set_processor_x(model.transformer)
     
     else:
         print('model not accepted')
@@ -129,25 +149,25 @@ def load_model(model_name,device):
 
 
 
-##tensor and array
+###attn
+
+def resahpe_n_scale_array(array,size):
+    array = (array - np.min(array))/(np.max(array) -np.min(array))*255
+    array = array.reshape((size,size)).astype(np.uint16)
+    return array
 
 
-def tensors_to_cpu_numpy(data):
-    if isinstance(data, torch.Tensor):
-        return data.cpu().numpy()
-    elif isinstance(data, dict):
-        return {key: tensors_to_cpu_numpy(value) for key, value in data.items()}
-    elif isinstance(data, list):
-        return [tensors_to_cpu_numpy(item) for item in data]
-    elif isinstance(data, tuple):
-        return tuple(tensors_to_cpu_numpy(item) for item in data)
-    elif isinstance(data, set):
-        return {tensors_to_cpu_numpy(item) for item in data}
-    else:
-        return data
+def save_attn_by_layer(attn_array, token, output_dir, output_name):
+    attn = attn_array[:,token]
+    size = int(math.sqrt(len(attn)))
+    attn = resahpe_n_scale_array(attn,size)
+    print(attn.shape)
+
+    os.makedirs(output_dir, exist_ok = True)
+    file_path = os.path.join(output_dir,output_name)
+    im = Image.fromarray(attn)
+    im = im.resize((256,256))
+    if im.mode == 'I;16':
+        im = im.convert('L')
+    im.save(file_path)
     
-    
-
-
-
-

@@ -108,7 +108,7 @@ class AttnProcessorX:
         if attn.norm_k is not None:
             key = attn.norm_k(key)
             
-        self.attn_data_x = self.attn_prob(query,key)
+        self.attn_data_x = self.attn_prob(query.detach().cpu(),key.detach().cpu())
         self.key_x = key
         self.query_x = query
         # the output of sdp = (batch, num_heads, seq_len, head_dim)
