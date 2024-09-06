@@ -3,11 +3,11 @@ from diffusers.schedulers.scheduling_ddim import DDIMScheduler
 from transformers import T5EncoderModel
 from diffusers import PixArtAlphaPipeline
 
-from sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
-from sd1_5.storage_sd1_5 import AttnFetchSDX
+from models.sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
+from models.sd1_5.storage_sd1_5 import AttnFetchSDX
 
-from pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
-from pixart.storage_pixart import AttnFetchPixartX
+from models.pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
+from models.pixart.storage_pixart import AttnFetchPixartX
 
 from scipy import spatial
 import torch 

@@ -35,9 +35,7 @@ from diffusers.utils import (
 from diffusers.utils.torch_utils import randn_tensor
 from diffusers.pipelines.pipeline_utils import DiffusionPipeline, ImagePipelineOutput
 
-######_X
-from pixart.storage_pixart import AttnFetchPixartX
-#####_X
+
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
 if is_bs4_available():
