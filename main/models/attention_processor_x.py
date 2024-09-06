@@ -17,21 +17,6 @@ class AttnProcessorX:
         self.positive_prompt = positive_prompt
 
     
-    def attn_prob(self,query, key) -> torch.Tensor:
-        batch = 1 if self.positive_prompt else 0
-        L, S = query.size(-2), key.size(-2)
-        scale_factor = 1 / math.sqrt(query.size(-1))
-
-        query_cpu = query
-        key_cpu = key
-        attn_weight = torch.matmul(query_cpu , key_cpu.transpose(-2, -1))* scale_factor
-        attn_weight = torch.softmax(attn_weight, dim=-1)
-        # attn_weight = torch.dropout(attn_weight, dropout_p, train=True)
-        attn_weight = torch.sum(attn_weight, dim = 1)[batch]
-        return attn_weight
-        
-    
-    
     def __call__(
         self,
         attn: Attention,
@@ -62,8 +47,7 @@ class AttnProcessorX:
 
         if attention_mask is not None:
             attention_mask = attn.prepare_attention_mask(attention_mask, sequence_length, batch_size)
-            # scaled_dot_product_attention expects attention_mask shape to be
-            # (batch, heads, source_length, target_length)
+
             attention_mask = attention_mask.view(batch_size, attn.heads, -1, attention_mask.shape[-1])
 
         if attn.group_norm is not None:
@@ -79,48 +63,46 @@ class AttnProcessorX:
         key = attn.to_k(encoder_hidden_states)
         value = attn.to_v(encoder_hidden_states)
 
-        
-        #_x
-        # key_dict=(query,key,attention_mask).size()
-        # self.attm_data_x={key_dict:attn.get_attention_scores(query,key,attention_mask)}
 
-        # print('query:', query.size())
-        # print('key:', key.size())
-        # print('prob:',self.attn_data_x.size())
-        # print('key:', key.size())
-        #_x
-        #
+        
+
         inner_dim = key.shape[-1]
         head_dim = inner_dim // attn.heads
-        # print(query.size())
-        query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-        # print(query.size())
-        key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
-        value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
 
-        # if key.size()[-1] == 77:
-        # print(query.size())
-            # exit()
+
+        query = attn.head_to_batch_dim(query)
+        key = attn.head_to_batch_dim(key)
+        value = attn.head_to_batch_dim(value)
+
+ 
         
-        # if self.attn_data_x.size()[-1] == 77:
-        #     print(torch.sum(self.attn_data_x[1],dim = 0))
-        
+        # query = query.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+
+        # key = key.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+        # value = value.view(batch_size, -1, attn.heads, head_dim).transpose(1, 2)
+
         if attn.norm_q is not None:
             query = attn.norm_q(query)
         if attn.norm_k is not None:
             key = attn.norm_k(key)
         
+        batch = 1 if self.positive_prompt else 0
+
+        if attention_mask is not None:
+            mask_shape = attention_mask.shape
+            attention_mask = attention_mask.view(mask_shape[0]*mask_shape[1], 1, -1) 
+
+        attention_probs = attn.get_attention_scores(query, key, attention_mask)
+
+        shapes = attention_probs.shape
+        attn_re = attention_probs.reshape(batch_size, attn.heads, shapes[-2], shapes[-1])
+        self.attn_data_x = torch.mean(attn_re[batch], dim=0)
+
+        hidden_states = torch.bmm(attention_probs, value)
+        hidden_states = attn.batch_to_head_dim(hidden_states)
         
 
-        self.attn_data_x = self.attn_prob(query,key)
 
-        # the output of sdp = (batch, num_heads, seq_len, head_dim)
-        # TODO: add support for attn.scale when we move to Torch 2.1
-        hidden_states = F.scaled_dot_product_attention(
-            query, key, value, attn_mask=attention_mask, dropout_p=0.0, is_causal=False
-        )
-
-        hidden_states = hidden_states.transpose(1, 2).reshape(batch_size, -1, attn.heads * head_dim)
         hidden_states = hidden_states.to(query.dtype)
 
         # linear proj

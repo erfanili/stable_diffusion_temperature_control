@@ -25,6 +25,7 @@ all_models = ['sd1_5', 'sd1_5x', 'pixart', 'pixart_x']
 models_with_attn_maps = ['sd1_5x', 'pixart_x']
 
 model_name = 'pixart_x'
+# model_name = 'sd1_5x'
 
 pipe = load_model(model_name = model_name, device = device)
 

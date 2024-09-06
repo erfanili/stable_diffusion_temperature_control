@@ -1,7 +1,7 @@
 
 
 import torch
-from pixart.attention_processor_x import AttnProcessorX
+from models.attention_processor_x import AttnProcessorX
 from utils.tensor_array_utils import *
 
 
