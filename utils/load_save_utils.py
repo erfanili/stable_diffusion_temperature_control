@@ -59,7 +59,7 @@ def get_prompt_list_by_line(directory:str, file_name = None):
 def save_json(directory:str, file_name:str, data:dict):
     output_path = os.path.join(directory,file_name)+'.json'
     with open(output_path, 'w+') as fp:
-        json.dump(obj=data,fp=fp, indent = None, separators=(',\n', ': '))
+        json.dump(obj=data,fp=fp, indent = 2, separators=(',', ': '))
 
     
 def get_file_names(directory):
