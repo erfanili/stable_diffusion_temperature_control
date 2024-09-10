@@ -24,7 +24,7 @@ import numpy as np
 import math
 from typing import Dict
 from PIL import Image
-
+import json
 
 ####dicts
 def save_dict(data: dict,directory: str, file_name: str):
@@ -45,18 +45,22 @@ def load_dict(directory:str, file_name:str):
         return data
     
 
-def get_prompts_dict(directory:str, file_name = None):
+def get_prompt_list_by_line(directory:str, file_name = None):
     if file_name is None:
         print('error: enter prompts file name')
     else:
-        file_path = os.path.join(directory,file_name)
+        file_path = os.path.join(directory,file_name)+'.txt'
         with open(file_path,'r') as f:
             lines = f.readlines()
-            lines = {idx:line.strip() for idx,line in enumerate(lines)}
-        
+     
         return lines
     
-    
+
+def save_json(directory:str, file_name:str, data:dict):
+    output_path = os.path.join(directory,file_name)+'.json'
+    with open(output_path, 'w+') as fp:
+        json.dump(obj=data,fp=fp, indent = 2)
+
     
 def get_file_names(directory):
 

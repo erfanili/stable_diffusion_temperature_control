@@ -1,0 +1,3362 @@
+{
+  "0": {
+    "adj1": "diamond",
+    "noun1": "tiara",
+    "adj2": "round",
+    "noun2": "bracelet"
+  },
+  "1": {
+    "adj1": "pentagonal",
+    "noun1": "warning sign",
+    "adj2": "pyramidal",
+    "noun2": "trophy"
+  },
+  "2": {
+    "adj1": "pyramidal",
+    "noun1": "trophy",
+    "adj2": "conical",
+    "noun2": "trophy base"
+  },
+  "3": {
+    "adj1": "pentagonal",
+    "noun1": "badge",
+    "adj2": "pyramidal",
+    "noun2": "sculpture"
+  },
+  "4": {
+    "adj1": "diamond",
+    "noun1": "brooch",
+    "adj2": "round",
+    "noun2": "pendant"
+  },
+  "5": {
+    "adj1": "pyramidal",
+    "noun1": "bookend",
+    "adj2": "teardrop",
+    "noun2": "bookmark"
+  },
+  "6": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "7": {
+    "adj1": "short",
+    "noun1": "candle",
+    "adj2": "tall",
+    "noun2": "candle holder"
+  },
+  "8": {
+    "adj1": "spherical",
+    "noun1": "planet",
+    "adj2": "conical",
+    "noun2": "rocket ship"
+  },
+  "9": {
+    "adj1": "teardrop",
+    "noun1": "pendant",
+    "adj2": "rectangular",
+    "noun2": "locket"
+  },
+  "10": {
+    "adj1": "triangular",
+    "noun1": "slice of pizza",
+    "adj2": "cylindrical",
+    "noun2": "pizza cutter"
+  },
+  "11": {
+    "adj1": "triangular",
+    "noun1": "slice of cake",
+    "adj2": "spherical",
+    "noun2": "cake topper"
+  },
+  "12": {
+    "adj1": "round",
+    "noun1": "cookie",
+    "adj2": "square",
+    "noun2": "plate"
+  },
+  "13": {
+    "adj1": "cubic",
+    "noun1": "vase",
+    "adj2": "spherical",
+    "noun2": "flower arrangement"
+  },
+  "14": {
+    "adj1": "tall",
+    "noun1": "oak tree",
+    "adj2": "short",
+    "noun2": "bush"
+  },
+  "15": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "spider"
+  },
+  "16": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "fly"
+  },
+  "17": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "round",
+    "noun2": "watch"
+  },
+  "18": {
+    "adj1": "oval",
+    "noun1": "dining table",
+    "adj2": "rectangular",
+    "noun2": "tablecloth"
+  },
+  "19": {
+    "adj1": "circular",
+    "noun1": "ceiling fan",
+    "adj2": "triangular",
+    "noun2": "air vent"
+  },
+  "20": {
+    "adj1": "small",
+    "noun1": "vase",
+    "adj2": "tall",
+    "noun2": "flower"
+  },
+  "21": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "flea"
+  },
+  "22": {
+    "adj1": "oblong",
+    "noun1": "sweet potato",
+    "adj2": "teardrop",
+    "noun2": "kiwi"
+  },
+  "23": {
+    "adj1": "conical",
+    "noun1": "party hat",
+    "adj2": "round",
+    "noun2": "box"
+  },
+  "24": {
+    "adj1": "round",
+    "noun1": "pizza",
+    "adj2": "square",
+    "noun2": "box"
+  },
+  "25": {
+    "adj1": "cubic",
+    "noun1": "ice cube",
+    "adj2": "cylindrical",
+    "noun2": "soda can"
+  },
+  "26": {
+    "adj1": "oblong",
+    "noun1": "zucchini",
+    "adj2": "teardrop",
+    "noun2": "mango"
+  },
+  "27": {
+    "adj1": "pentagonal",
+    "noun1": "clock",
+    "adj2": "cylindrical",
+    "noun2": "clock pendulum"
+  },
+  "28": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "flashlight"
+  },
+  "29": {
+    "adj1": "circular",
+    "noun1": "chandelier",
+    "adj2": "triangular",
+    "noun2": "wall art"
+  },
+  "30": {
+    "adj1": "diamond",
+    "noun1": "pendant",
+    "adj2": "round",
+    "noun2": "watch"
+  },
+  "31": {
+    "adj1": "pyramidal",
+    "noun1": "pencil sharpener",
+    "adj2": "teardrop",
+    "noun2": "pencil eraser"
+  },
+  "32": {
+    "adj1": "diamond",
+    "noun1": "gemstone",
+    "adj2": "round",
+    "noun2": "jewelry box"
+  },
+  "33": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "bush"
+  },
+  "34": {
+    "adj1": "circular",
+    "noun1": "clock",
+    "adj2": "triangular",
+    "noun2": "book stand"
+  },
+  "35": {
+    "adj1": "triangular",
+    "noun1": "slice of watermelon",
+    "adj2": "spherical",
+    "noun2": "watermelon seed"
+  },
+  "36": {
+    "adj1": "pentagonal",
+    "noun1": "caution sign",
+    "adj2": "pyramidal",
+    "noun2": "trophy"
+  },
+  "37": {
+    "adj1": "cubic",
+    "noun1": "ice cube",
+    "adj2": "cylindrical",
+    "noun2": "straw"
+  },
+  "38": {
+    "adj1": "pentagonal",
+    "noun1": "notebook",
+    "adj2": "triangular",
+    "noun2": "pencil holder"
+  },
+  "39": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "rectangular",
+    "noun2": "knife block"
+  },
+  "40": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "bird"
+  },
+  "41": {
+    "adj1": "pentagonal",
+    "noun1": "post-it note",
+    "adj2": "pyramidal",
+    "noun2": "paperweight"
+  },
+  "42": {
+    "adj1": "spherical",
+    "noun1": "marble",
+    "adj2": "conical",
+    "noun2": "birthday hat"
+  },
+  "43": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "44": {
+    "adj1": "oblong",
+    "noun1": "carrot",
+    "adj2": "teardrop",
+    "noun2": "watermelon"
+  },
+  "45": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "pen holder"
+  },
+  "46": {
+    "adj1": "big",
+    "noun1": "rhinoceros",
+    "adj2": "small",
+    "noun2": "mouse"
+  },
+  "47": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "earring"
+  },
+  "48": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "kitten"
+  },
+  "49": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "rectangular",
+    "noun2": "cream cheese container"
+  },
+  "50": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "marker"
+  },
+  "51": {
+    "adj1": "spherical",
+    "noun1": "globe",
+    "adj2": "diamond",
+    "noun2": "map"
+  },
+  "52": {
+    "adj1": "diamond",
+    "noun1": "tiara",
+    "adj2": "round",
+    "noun2": "hairpin"
+  },
+  "53": {
+    "adj1": "spherical",
+    "noun1": "Christmas ornament",
+    "adj2": "conical",
+    "noun2": "Santa hat"
+  },
+  "54": {
+    "adj1": "cylindrical",
+    "noun1": "vase",
+    "adj2": "diamond",
+    "noun2": "flower arrangement"
+  },
+  "55": {
+    "adj1": "circular",
+    "noun1": "mirror",
+    "adj2": "oval",
+    "noun2": "picture frame"
+  },
+  "56": {
+    "adj1": "triangular",
+    "noun1": "slice of lemon",
+    "adj2": "cylindrical",
+    "noun2": "lemon squeezer"
+  },
+  "57": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "spherical",
+    "noun2": "tie tack"
+  },
+  "58": {
+    "adj1": "tall",
+    "noun1": "oak tree",
+    "adj2": "short",
+    "noun2": "grass"
+  },
+  "59": {
+    "adj1": "pyramidal",
+    "noun1": "trophy",
+    "adj2": "conical",
+    "noun2": "pedestal"
+  },
+  "60": {
+    "adj1": "long",
+    "noun1": "rope",
+    "adj2": "short",
+    "noun2": "leash"
+  },
+  "61": {
+    "adj1": "pentagonal",
+    "noun1": "clock",
+    "adj2": "pyramidal",
+    "noun2": "clock base"
+  },
+  "62": {
+    "adj1": "pentagonal",
+    "noun1": "gift box",
+    "adj2": "conical",
+    "noun2": "bow"
+  },
+  "63": {
+    "adj1": "teardrop",
+    "noun1": "pendant",
+    "adj2": "spherical",
+    "noun2": "necklace chain"
+  },
+  "64": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "round",
+    "noun2": "brooch pin"
+  },
+  "65": {
+    "adj1": "tall",
+    "noun1": "lighthouse",
+    "adj2": "short",
+    "noun2": "buoy"
+  },
+  "66": {
+    "adj1": "circular",
+    "noun1": "rug",
+    "adj2": "triangular",
+    "noun2": "throw pillow"
+  },
+  "67": {
+    "adj1": "pyramidal",
+    "noun1": "tea bag",
+    "adj2": "diamond",
+    "noun2": "tea bag holder"
+  },
+  "68": {
+    "adj1": "triangular",
+    "noun1": "slice of cake",
+    "adj2": "cylindrical",
+    "noun2": "candle"
+  },
+  "69": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "mouse"
+  },
+  "70": {
+    "adj1": "conical",
+    "noun1": "hat",
+    "adj2": "diamond",
+    "noun2": "brooch"
+  },
+  "71": {
+    "adj1": "spherical",
+    "noun1": "planet",
+    "adj2": "teardrop",
+    "noun2": "satellite"
+  },
+  "72": {
+    "adj1": "pentagonal",
+    "noun1": "keychain",
+    "adj2": "cylindrical",
+    "noun2": "key"
+  },
+  "73": {
+    "adj1": "pentagonal",
+    "noun1": "construction sign",
+    "adj2": "pyramidal",
+    "noun2": "candle holder"
+  },
+  "74": {
+    "adj1": "oblong",
+    "noun1": "carrot",
+    "adj2": "teardrop",
+    "noun2": "fig"
+  },
+  "75": {
+    "adj1": "circular",
+    "noun1": "mirror",
+    "adj2": "triangular",
+    "noun2": "shelf bracket"
+  },
+  "76": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "square",
+    "noun2": "photo album"
+  },
+  "77": {
+    "adj1": "spherical",
+    "noun1": "snow globe",
+    "adj2": "pyramidal",
+    "noun2": "base"
+  },
+  "78": {
+    "adj1": "circular",
+    "noun1": "vase",
+    "adj2": "triangular",
+    "noun2": "plant stand"
+  },
+  "79": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "pepper"
+  },
+  "80": {
+    "adj1": "pentagonal",
+    "noun1": "star",
+    "adj2": "pyramidal",
+    "noun2": "temple"
+  },
+  "81": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "82": {
+    "adj1": "rectangular",
+    "noun1": "pencil case",
+    "adj2": "pentagonal",
+    "noun2": "pencil sharpener"
+  },
+  "83": {
+    "adj1": "oval",
+    "noun1": "sink",
+    "adj2": "rectangular",
+    "noun2": "countertop"
+  },
+  "84": {
+    "adj1": "round",
+    "noun1": "plate",
+    "adj2": "rectangular",
+    "noun2": "placemat"
+  },
+  "85": {
+    "adj1": "spherical",
+    "noun1": "golf ball",
+    "adj2": "conical",
+    "noun2": "golf tee"
+  },
+  "86": {
+    "adj1": "teardrop",
+    "noun1": "vase",
+    "adj2": "diamond",
+    "noun2": "flower arrangement"
+  },
+  "87": {
+    "adj1": "tall",
+    "noun1": "giraffe",
+    "adj2": "short",
+    "noun2": "penguin"
+  },
+  "88": {
+    "adj1": "spherical",
+    "noun1": "basketball",
+    "adj2": "conical",
+    "noun2": "basketball net"
+  },
+  "89": {
+    "adj1": "short",
+    "noun1": "stem",
+    "adj2": "tall",
+    "noun2": "tree"
+  },
+  "90": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "round",
+    "noun2": "bracelet"
+  },
+  "91": {
+    "adj1": "spherical",
+    "noun1": "marble",
+    "adj2": "conical",
+    "noun2": "pencil sharpener"
+  },
+  "92": {
+    "adj1": "tall",
+    "noun1": "sequoia tree",
+    "adj2": "short",
+    "noun2": "succulent"
+  },
+  "93": {
+    "adj1": "diamond",
+    "noun1": "earring",
+    "adj2": "round",
+    "noun2": "locket"
+  },
+  "94": {
+    "adj1": "small",
+    "noun1": "ant",
+    "adj2": "big",
+    "noun2": "insect"
+  },
+  "95": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "cubic",
+    "noun2": "soccer goal"
+  },
+  "96": {
+    "adj1": "rectangular",
+    "noun1": "rug",
+    "adj2": "diamond",
+    "noun2": "coffee table"
+  },
+  "97": {
+    "adj1": "big",
+    "noun1": "kangaroo",
+    "adj2": "small",
+    "noun2": "mouse"
+  },
+  "98": {
+    "adj1": "diamond",
+    "noun1": "tiara",
+    "adj2": "round",
+    "noun2": "necklace"
+  },
+  "99": {
+    "adj1": "oblong",
+    "noun1": "sweet potato",
+    "adj2": "teardrop",
+    "noun2": "nectarine"
+  },
+  "100": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "spherical",
+    "noun2": "game piece"
+  },
+  "101": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "square",
+    "noun2": "bath mat"
+  },
+  "102": {
+    "adj1": "spherical",
+    "noun1": "basketball",
+    "adj2": "conical",
+    "noun2": "hoop"
+  },
+  "103": {
+    "adj1": "spherical",
+    "noun1": "Christmas ornament",
+    "adj2": "rectangular",
+    "noun2": "gift tag"
+  },
+  "104": {
+    "adj1": "spherical",
+    "noun1": "bouncy ball",
+    "adj2": "conical",
+    "noun2": "party horn"
+  },
+  "105": {
+    "adj1": "round",
+    "noun1": "pizza",
+    "adj2": "square",
+    "noun2": "slice of bread"
+  },
+  "106": {
+    "adj1": "rectangular",
+    "noun1": "book",
+    "adj2": "pentagonal",
+    "noun2": "bookmark"
+  },
+  "107": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "rectangular",
+    "noun2": "bathrobe"
+  },
+  "108": {
+    "adj1": "pentagonal",
+    "noun1": "building",
+    "adj2": "pyramidal",
+    "noun2": "monument"
+  },
+  "109": {
+    "adj1": "round",
+    "noun1": "plate",
+    "adj2": "rectangular",
+    "noun2": "napkin"
+  },
+  "110": {
+    "adj1": "tall",
+    "noun1": "lamp",
+    "adj2": "small",
+    "noun2": "table"
+  },
+  "111": {
+    "adj1": "round",
+    "noun1": "watermelon",
+    "adj2": "rectangular",
+    "noun2": "slice of bread"
+  },
+  "112": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "triangular",
+    "noun2": "jewelry box"
+  },
+  "113": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "paperweight"
+  },
+  "114": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "square",
+    "noun2": "painting"
+  },
+  "115": {
+    "adj1": "pentagonal",
+    "noun1": "book",
+    "adj2": "triangular",
+    "noun2": "bookmark"
+  },
+  "116": {
+    "adj1": "round",
+    "noun1": "pizza",
+    "adj2": "square",
+    "noun2": "slice of cake"
+  },
+  "117": {
+    "adj1": "spherical",
+    "noun1": "tennis ball",
+    "adj2": "conical",
+    "noun2": "racket"
+  },
+  "118": {
+    "adj1": "cubic",
+    "noun1": "book",
+    "adj2": "cylindrical",
+    "noun2": "water bottle"
+  },
+  "119": {
+    "adj1": "cylindrical",
+    "noun1": "vase",
+    "adj2": "rectangular",
+    "noun2": "flower arrangement"
+  },
+  "120": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "ant"
+  },
+  "121": {
+    "adj1": "tall",
+    "noun1": "tree",
+    "adj2": "short",
+    "noun2": "grass"
+  },
+  "122": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "medicine cabinet"
+  },
+  "123": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "conical",
+    "noun2": "wedding band"
+  },
+  "124": {
+    "adj1": "triangular",
+    "noun1": "slice of lemon",
+    "adj2": "cylindrical",
+    "noun2": "lemon juicer"
+  },
+  "125": {
+    "adj1": "pentagonal",
+    "noun1": "prism",
+    "adj2": "pyramidal",
+    "noun2": "pyramid"
+  },
+  "126": {
+    "adj1": "spherical",
+    "noun1": "tennis ball",
+    "adj2": "conical",
+    "noun2": "tennis hat"
+  },
+  "127": {
+    "adj1": "oval",
+    "noun1": "rug",
+    "adj2": "rectangular",
+    "noun2": "doormat"
+  },
+  "128": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "cactus"
+  },
+  "129": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "conical",
+    "noun2": "corner flag"
+  },
+  "130": {
+    "adj1": "oblong",
+    "noun1": "zucchini",
+    "adj2": "teardrop",
+    "noun2": "lemon"
+  },
+  "131": {
+    "adj1": "circular",
+    "noun1": "lamp",
+    "adj2": "triangular",
+    "noun2": "shelf"
+  },
+  "132": {
+    "adj1": "rectangular",
+    "noun1": "envelope",
+    "adj2": "oval",
+    "noun2": "stamp"
+  },
+  "133": {
+    "adj1": "oblong",
+    "noun1": "sweet potato",
+    "adj2": "teardrop",
+    "noun2": "mango"
+  },
+  "134": {
+    "adj1": "spherical",
+    "noun1": "beach ball",
+    "adj2": "conical",
+    "noun2": "beach umbrella"
+  },
+  "135": {
+    "adj1": "oval",
+    "noun1": "rug",
+    "adj2": "rectangular",
+    "noun2": "coffee table"
+  },
+  "136": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "pen"
+  },
+  "137": {
+    "adj1": "pentagonal",
+    "noun1": "clock tower",
+    "adj2": "pyramidal",
+    "noun2": "obelisk"
+  },
+  "138": {
+    "adj1": "cubic",
+    "noun1": "ice cube",
+    "adj2": "diamond",
+    "noun2": "whiskey glass"
+  },
+  "139": {
+    "adj1": "oblong",
+    "noun1": "yam",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "140": {
+    "adj1": "spherical",
+    "noun1": "snowball",
+    "adj2": "diamond",
+    "noun2": "snowflake ornament"
+  },
+  "141": {
+    "adj1": "oblong",
+    "noun1": "butternut squash",
+    "adj2": "teardrop",
+    "noun2": "apricot"
+  },
+  "142": {
+    "adj1": "teardrop",
+    "noun1": "pendant",
+    "adj2": "spherical",
+    "noun2": "necklace"
+  },
+  "143": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "earring"
+  },
+  "144": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "makeup palette"
+  },
+  "145": {
+    "adj1": "cylindrical",
+    "noun1": "bottle",
+    "adj2": "rectangular",
+    "noun2": "bottle label"
+  },
+  "146": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "teardrop",
+    "noun2": "game board"
+  },
+  "147": {
+    "adj1": "pyramidal",
+    "noun1": "trophy",
+    "adj2": "cylindrical",
+    "noun2": "trophy case"
+  },
+  "148": {
+    "adj1": "pentagonal",
+    "noun1": "warning sign",
+    "adj2": "pyramidal",
+    "noun2": "bookend"
+  },
+  "149": {
+    "adj1": "round",
+    "noun1": "pancake",
+    "adj2": "square",
+    "noun2": "syrup bottle"
+  },
+  "150": {
+    "adj1": "diamond",
+    "noun1": "ring holder",
+    "adj2": "spherical",
+    "noun2": "jewelry box"
+  },
+  "151": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "snail"
+  },
+  "152": {
+    "adj1": "spherical",
+    "noun1": "volleyball",
+    "adj2": "conical",
+    "noun2": "party hat"
+  },
+  "153": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "candle"
+  },
+  "154": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "conical",
+    "noun2": "goalpost"
+  },
+  "155": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "can of soup"
+  },
+  "156": {
+    "adj1": "triangular",
+    "noun1": "slice of cake",
+    "adj2": "cylindrical",
+    "noun2": "cake stand"
+  },
+  "157": {
+    "adj1": "diamond",
+    "noun1": "brooch",
+    "adj2": "cubic",
+    "noun2": "jewelry box"
+  },
+  "158": {
+    "adj1": "round",
+    "noun1": "bag",
+    "adj2": "rectangular",
+    "noun2": "wallet"
+  },
+  "159": {
+    "adj1": "circular",
+    "noun1": "light fixture",
+    "adj2": "triangular",
+    "noun2": "shelf"
+  },
+  "160": {
+    "adj1": "long",
+    "noun1": "flagpole",
+    "adj2": "short",
+    "noun2": "garden stake"
+  },
+  "161": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "traffic light"
+  },
+  "162": {
+    "adj1": "tall",
+    "noun1": "oak tree",
+    "adj2": "short",
+    "noun2": "potted plant"
+  },
+  "163": {
+    "adj1": "pyramidal",
+    "noun1": "paperweight",
+    "adj2": "conical",
+    "noun2": "paper clip"
+  },
+  "164": {
+    "adj1": "circular",
+    "noun1": "clock",
+    "adj2": "triangular",
+    "noun2": "wall shelf"
+  },
+  "165": {
+    "adj1": "triangular",
+    "noun1": "sandwich",
+    "adj2": "pentagonal",
+    "noun2": "sandwich bag"
+  },
+  "166": {
+    "adj1": "oblong",
+    "noun1": "zucchini",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "167": {
+    "adj1": "circular",
+    "noun1": "clock",
+    "adj2": "triangular",
+    "noun2": "bookend"
+  },
+  "168": {
+    "adj1": "conical",
+    "noun1": "party hat",
+    "adj2": "diamond",
+    "noun2": "confetti container"
+  },
+  "169": {
+    "adj1": "circular",
+    "noun1": "light fixture",
+    "adj2": "triangular",
+    "noun2": "lamp finial"
+  },
+  "170": {
+    "adj1": "rectangular",
+    "noun1": "cutting board",
+    "adj2": "triangular",
+    "noun2": "knife block"
+  },
+  "171": {
+    "adj1": "rectangular",
+    "noun1": "bookshelf",
+    "adj2": "spherical",
+    "noun2": "bookend"
+  },
+  "172": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "container of mints"
+  },
+  "173": {
+    "adj1": "square",
+    "noun1": "pillow",
+    "adj2": "triangular",
+    "noun2": "wedge"
+  },
+  "174": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "glue stick"
+  },
+  "175": {
+    "adj1": "cubic",
+    "noun1": "box",
+    "adj2": "cylindrical",
+    "noun2": "canister"
+  },
+  "176": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "square",
+    "noun2": "cream cheese container"
+  },
+  "177": {
+    "adj1": "round",
+    "noun1": "mug",
+    "adj2": "rectangular",
+    "noun2": "coaster"
+  },
+  "178": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "butterfly"
+  },
+  "179": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "pyramidal",
+    "noun2": "building toy"
+  },
+  "180": {
+    "adj1": "oblong",
+    "noun1": "carrot",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "181": {
+    "adj1": "tall",
+    "noun1": "lighthouse",
+    "adj2": "short",
+    "noun2": "fence"
+  },
+  "182": {
+    "adj1": "circular",
+    "noun1": "pendant",
+    "adj2": "triangular",
+    "noun2": "earring"
+  },
+  "183": {
+    "adj1": "spherical",
+    "noun1": "snow globe",
+    "adj2": "conical",
+    "noun2": "Santa hat"
+  },
+  "184": {
+    "adj1": "pyramidal",
+    "noun1": "bookend",
+    "adj2": "spherical",
+    "noun2": "book"
+  },
+  "185": {
+    "adj1": "teardrop",
+    "noun1": "earring",
+    "adj2": "diamond",
+    "noun2": "brooch"
+  },
+  "186": {
+    "adj1": "conical",
+    "noun1": "birthday hat",
+    "adj2": "spherical",
+    "noun2": "pi\u00f1ata"
+  },
+  "187": {
+    "adj1": "pyramidal",
+    "noun1": "crystal",
+    "adj2": "conical",
+    "noun2": "crystal holder"
+  },
+  "188": {
+    "adj1": "oblong",
+    "noun1": "watermelon",
+    "adj2": "teardrop",
+    "noun2": "apricot"
+  },
+  "189": {
+    "adj1": "round",
+    "noun1": "vase",
+    "adj2": "rectangular",
+    "noun2": "photo frame"
+  },
+  "190": {
+    "adj1": "round",
+    "noun1": "doughnut",
+    "adj2": "square",
+    "noun2": "napkin"
+  },
+  "191": {
+    "adj1": "conical",
+    "noun1": "ice cream scoop",
+    "adj2": "diamond",
+    "noun2": "ice cream bowl"
+  },
+  "192": {
+    "adj1": "circular",
+    "noun1": "light fixture",
+    "adj2": "triangular",
+    "noun2": "wall shelf"
+  },
+  "193": {
+    "adj1": "pentagonal",
+    "noun1": "caution sign",
+    "adj2": "pyramidal",
+    "noun2": "photo frame"
+  },
+  "194": {
+    "adj1": "round",
+    "noun1": "tomato",
+    "adj2": "square",
+    "noun2": "cheese"
+  },
+  "195": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "landmark"
+  },
+  "196": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "rabbit"
+  },
+  "197": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "square",
+    "noun2": "photo frame"
+  },
+  "198": {
+    "adj1": "pyramidal",
+    "noun1": "tea box",
+    "adj2": "triangular",
+    "noun2": "tea bag"
+  },
+  "199": {
+    "adj1": "long",
+    "noun1": "scarf",
+    "adj2": "short",
+    "noun2": "tie"
+  },
+  "200": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "paperweight"
+  },
+  "201": {
+    "adj1": "circular",
+    "noun1": "plate",
+    "adj2": "triangular",
+    "noun2": "napkin"
+  },
+  "202": {
+    "adj1": "pentagonal",
+    "noun1": "jewelry box",
+    "adj2": "pyramidal",
+    "noun2": "gemstone"
+  },
+  "203": {
+    "adj1": "tall",
+    "noun1": "palm tree",
+    "adj2": "short",
+    "noun2": "bonsai tree"
+  },
+  "204": {
+    "adj1": "big",
+    "noun1": "dinosaur",
+    "adj2": "small",
+    "noun2": "lizard"
+  },
+  "205": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "rectangular",
+    "noun2": "shower head"
+  },
+  "206": {
+    "adj1": "pentagonal",
+    "noun1": "medal",
+    "adj2": "pyramidal",
+    "noun2": "obelisk"
+  },
+  "207": {
+    "adj1": "long",
+    "noun1": "hallway",
+    "adj2": "short",
+    "noun2": "staircase"
+  },
+  "208": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "square",
+    "noun2": "shower"
+  },
+  "209": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "melon"
+  },
+  "210": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "rectangular",
+    "noun2": "bath mat"
+  },
+  "211": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "pyramidal",
+    "noun2": "tie tack"
+  },
+  "212": {
+    "adj1": "tall",
+    "noun1": "basketball player",
+    "adj2": "short",
+    "noun2": "gymnast"
+  },
+  "213": {
+    "adj1": "triangular",
+    "noun1": "slice of watermelon",
+    "adj2": "cylindrical",
+    "noun2": "watermelon rind"
+  },
+  "214": {
+    "adj1": "pyramidal",
+    "noun1": "trophy",
+    "adj2": "diamond",
+    "noun2": "medal"
+  },
+  "215": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "square",
+    "noun2": "plate"
+  },
+  "216": {
+    "adj1": "oblong",
+    "noun1": "watermelon",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "217": {
+    "adj1": "long",
+    "noun1": "ladder",
+    "adj2": "short",
+    "noun2": "stool"
+  },
+  "218": {
+    "adj1": "pentagonal",
+    "noun1": "badge",
+    "adj2": "pyramidal",
+    "noun2": "paperweight"
+  },
+  "219": {
+    "adj1": "diamond",
+    "noun1": "earring",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "220": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "rectangular",
+    "noun2": "cracker"
+  },
+  "221": {
+    "adj1": "round",
+    "noun1": "doughnut",
+    "adj2": "square",
+    "noun2": "piece of brownie"
+  },
+  "222": {
+    "adj1": "pyramidal",
+    "noun1": "pyramid",
+    "adj2": "conical",
+    "noun2": "sphinx"
+  },
+  "223": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "snail"
+  },
+  "224": {
+    "adj1": "spherical",
+    "noun1": "volleyball",
+    "adj2": "conical",
+    "noun2": "net"
+  },
+  "225": {
+    "adj1": "pyramidal",
+    "noun1": "puzzle box",
+    "adj2": "conical",
+    "noun2": "puzzle piece"
+  },
+  "226": {
+    "adj1": "rectangular",
+    "noun1": "laptop",
+    "adj2": "teardrop",
+    "noun2": "laptop case"
+  },
+  "227": {
+    "adj1": "oval",
+    "noun1": "vase",
+    "adj2": "rectangular",
+    "noun2": "table"
+  },
+  "228": {
+    "adj1": "round",
+    "noun1": "doughnut",
+    "adj2": "square",
+    "noun2": "piece of fudge"
+  },
+  "229": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "weed"
+  },
+  "230": {
+    "adj1": "teardrop",
+    "noun1": "earring",
+    "adj2": "conical",
+    "noun2": "necklace charm"
+  },
+  "231": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "caution sign"
+  },
+  "232": {
+    "adj1": "big",
+    "noun1": "rhinoceros",
+    "adj2": "small",
+    "noun2": "hedgehog"
+  },
+  "233": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "spherical",
+    "noun2": "watch case"
+  },
+  "234": {
+    "adj1": "cubic",
+    "noun1": "tissue box",
+    "adj2": "cylindrical",
+    "noun2": "roll of paper towels"
+  },
+  "235": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "clock"
+  },
+  "236": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "pendant"
+  },
+  "237": {
+    "adj1": "oval",
+    "noun1": "rug",
+    "adj2": "rectangular",
+    "noun2": "couch"
+  },
+  "238": {
+    "adj1": "long",
+    "noun1": "rope",
+    "adj2": "short",
+    "noun2": "string"
+  },
+  "239": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "hamster"
+  },
+  "240": {
+    "adj1": "oblong",
+    "noun1": "squash",
+    "adj2": "teardrop",
+    "noun2": "grapefruit"
+  },
+  "241": {
+    "adj1": "tall",
+    "noun1": "giraffe",
+    "adj2": "small",
+    "noun2": "mouse"
+  },
+  "242": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "cat"
+  },
+  "243": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "marker pen"
+  },
+  "244": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "ring"
+  },
+  "245": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "locket"
+  },
+  "246": {
+    "adj1": "round",
+    "noun1": "cookie",
+    "adj2": "long",
+    "noun2": "pretzel"
+  },
+  "247": {
+    "adj1": "round",
+    "noun1": "muffin",
+    "adj2": "rectangular",
+    "noun2": "granola bar"
+  },
+  "248": {
+    "adj1": "rectangular",
+    "noun1": "bed",
+    "adj2": "conical",
+    "noun2": "lamp"
+  },
+  "249": {
+    "adj1": "pentagonal",
+    "noun1": "flag",
+    "adj2": "pyramidal",
+    "noun2": "monument"
+  },
+  "250": {
+    "adj1": "rectangular",
+    "noun1": "door",
+    "adj2": "small",
+    "noun2": "doorknob"
+  },
+  "251": {
+    "adj1": "circular",
+    "noun1": "wall clock",
+    "adj2": "triangular",
+    "noun2": "picture frame"
+  },
+  "252": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "picture frame"
+  },
+  "253": {
+    "adj1": "pentagonal",
+    "noun1": "badge",
+    "adj2": "pyramidal",
+    "noun2": "chess piece"
+  },
+  "254": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "255": {
+    "adj1": "round",
+    "noun1": "watermelon",
+    "adj2": "rectangular",
+    "noun2": "slice of cake"
+  },
+  "256": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "house"
+  },
+  "257": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "mobile home"
+  },
+  "258": {
+    "adj1": "spherical",
+    "noun1": "tennis ball",
+    "adj2": "conical",
+    "noun2": "tennis racket"
+  },
+  "259": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "papaya"
+  },
+  "260": {
+    "adj1": "oblong",
+    "noun1": "squash",
+    "adj2": "teardrop",
+    "noun2": "grapefruit"
+  },
+  "261": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "pencil sharpener"
+  },
+  "262": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "pyramidal",
+    "noun2": "building set"
+  },
+  "263": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "spherical",
+    "noun2": "game board"
+  },
+  "264": {
+    "adj1": "pentagonal",
+    "noun1": "picture frame",
+    "adj2": "diamond",
+    "noun2": "photo album"
+  },
+  "265": {
+    "adj1": "rectangular",
+    "noun1": "picture frame",
+    "adj2": "teardrop",
+    "noun2": "photo mat"
+  },
+  "266": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "pencil"
+  },
+  "267": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "conical",
+    "noun2": "referee hat"
+  },
+  "268": {
+    "adj1": "rectangular",
+    "noun1": "desk",
+    "adj2": "spherical",
+    "noun2": "paperweight"
+  },
+  "269": {
+    "adj1": "tall",
+    "noun1": "basketball hoop",
+    "adj2": "short",
+    "noun2": "bench"
+  },
+  "270": {
+    "adj1": "conical",
+    "noun1": "tree",
+    "adj2": "triangular",
+    "noun2": "tree topper"
+  },
+  "271": {
+    "adj1": "round",
+    "noun1": "pancake",
+    "adj2": "rectangular",
+    "noun2": "strip of bacon"
+  },
+  "272": {
+    "adj1": "circular",
+    "noun1": "mirror",
+    "adj2": "triangular",
+    "noun2": "shelf"
+  },
+  "273": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "bee"
+  },
+  "274": {
+    "adj1": "pentagonal",
+    "noun1": "sign",
+    "adj2": "pyramidal",
+    "noun2": "paperweight"
+  },
+  "275": {
+    "adj1": "pentagonal",
+    "noun1": "street sign",
+    "adj2": "pyramidal",
+    "noun2": "bookend"
+  },
+  "276": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "tomato"
+  },
+  "277": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "square",
+    "noun2": "shower caddy"
+  },
+  "278": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "peach"
+  },
+  "279": {
+    "adj1": "pyramidal",
+    "noun1": "mountain",
+    "adj2": "triangular",
+    "noun2": "hill"
+  },
+  "280": {
+    "adj1": "cubic",
+    "noun1": "tissue box",
+    "adj2": "teardrop",
+    "noun2": "tissue packet"
+  },
+  "281": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "ring"
+  },
+  "282": {
+    "adj1": "spherical",
+    "noun1": "baseball",
+    "adj2": "rectangular",
+    "noun2": "baseball bat"
+  },
+  "283": {
+    "adj1": "oblong",
+    "noun1": "yam",
+    "adj2": "teardrop",
+    "noun2": "papaya"
+  },
+  "284": {
+    "adj1": "pyramidal",
+    "noun1": "pyramid",
+    "adj2": "pentagonal",
+    "noun2": "base"
+  },
+  "285": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "round",
+    "noun2": "necklace"
+  },
+  "286": {
+    "adj1": "cylindrical",
+    "noun1": "soda can",
+    "adj2": "teardrop",
+    "noun2": "bottle opener"
+  },
+  "287": {
+    "adj1": "pentagonal",
+    "noun1": "road sign",
+    "adj2": "pyramidal",
+    "noun2": "lamp base"
+  },
+  "288": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "peach"
+  },
+  "289": {
+    "adj1": "long",
+    "noun1": "scarf",
+    "adj2": "short",
+    "noun2": "jacket"
+  },
+  "290": {
+    "adj1": "circular",
+    "noun1": "lamp",
+    "adj2": "triangular",
+    "noun2": "lampshade"
+  },
+  "291": {
+    "adj1": "big",
+    "noun1": "bear",
+    "adj2": "small",
+    "noun2": "mouse"
+  },
+  "292": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "teardrop",
+    "noun2": "tie clip"
+  },
+  "293": {
+    "adj1": "conical",
+    "noun1": "wizard hat",
+    "adj2": "triangular",
+    "noun2": "magic book"
+  },
+  "294": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "beetle"
+  },
+  "295": {
+    "adj1": "oblong",
+    "noun1": "zucchini",
+    "adj2": "teardrop",
+    "noun2": "kiwi"
+  },
+  "296": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "bonsai tree"
+  },
+  "297": {
+    "adj1": "oval",
+    "noun1": "sink",
+    "adj2": "rectangular",
+    "noun2": "medicine cabinet"
+  },
+  "298": {
+    "adj1": "spherical",
+    "noun1": "snowball",
+    "adj2": "conical",
+    "noun2": "snowman nose"
+  },
+  "299": {
+    "adj1": "conical",
+    "noun1": "hat",
+    "adj2": "diamond",
+    "noun2": "pair of sunglasses"
+  },
+  "300": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "soda can"
+  },
+  "301": {
+    "adj1": "triangular",
+    "noun1": "slice of watermelon",
+    "adj2": "spherical",
+    "noun2": "melon baller"
+  },
+  "302": {
+    "adj1": "spherical",
+    "noun1": "basketball",
+    "adj2": "conical",
+    "noun2": "traffic cone"
+  },
+  "303": {
+    "adj1": "conical",
+    "noun1": "ice cream cone",
+    "adj2": "cubic",
+    "noun2": "box"
+  },
+  "304": {
+    "adj1": "triangular",
+    "noun1": "slice of watermelon",
+    "adj2": "teardrop",
+    "noun2": "seed spitter"
+  },
+  "305": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "bracelet"
+  },
+  "306": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "conical",
+    "noun2": "ring holder"
+  },
+  "307": {
+    "adj1": "oval",
+    "noun1": "platter",
+    "adj2": "square",
+    "noun2": "plate"
+  },
+  "308": {
+    "adj1": "oblong",
+    "noun1": "sweet potato",
+    "adj2": "teardrop",
+    "noun2": "apricot"
+  },
+  "309": {
+    "adj1": "teardrop",
+    "noun1": "pendant",
+    "adj2": "conical",
+    "noun2": "necklace charm"
+  },
+  "310": {
+    "adj1": "spherical",
+    "noun1": "Christmas ornament",
+    "adj2": "conical",
+    "noun2": "tree topper"
+  },
+  "311": {
+    "adj1": "pentagonal",
+    "noun1": "shelf",
+    "adj2": "pyramidal",
+    "noun2": "trinket box"
+  },
+  "312": {
+    "adj1": "spherical",
+    "noun1": "snowball",
+    "adj2": "conical",
+    "noun2": "tree"
+  },
+  "313": {
+    "adj1": "pentagonal",
+    "noun1": "badge",
+    "adj2": "pyramidal",
+    "noun2": "trophy"
+  },
+  "314": {
+    "adj1": "triangular",
+    "noun1": "slice of toast",
+    "adj2": "cylindrical",
+    "noun2": "toaster"
+  },
+  "315": {
+    "adj1": "oval",
+    "noun1": "serving platter",
+    "adj2": "square",
+    "noun2": "dish"
+  },
+  "316": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "spider"
+  },
+  "317": {
+    "adj1": "teardrop",
+    "noun1": "earring",
+    "adj2": "pyramidal",
+    "noun2": "necklace pendant"
+  },
+  "318": {
+    "adj1": "oblong",
+    "noun1": "pear",
+    "adj2": "teardrop",
+    "noun2": "fig"
+  },
+  "319": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "tomato"
+  },
+  "320": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "pyramidal",
+    "noun2": "tie clip"
+  },
+  "321": {
+    "adj1": "round",
+    "noun1": "cupcake",
+    "adj2": "square",
+    "noun2": "wrapper"
+  },
+  "322": {
+    "adj1": "oblong",
+    "noun1": "watermelon",
+    "adj2": "teardrop",
+    "noun2": "mango"
+  },
+  "323": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "round",
+    "noun2": "locket"
+  },
+  "324": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "pen"
+  },
+  "325": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "cherry"
+  },
+  "326": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "327": {
+    "adj1": "pentagonal",
+    "noun1": "road sign",
+    "adj2": "pyramidal",
+    "noun2": "paper clip holder"
+  },
+  "328": {
+    "adj1": "diamond",
+    "noun1": "brooch",
+    "adj2": "spherical",
+    "noun2": "necklace"
+  },
+  "329": {
+    "adj1": "rectangular",
+    "noun1": "laptop",
+    "adj2": "teardrop",
+    "noun2": "mouse"
+  },
+  "330": {
+    "adj1": "triangular",
+    "noun1": "pizza slice",
+    "adj2": "diamond",
+    "noun2": "bracelet"
+  },
+  "331": {
+    "adj1": "diamond",
+    "noun1": "pendant",
+    "adj2": "cylindrical",
+    "noun2": "chain necklace"
+  },
+  "332": {
+    "adj1": "short",
+    "noun1": "pencil",
+    "adj2": "long",
+    "noun2": "pen"
+  },
+  "333": {
+    "adj1": "diamond",
+    "noun1": "pendant",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "334": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "lipstick"
+  },
+  "335": {
+    "adj1": "rectangular",
+    "noun1": "TV",
+    "adj2": "teardrop",
+    "noun2": "remote control"
+  },
+  "336": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "square",
+    "noun2": "shower stall"
+  },
+  "337": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "jar of peanut butter"
+  },
+  "338": {
+    "adj1": "conical",
+    "noun1": "chef hat",
+    "adj2": "spherical",
+    "noun2": "mixing bowl"
+  },
+  "339": {
+    "adj1": "pentagonal",
+    "noun1": "street sign",
+    "adj2": "pyramidal",
+    "noun2": "pencil holder"
+  },
+  "340": {
+    "adj1": "rectangular",
+    "noun1": "rug",
+    "adj2": "spherical",
+    "noun2": "bean bag chair"
+  },
+  "341": {
+    "adj1": "spherical",
+    "noun1": "beach ball",
+    "adj2": "conical",
+    "noun2": "ice cream cone"
+  },
+  "342": {
+    "adj1": "tall",
+    "noun1": "vase",
+    "adj2": "short",
+    "noun2": "candle"
+  },
+  "343": {
+    "adj1": "round",
+    "noun1": "bag",
+    "adj2": "rectangular",
+    "noun2": "makeup case"
+  },
+  "344": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "bench"
+  },
+  "345": {
+    "adj1": "long",
+    "noun1": "ruler",
+    "adj2": "short",
+    "noun2": "pencil"
+  },
+  "346": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "cactus"
+  },
+  "347": {
+    "adj1": "round",
+    "noun1": "pear",
+    "adj2": "oblong",
+    "noun2": "banana"
+  },
+  "348": {
+    "adj1": "oblong",
+    "noun1": "zucchini",
+    "adj2": "teardrop",
+    "noun2": "nectarine"
+  },
+  "349": {
+    "adj1": "cubic",
+    "noun1": "die",
+    "adj2": "cylindrical",
+    "noun2": "pen holder"
+  },
+  "350": {
+    "adj1": "spherical",
+    "noun1": "baseball",
+    "adj2": "conical",
+    "noun2": "party hat"
+  },
+  "351": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "anklet"
+  },
+  "352": {
+    "adj1": "tall",
+    "noun1": "giraffe",
+    "adj2": "short",
+    "noun2": "hamster"
+  },
+  "353": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "rectangular",
+    "noun2": "sandwich container"
+  },
+  "354": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "tomb"
+  },
+  "355": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "nectarine"
+  },
+  "356": {
+    "adj1": "conical",
+    "noun1": "lampshade",
+    "adj2": "pentagonal",
+    "noun2": "lamp base"
+  },
+  "357": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "watch"
+  },
+  "358": {
+    "adj1": "oblong",
+    "noun1": "loaf of bread",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "359": {
+    "adj1": "spherical",
+    "noun1": "globe",
+    "adj2": "conical",
+    "noun2": "hat"
+  },
+  "360": {
+    "adj1": "oval",
+    "noun1": "picture frame",
+    "adj2": "rectangular",
+    "noun2": "photograph"
+  },
+  "361": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "chapstick"
+  },
+  "362": {
+    "adj1": "round",
+    "noun1": "pancake",
+    "adj2": "rectangular",
+    "noun2": "piece of toast"
+  },
+  "363": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "rectangular",
+    "noun2": "breakfast tray"
+  },
+  "364": {
+    "adj1": "round",
+    "noun1": "donut",
+    "adj2": "rectangular",
+    "noun2": "biscuit"
+  },
+  "365": {
+    "adj1": "small",
+    "noun1": "pencil",
+    "adj2": "big",
+    "noun2": "eraser"
+  },
+  "366": {
+    "adj1": "cubic",
+    "noun1": "box",
+    "adj2": "cylindrical",
+    "noun2": "jar"
+  },
+  "367": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "water bottle"
+  },
+  "368": {
+    "adj1": "spherical",
+    "noun1": "snowball",
+    "adj2": "conical",
+    "noun2": "Santa hat"
+  },
+  "369": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "square",
+    "noun2": "cream cheese"
+  },
+  "370": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "371": {
+    "adj1": "diamond",
+    "noun1": "brooch",
+    "adj2": "round",
+    "noun2": "necklace"
+  },
+  "372": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "mug"
+  },
+  "373": {
+    "adj1": "circular",
+    "noun1": "pizza",
+    "adj2": "triangular",
+    "noun2": "sandwich"
+  },
+  "374": {
+    "adj1": "big",
+    "noun1": "lion",
+    "adj2": "small",
+    "noun2": "antelope"
+  },
+  "375": {
+    "adj1": "conical",
+    "noun1": "traffic cone",
+    "adj2": "pentagonal",
+    "noun2": "road sign"
+  },
+  "376": {
+    "adj1": "round",
+    "noun1": "cupcake",
+    "adj2": "rectangular",
+    "noun2": "cookie"
+  },
+  "377": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "dresser"
+  },
+  "378": {
+    "adj1": "pentagonal",
+    "noun1": "warning sign",
+    "adj2": "pyramidal",
+    "noun2": "paperweight"
+  },
+  "379": {
+    "adj1": "oblong",
+    "noun1": "sweet potato",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "380": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "water bottle"
+  },
+  "381": {
+    "adj1": "triangular",
+    "noun1": "slice of cucumber",
+    "adj2": "rectangular",
+    "noun2": "sandwich"
+  },
+  "382": {
+    "adj1": "pentagonal",
+    "noun1": "yield sign",
+    "adj2": "pyramidal",
+    "noun2": "vase"
+  },
+  "383": {
+    "adj1": "big",
+    "noun1": "suitcase",
+    "adj2": "small",
+    "noun2": "purse"
+  },
+  "384": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "pair of earrings"
+  },
+  "385": {
+    "adj1": "rectangular",
+    "noun1": "shelf",
+    "adj2": "pyramidal",
+    "noun2": "bookend"
+  },
+  "386": {
+    "adj1": "circular",
+    "noun1": "rug",
+    "adj2": "triangular",
+    "noun2": "table runner"
+  },
+  "387": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "fern"
+  },
+  "388": {
+    "adj1": "short",
+    "noun1": "pencil sharpener",
+    "adj2": "long",
+    "noun2": "pencil"
+  },
+  "389": {
+    "adj1": "spherical",
+    "noun1": "pendant",
+    "adj2": "diamond",
+    "noun2": "necklace chain"
+  },
+  "390": {
+    "adj1": "small",
+    "noun1": "globe",
+    "adj2": "oblong",
+    "noun2": "paperweight"
+  },
+  "391": {
+    "adj1": "triangular",
+    "noun1": "slice of pie",
+    "adj2": "pyramidal",
+    "noun2": "pie crust"
+  },
+  "392": {
+    "adj1": "oblong",
+    "noun1": "carrot",
+    "adj2": "teardrop",
+    "noun2": "pear"
+  },
+  "393": {
+    "adj1": "small",
+    "noun1": "acorn",
+    "adj2": "big",
+    "noun2": "pie"
+  },
+  "394": {
+    "adj1": "cubic",
+    "noun1": "tissue box",
+    "adj2": "cylindrical",
+    "noun2": "roll of tape"
+  },
+  "395": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "tree"
+  },
+  "396": {
+    "adj1": "round",
+    "noun1": "cookie",
+    "adj2": "rectangular",
+    "noun2": "chocolate bar"
+  },
+  "397": {
+    "adj1": "oblong",
+    "noun1": "avocado",
+    "adj2": "teardrop",
+    "noun2": "grape"
+  },
+  "398": {
+    "adj1": "rectangular",
+    "noun1": "tablet",
+    "adj2": "pentagonal",
+    "noun2": "tablet case"
+  },
+  "399": {
+    "adj1": "diamond",
+    "noun1": "earring",
+    "adj2": "round",
+    "noun2": "pendant"
+  },
+  "400": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "statue"
+  },
+  "401": {
+    "adj1": "rectangular",
+    "noun1": "mirror",
+    "adj2": "teardrop",
+    "noun2": "magnifying mirror"
+  },
+  "402": {
+    "adj1": "spherical",
+    "noun1": "basketball",
+    "adj2": "conical",
+    "noun2": "basketball hoop"
+  },
+  "403": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "flower pot"
+  },
+  "404": {
+    "adj1": "spherical",
+    "noun1": "snowball",
+    "adj2": "rectangular",
+    "noun2": "snow fort"
+  },
+  "405": {
+    "adj1": "small",
+    "noun1": "seashell",
+    "adj2": "big",
+    "noun2": "fish"
+  },
+  "406": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "bungalow"
+  },
+  "407": {
+    "adj1": "tall",
+    "noun1": "palm tree",
+    "adj2": "short",
+    "noun2": "fern"
+  },
+  "408": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "can of soda"
+  },
+  "409": {
+    "adj1": "pentagonal",
+    "noun1": "badge",
+    "adj2": "pyramidal",
+    "noun2": "award"
+  },
+  "410": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "vanity"
+  },
+  "411": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "necklace"
+  },
+  "412": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "conical",
+    "noun2": "tie clip"
+  },
+  "413": {
+    "adj1": "tall",
+    "noun1": "giraffe",
+    "adj2": "small",
+    "noun2": "dog"
+  },
+  "414": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "ladybug"
+  },
+  "415": {
+    "adj1": "oval",
+    "noun1": "serving dish",
+    "adj2": "square",
+    "noun2": "bowl"
+  },
+  "416": {
+    "adj1": "round",
+    "noun1": "lamp",
+    "adj2": "rectangular",
+    "noun2": "end table"
+  },
+  "417": {
+    "adj1": "conical",
+    "noun1": "party hat",
+    "adj2": "diamond",
+    "noun2": "party favor"
+  },
+  "418": {
+    "adj1": "big",
+    "noun1": "horse",
+    "adj2": "small",
+    "noun2": "pony"
+  },
+  "419": {
+    "adj1": "rectangular",
+    "noun1": "book",
+    "adj2": "spherical",
+    "noun2": "book weight"
+  },
+  "420": {
+    "adj1": "big",
+    "noun1": "tree",
+    "adj2": "small",
+    "noun2": "birdhouse"
+  },
+  "421": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "square",
+    "noun2": "shower mat"
+  },
+  "422": {
+    "adj1": "circular",
+    "noun1": "rug",
+    "adj2": "triangular",
+    "noun2": "end table"
+  },
+  "423": {
+    "adj1": "circular",
+    "noun1": "pendant light",
+    "adj2": "triangular",
+    "noun2": "shelf bracket"
+  },
+  "424": {
+    "adj1": "oblong",
+    "noun1": "carrot",
+    "adj2": "teardrop",
+    "noun2": "avocado"
+  },
+  "425": {
+    "adj1": "round",
+    "noun1": "marble",
+    "adj2": "teardrop",
+    "noun2": "earring"
+  },
+  "426": {
+    "adj1": "conical",
+    "noun1": "birthday candle",
+    "adj2": "diamond",
+    "noun2": "cake topper"
+  },
+  "427": {
+    "adj1": "triangular",
+    "noun1": "slice of toast",
+    "adj2": "rectangular",
+    "noun2": "toaster"
+  },
+  "428": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "tube of lip balm"
+  },
+  "429": {
+    "adj1": "circular",
+    "noun1": "plate",
+    "adj2": "triangular",
+    "noun2": "piece of cake"
+  },
+  "430": {
+    "adj1": "short",
+    "noun1": "fence",
+    "adj2": "tall",
+    "noun2": "sunflower"
+  },
+  "431": {
+    "adj1": "cubic",
+    "noun1": "dice",
+    "adj2": "cylindrical",
+    "noun2": "pen holder"
+  },
+  "432": {
+    "adj1": "tall",
+    "noun1": "pine tree",
+    "adj2": "short",
+    "noun2": "shrub"
+  },
+  "433": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "conical",
+    "noun2": "soccer goal"
+  },
+  "434": {
+    "adj1": "pyramidal",
+    "noun1": "candle holder",
+    "adj2": "teardrop",
+    "noun2": "candle"
+  },
+  "435": {
+    "adj1": "cylindrical",
+    "noun1": "mug",
+    "adj2": "rectangular",
+    "noun2": "coaster"
+  },
+  "436": {
+    "adj1": "tall",
+    "noun1": "lighthouse",
+    "adj2": "short",
+    "noun2": "windmill"
+  },
+  "437": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "rectangular",
+    "noun2": "tie"
+  },
+  "438": {
+    "adj1": "oval",
+    "noun1": "bathtub",
+    "adj2": "rectangular",
+    "noun2": "shower curtain"
+  },
+  "439": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "frame"
+  },
+  "440": {
+    "adj1": "oval",
+    "noun1": "platter",
+    "adj2": "rectangular",
+    "noun2": "serving tray"
+  },
+  "441": {
+    "adj1": "oblong",
+    "noun1": "squash",
+    "adj2": "teardrop",
+    "noun2": "mango"
+  },
+  "442": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "conical",
+    "noun2": "goal post"
+  },
+  "443": {
+    "adj1": "conical",
+    "noun1": "hat",
+    "adj2": "rectangular",
+    "noun2": "suitcase"
+  },
+  "444": {
+    "adj1": "diamond",
+    "noun1": "earring",
+    "adj2": "round",
+    "noun2": "necklace"
+  },
+  "445": {
+    "adj1": "round",
+    "noun1": "donut",
+    "adj2": "rectangular",
+    "noun2": "toaster pastry"
+  },
+  "446": {
+    "adj1": "pentagonal",
+    "noun1": "clock",
+    "adj2": "teardrop",
+    "noun2": "clock face"
+  },
+  "447": {
+    "adj1": "pentagonal",
+    "noun1": "sign",
+    "adj2": "crescent",
+    "noun2": "moon"
+  },
+  "448": {
+    "adj1": "rectangular",
+    "noun1": "picture frame",
+    "adj2": "pentagonal",
+    "noun2": "photo mat"
+  },
+  "449": {
+    "adj1": "diamond",
+    "noun1": "pendant",
+    "adj2": "round",
+    "noun2": "earring"
+  },
+  "450": {
+    "adj1": "diamond",
+    "noun1": "pendant",
+    "adj2": "round",
+    "noun2": "brooch"
+  },
+  "451": {
+    "adj1": "pyramidal",
+    "noun1": "paperweight",
+    "adj2": "teardrop",
+    "noun2": "pen holder"
+  },
+  "452": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "highlighter"
+  },
+  "453": {
+    "adj1": "pentagonal",
+    "noun1": "flag",
+    "adj2": "pyramidal",
+    "noun2": "pyramid"
+  },
+  "454": {
+    "adj1": "oblong",
+    "noun1": "zucchini",
+    "adj2": "teardrop",
+    "noun2": "strawberry"
+  },
+  "455": {
+    "adj1": "spherical",
+    "noun1": "beach ball",
+    "adj2": "conical",
+    "noun2": "sun hat"
+  },
+  "456": {
+    "adj1": "oblong",
+    "noun1": "sweet potato",
+    "adj2": "teardrop",
+    "noun2": "papaya"
+  },
+  "457": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "square",
+    "noun2": "cream cheese block"
+  },
+  "458": {
+    "adj1": "square",
+    "noun1": "plate",
+    "adj2": "crescent",
+    "noun2": "croissant"
+  },
+  "459": {
+    "adj1": "rectangular",
+    "noun1": "photo frame",
+    "adj2": "conical",
+    "noun2": "vase"
+  },
+  "460": {
+    "adj1": "big",
+    "noun1": "teddy bear",
+    "adj2": "small",
+    "noun2": "toy car"
+  },
+  "461": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "watch face"
+  },
+  "462": {
+    "adj1": "spherical",
+    "noun1": "soccer ball",
+    "adj2": "conical",
+    "noun2": "party horn"
+  },
+  "463": {
+    "adj1": "circular",
+    "noun1": "coffee table",
+    "adj2": "triangular",
+    "noun2": "bookshelf"
+  },
+  "464": {
+    "adj1": "big",
+    "noun1": "cow",
+    "adj2": "small",
+    "noun2": "calf"
+  },
+  "465": {
+    "adj1": "cubic",
+    "noun1": "eraser",
+    "adj2": "cylindrical",
+    "noun2": "pencil"
+  },
+  "466": {
+    "adj1": "teardrop",
+    "noun1": "earring",
+    "adj2": "pentagonal",
+    "noun2": "bracelet charm"
+  },
+  "467": {
+    "adj1": "rectangular",
+    "noun1": "soap bar",
+    "adj2": "spherical",
+    "noun2": "soap dispenser"
+  },
+  "468": {
+    "adj1": "cubic",
+    "noun1": "die",
+    "adj2": "diamond",
+    "noun2": "game board"
+  },
+  "469": {
+    "adj1": "pentagonal",
+    "noun1": "badge",
+    "adj2": "pyramidal",
+    "noun2": "bookend"
+  },
+  "470": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "bungalow"
+  },
+  "471": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "pen holder"
+  },
+  "472": {
+    "adj1": "round",
+    "noun1": "pizza",
+    "adj2": "square",
+    "noun2": "pizza cutter"
+  },
+  "473": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "round",
+    "noun2": "wedding band"
+  },
+  "474": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "rectangular",
+    "noun2": "jewelry appraisal"
+  },
+  "475": {
+    "adj1": "triangular",
+    "noun1": "slice of cheese",
+    "adj2": "diamond",
+    "noun2": "cheese board"
+  },
+  "476": {
+    "adj1": "triangular",
+    "noun1": "sandwich",
+    "adj2": "spherical",
+    "noun2": "apple"
+  },
+  "477": {
+    "adj1": "diamond",
+    "noun1": "necklace",
+    "adj2": "round",
+    "noun2": "locket"
+  },
+  "478": {
+    "adj1": "spherical",
+    "noun1": "snow globe",
+    "adj2": "conical",
+    "noun2": "Christmas tree"
+  },
+  "479": {
+    "adj1": "circular",
+    "noun1": "plate",
+    "adj2": "triangular",
+    "noun2": "placemat"
+  },
+  "480": {
+    "adj1": "spherical",
+    "noun1": "globe",
+    "adj2": "rectangular",
+    "noun2": "atlas"
+  },
+  "481": {
+    "adj1": "pentagonal",
+    "noun1": "pencil",
+    "adj2": "cylindrical",
+    "noun2": "pencil sharpener"
+  },
+  "482": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "flashlight"
+  },
+  "483": {
+    "adj1": "circular",
+    "noun1": "window",
+    "adj2": "triangular",
+    "noun2": "curtain"
+  },
+  "484": {
+    "adj1": "diamond",
+    "noun1": "watch",
+    "adj2": "round",
+    "noun2": "cufflink"
+  },
+  "485": {
+    "adj1": "tall",
+    "noun1": "tree",
+    "adj2": "short",
+    "noun2": "shrub"
+  },
+  "486": {
+    "adj1": "cubic",
+    "noun1": "die",
+    "adj2": "cylindrical",
+    "noun2": "salt dispenser"
+  },
+  "487": {
+    "adj1": "rectangular",
+    "noun1": "frame",
+    "adj2": "spherical",
+    "noun2": "picture"
+  },
+  "488": {
+    "adj1": "short",
+    "noun1": "stump",
+    "adj2": "tall",
+    "noun2": "tree"
+  },
+  "489": {
+    "adj1": "oblong",
+    "noun1": "eggplant",
+    "adj2": "teardrop",
+    "noun2": "kiwi"
+  },
+  "490": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "container of toothpaste"
+  },
+  "491": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "pencil sharpener"
+  },
+  "492": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "flower"
+  },
+  "493": {
+    "adj1": "diamond",
+    "noun1": "bracelet",
+    "adj2": "round",
+    "noun2": "watch"
+  },
+  "494": {
+    "adj1": "teardrop",
+    "noun1": "pendant",
+    "adj2": "cubic",
+    "noun2": "bead bracelet"
+  },
+  "495": {
+    "adj1": "round",
+    "noun1": "ring",
+    "adj2": "pyramidal",
+    "noun2": "paperweight"
+  },
+  "496": {
+    "adj1": "pyramidal",
+    "noun1": "paperweight",
+    "adj2": "pentagonal",
+    "noun2": "paper clip holder"
+  },
+  "497": {
+    "adj1": "cylindrical",
+    "noun1": "bottle",
+    "adj2": "diamond",
+    "noun2": "bottle cap"
+  },
+  "498": {
+    "adj1": "circular",
+    "noun1": "rug",
+    "adj2": "triangular",
+    "noun2": "cushion"
+  },
+  "499": {
+    "adj1": "triangular",
+    "noun1": "slice of watermelon",
+    "adj2": "cylindrical",
+    "noun2": "watermelon slicer"
+  },
+  "500": {
+    "adj1": "diamond",
+    "noun1": "cufflink",
+    "adj2": "cylindrical",
+    "noun2": "watch"
+  },
+  "501": {
+    "adj1": "pentagonal",
+    "noun1": "street sign",
+    "adj2": "pyramidal",
+    "noun2": "candle holder"
+  },
+  "502": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "grass"
+  },
+  "503": {
+    "adj1": "big",
+    "noun1": "giraffe",
+    "adj2": "small",
+    "noun2": "mouse"
+  },
+  "504": {
+    "adj1": "tall",
+    "noun1": "building",
+    "adj2": "short",
+    "noun2": "house"
+  },
+  "505": {
+    "adj1": "short",
+    "noun1": "chair",
+    "adj2": "long",
+    "noun2": "tablecloth"
+  },
+  "506": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "mango"
+  },
+  "507": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "gecko"
+  },
+  "508": {
+    "adj1": "round",
+    "noun1": "ball",
+    "adj2": "square",
+    "noun2": "clock"
+  },
+  "509": {
+    "adj1": "oval",
+    "noun1": "rug",
+    "adj2": "square",
+    "noun2": "pouf ottoman"
+  },
+  "510": {
+    "adj1": "oval",
+    "noun1": "rug",
+    "adj2": "square",
+    "noun2": "floor pillow"
+  },
+  "511": {
+    "adj1": "triangular",
+    "noun1": "slice of quiche",
+    "adj2": "diamond",
+    "noun2": "serving platter"
+  },
+  "512": {
+    "adj1": "conical",
+    "noun1": "ice cream cone",
+    "adj2": "diamond",
+    "noun2": "sprinkles container"
+  },
+  "513": {
+    "adj1": "pentagonal",
+    "noun1": "puzzle piece",
+    "adj2": "cubic",
+    "noun2": "puzzle box"
+  },
+  "514": {
+    "adj1": "circular",
+    "noun1": "vase",
+    "adj2": "triangular",
+    "noun2": "picture frame"
+  },
+  "515": {
+    "adj1": "cylindrical",
+    "noun1": "pepper grinder",
+    "adj2": "conical",
+    "noun2": "salt shaker"
+  },
+  "516": {
+    "adj1": "pentagonal",
+    "noun1": "pencil",
+    "adj2": "triangular",
+    "noun2": "pencil case"
+  },
+  "517": {
+    "adj1": "conical",
+    "noun1": "party hat",
+    "adj2": "spherical",
+    "noun2": "confetti ball"
+  },
+  "518": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "ladybug"
+  },
+  "519": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "round",
+    "noun2": "wristwatch"
+  },
+  "520": {
+    "adj1": "pentagonal",
+    "noun1": "street sign",
+    "adj2": "pyramidal",
+    "noun2": "bookend"
+  },
+  "521": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "square",
+    "noun2": "picture frame"
+  },
+  "522": {
+    "adj1": "spherical",
+    "noun1": "beach ball",
+    "adj2": "conical",
+    "noun2": "beach umbrella"
+  },
+  "523": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "shrub"
+  },
+  "524": {
+    "adj1": "big",
+    "noun1": "elephant",
+    "adj2": "small",
+    "noun2": "squirrel"
+  },
+  "525": {
+    "adj1": "big",
+    "noun1": "backpack",
+    "adj2": "small",
+    "noun2": "pencil case"
+  },
+  "526": {
+    "adj1": "round",
+    "noun1": "bagel",
+    "adj2": "rectangular",
+    "noun2": "slice of bread"
+  },
+  "527": {
+    "adj1": "spherical",
+    "noun1": "basketball",
+    "adj2": "pyramidal",
+    "noun2": "basketball hoop"
+  },
+  "528": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "can of beans"
+  },
+  "529": {
+    "adj1": "cubic",
+    "noun1": "block",
+    "adj2": "cylindrical",
+    "noun2": "candle"
+  },
+  "530": {
+    "adj1": "spherical",
+    "noun1": "volleyball",
+    "adj2": "conical",
+    "noun2": "volleyball net"
+  },
+  "531": {
+    "adj1": "oval",
+    "noun1": "mirror",
+    "adj2": "rectangular",
+    "noun2": "vanity stool"
+  },
+  "532": {
+    "adj1": "spherical",
+    "noun1": "baseball",
+    "adj2": "conical",
+    "noun2": "pitcher's mound"
+  },
+  "533": {
+    "adj1": "round",
+    "noun1": "clock",
+    "adj2": "rectangular",
+    "noun2": "picture frame"
+  },
+  "534": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "bookend"
+  },
+  "535": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "blade of grass"
+  },
+  "536": {
+    "adj1": "big",
+    "noun1": "whale",
+    "adj2": "small",
+    "noun2": "fish"
+  },
+  "537": {
+    "adj1": "round",
+    "noun1": "watermelon",
+    "adj2": "rectangular",
+    "noun2": "sandwich"
+  },
+  "538": {
+    "adj1": "spherical",
+    "noun1": "basketball",
+    "adj2": "conical",
+    "noun2": "party hat"
+  },
+  "539": {
+    "adj1": "oblong",
+    "noun1": "cucumber",
+    "adj2": "teardrop",
+    "noun2": "papaya"
+  },
+  "540": {
+    "adj1": "oval",
+    "noun1": "plate",
+    "adj2": "rectangular",
+    "noun2": "placemat"
+  },
+  "541": {
+    "adj1": "pyramidal",
+    "noun1": "paperweight",
+    "adj2": "teardrop",
+    "noun2": "pen"
+  },
+  "542": {
+    "adj1": "diamond",
+    "noun1": "engagement ring",
+    "adj2": "round",
+    "noun2": "pearl necklace"
+  },
+  "543": {
+    "adj1": "diamond",
+    "noun1": "hairpin",
+    "adj2": "cylindrical",
+    "noun2": "hairbrush"
+  },
+  "544": {
+    "adj1": "spherical",
+    "noun1": "snowball",
+    "adj2": "conical",
+    "noun2": "hat"
+  },
+  "545": {
+    "adj1": "spherical",
+    "noun1": "lamp",
+    "adj2": "rectangular",
+    "noun2": "lampshade"
+  },
+  "546": {
+    "adj1": "oval",
+    "noun1": "platter",
+    "adj2": "rectangular",
+    "noun2": "serving dish"
+  },
+  "547": {
+    "adj1": "pentagonal",
+    "noun1": "stop sign",
+    "adj2": "pyramidal",
+    "noun2": "building"
+  },
+  "548": {
+    "adj1": "tall",
+    "noun1": "skyscraper",
+    "adj2": "short",
+    "noun2": "building"
+  },
+  "549": {
+    "adj1": "pyramidal",
+    "noun1": "paperweight",
+    "adj2": "rectangular",
+    "noun2": "desk organizer"
+  },
+  "550": {
+    "adj1": "long",
+    "noun1": "snake",
+    "adj2": "short",
+    "noun2": "lizard"
+  },
+  "551": {
+    "adj1": "round",
+    "noun1": "lemon",
+    "adj2": "square",
+    "noun2": "cheese block"
+  },
+  "552": {
+    "adj1": "oval",
+    "noun1": "rug",
+    "adj2": "square",
+    "noun2": "cushion"
+  },
+  "553": {
+    "adj1": "rectangular",
+    "noun1": "laptop",
+    "adj2": "diamond",
+    "noun2": "mouse pad"
+  },
+  "554": {
+    "adj1": "rectangular",
+    "noun1": "dining table",
+    "adj2": "spherical",
+    "noun2": "centerpiece"
+  },
+  "555": {
+    "adj1": "triangular",
+    "noun1": "clock",
+    "adj2": "square",
+    "noun2": "picture"
+  },
+  "556": {
+    "adj1": "round",
+    "noun1": "table",
+    "adj2": "rectangular",
+    "noun2": "rug"
+  },
+  "557": {
+    "adj1": "diamond",
+    "noun1": "ring",
+    "adj2": "round",
+    "noun2": "pendant"
+  },
+  "558": {
+    "adj1": "tall",
+    "noun1": "redwood tree",
+    "adj2": "short",
+    "noun2": "fern"
+  },
+  "559": {
+    "adj1": "pentagonal",
+    "noun1": "yield sign",
+    "adj2": "pyramidal",
+    "noun2": "paper clip holder"
+  }
+}
