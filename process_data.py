@@ -31,13 +31,11 @@ if process_prompt_files:
                     adj2 = words[adj2_idx]
                     noun2_idx = list(range(index_of_and+3,len(words)))
                     noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-                    if len(noun2_idx) >1 :
-                        print(name,idx)
+
                 else:
                     adj2 = words[index_of_and+1]
                     noun2_idx = list(range(index_of_and+2,len(words)))
-                    if len(noun2_idx) >1 :
-                        print(name,idx)
+
                     noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
             else:
                 adj1 = words[0]     
@@ -47,15 +45,13 @@ if process_prompt_files:
                     adj2 = words[index_of_and+2]
                     noun2_idx = list(range(index_of_and+3, len(words)))
                     noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-                    if len(noun2_idx) >1 :
-                        print(name,idx)
+
                 else:
                     adj2_idx = index_of_and+1
                     adj2 = words[adj2_idx]
                     noun2_idx = list(range(index_of_and+2,len(words)))
                     noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-                    if len(noun2_idx) >1 :
-                        print(name,idx)
+
                 
             prompt_words = {'adj1': adj1, 'noun1': noun1, 'adj2': adj2, 'noun2': noun2}
             prompt_idx = {'adj1': adj1_idx, 'noun1': noun1_idx, 'adj2': adj2_idx, 'noun2': noun2_idx}
