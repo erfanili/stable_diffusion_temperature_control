@@ -111,7 +111,7 @@
     "adj1": "oval",
     "noun1": "sink",
     "adj2": "rectangular",
-    "noun2": "mirror."
+    "noun2": "mirror"
   },
   "19": {
     "adj1": "oval",
@@ -189,7 +189,7 @@
     "adj1": "round",
     "noun1": "cookie",
     "adj2": "square",
-    "noun2": "container."
+    "noun2": "container"
   },
   "32": {
     "adj1": "diamond",
@@ -375,13 +375,13 @@
     "adj1": "cubic",
     "noun1": "block",
     "adj2": "cylindrical",
-    "noun2": "flashlight."
+    "noun2": "flashlight"
   },
   "63": {
     "adj1": "pentagonal",
     "noun1": "yield sign",
     "adj2": "pyramidal",
-    "noun2": "book stand."
+    "noun2": "book stand"
   },
   "64": {
     "adj1": "oblong",
@@ -591,7 +591,7 @@
     "adj1": "oblong",
     "noun1": "watermelon",
     "adj2": "teardrop",
-    "noun2": "pear."
+    "noun2": "pear"
   },
   "99": {
     "adj1": "pyramidal",
@@ -675,7 +675,7 @@
     "adj1": "circular",
     "noun1": "pendant light",
     "adj2": "triangular",
-    "noun2": "corner shelf."
+    "noun2": "corner shelf"
   },
   "113": {
     "adj1": "spherical",
@@ -819,7 +819,7 @@
     "adj1": "oblong",
     "noun1": "squash",
     "adj2": "teardrop",
-    "noun2": "nectarine."
+    "noun2": "nectarine"
   },
   "137": {
     "adj1": "cubic",
@@ -873,7 +873,7 @@
     "adj1": "tall",
     "noun1": "basketball player",
     "adj2": "short",
-    "noun2": "jockey."
+    "noun2": "jockey"
   },
   "146": {
     "adj1": "teardrop",
@@ -891,7 +891,7 @@
     "adj1": "circular",
     "noun1": "clock",
     "adj2": "triangular",
-    "noun2": "wall shelf."
+    "noun2": "wall shelf"
   },
   "149": {
     "adj1": "tall",
@@ -903,7 +903,7 @@
     "adj1": "round",
     "noun1": "bagel",
     "adj2": "square",
-    "noun2": "toaster."
+    "noun2": "toaster"
   },
   "151": {
     "adj1": "circular",
@@ -927,7 +927,7 @@
     "adj1": "spherical",
     "noun1": "globe",
     "adj2": "conical",
-    "noun2": "pencil."
+    "noun2": "pencil"
   },
   "155": {
     "adj1": "oblong",
@@ -969,7 +969,7 @@
     "adj1": "tall",
     "noun1": "skyscraper",
     "adj2": "short",
-    "noun2": "bush."
+    "noun2": "bush"
   },
   "162": {
     "adj1": "small",
@@ -1101,7 +1101,7 @@
     "adj1": "spherical",
     "noun1": "golf ball",
     "adj2": "conical",
-    "noun2": "tee."
+    "noun2": "tee"
   },
   "184": {
     "adj1": "tall",
@@ -1119,7 +1119,7 @@
     "adj1": "oval",
     "noun1": "platter",
     "adj2": "rectangular",
-    "noun2": "tablecloth."
+    "noun2": "tablecloth"
   },
   "187": {
     "adj1": "teardrop",
@@ -1131,7 +1131,7 @@
     "adj1": "round",
     "noun1": "doughnut",
     "adj2": "square",
-    "noun2": "napkin."
+    "noun2": "napkin"
   },
   "189": {
     "adj1": "diamond",
@@ -1149,7 +1149,7 @@
     "adj1": "oblong",
     "noun1": "eggplant",
     "adj2": "teardrop",
-    "noun2": "fig."
+    "noun2": "fig"
   },
   "192": {
     "adj1": "pentagonal",
@@ -1167,7 +1167,7 @@
     "adj1": "round",
     "noun1": "watermelon",
     "adj2": "square",
-    "noun2": "cutting board."
+    "noun2": "cutting board"
   },
   "195": {
     "adj1": "circular",
@@ -1185,7 +1185,7 @@
     "adj1": "oval",
     "noun1": "picture",
     "adj2": "rectangular",
-    "noun2": "frame."
+    "noun2": "frame"
   },
   "198": {
     "adj1": "oval",
@@ -1269,7 +1269,7 @@
     "adj1": "circular",
     "noun1": "ceiling light",
     "adj2": "triangular",
-    "noun2": "bookshelf."
+    "noun2": "bookshelf"
   },
   "212": {
     "adj1": "spherical",
@@ -1413,7 +1413,7 @@
     "adj1": "oval",
     "noun1": "pizza",
     "adj2": "round",
-    "noun2": "pizza cutter."
+    "noun2": "pizza cutter"
   },
   "236": {
     "adj1": "triangular",

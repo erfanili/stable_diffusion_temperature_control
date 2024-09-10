@@ -25,19 +25,19 @@ if process_prompt_files:
                     noun1 = (' ').join(words[2:index_of_and])
                     if words[index_of_and+1] in ('a' , 'an'):
                         adj2 = words[index_of_and+2]
-                        noun2 = (' ').join(words[index_of_and+3:]).strip()
+                        noun2 = (' ').join(words[index_of_and+3:]).strip('\n. ')
                     else:
                         adj2 = words[index_of_and+1]
-                        noun2 = (' ').join(words[index_of_and+2:]).strip()
+                        noun2 = (' ').join(words[index_of_and+2:]).strip('\n. ')
                 else:
                     adj1 = words[0]     
                     noun1 = (' ').join(words[1:index_of_and])
                     if words[index_of_and+1] in ('a', 'an'):
                         adj2 = words[index_of_and+2]
-                        noun2 = (' ').join(words[index_of_and+3:]).strip()
+                        noun2 = (' ').join(words[index_of_and+3:]).strip('\n. ')
                     else:
                         adj2 = words[index_of_and+1]
-                        noun2 = (' ').join(words[index_of_and+2:]).strip()
+                        noun2 = (' ').join(words[index_of_and+2:]).strip('\n. ')
                     
                 prompt_data = {'adj1': adj1, 'noun1': noun1, 'adj2': adj2, 'noun2': noun2}
             file_data[idx] = prompt_data
