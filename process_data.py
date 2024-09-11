@@ -4,70 +4,44 @@ from utils.tensor_array_utils import *
 
 
 
-process_prompt_files = True
+get_words = True
 
-if process_prompt_files:
-
+if get_words:
+    tokenizer = MyTokenizer(model_name = 'sd1_5', device = 'cuda:0')
     txt_directory = './prompt_files/txt/'
     json_words_directory = './prompt_files/json/words/'
-    json_idx_directory = './prompt_files/json/indices/'
     file_names = get_file_names(directory=txt_directory)
     for name in file_names:
         obj_words_in_file = {}
-        obj_idx_in_file ={}
         prompt_list = get_prompt_list_by_line(directory=txt_directory, file_name=name)
         for idx, prompt in enumerate(prompt_list):
-            prompt_words = {}
-            prompt_idx ={}
-            words = prompt.split(' ')
-            index_of_and = words.index('and')
-            if words[0] in ('a' , 'an'):
-                adj1_idx = 1
-                adj1 = words[adj1_idx]
-                noun1_idx = list(range(2,index_of_and))   
-                noun1 = (' ').join([words[_] for _ in noun1_idx])
-                if words[index_of_and+1] in ('a' , 'an'):
-                    adj2_idx = index_of_and+2
-                    adj2 = words[adj2_idx]
-                    noun2_idx = list(range(index_of_and+3,len(words)))
-                    noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-
-                else:
-                    adj2 = words[index_of_and+1]
-                    noun2_idx = list(range(index_of_and+2,len(words)))
-
-                    noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-            else:
-                adj1 = words[0]     
-                noun1 = (' ').join(words[1:index_of_and])
-                if words[index_of_and+1] in ('a', 'an'):
-                    adj2_idx = index_of_and+1
-                    adj2 = words[index_of_and+2]
-                    noun2_idx = list(range(index_of_and+3, len(words)))
-                    noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-
-                else:
-                    adj2_idx = index_of_and+1
-                    adj2 = words[adj2_idx]
-                    noun2_idx = list(range(index_of_and+2,len(words)))
-                    noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')
-
-                
-            prompt_words = {'adj1': adj1, 'noun1': noun1, 'adj2': adj2, 'noun2': noun2}
-            prompt_idx = {'adj1': adj1_idx, 'noun1': noun1_idx, 'adj2': adj2_idx, 'noun2': noun2_idx}
-            obj_words_in_file[idx] = prompt_words
-            obj_idx_in_file[f'obj_{idx}_1'] = noun1_idx
-            obj_idx_in_file[f'obj_{idx}_2'] = noun2_idx
+            words, indices = get_prompt_words_n_indices(prompt.lower(),tokenizer)
+            obj_words_in_file[idx] = {'prompt': prompt.lower(), 'words':words, 'indices':indices}
         save_json(directory=json_words_directory, file_name=name,data=obj_words_in_file)
-        save_json(directory=json_idx_directory, file_name=name,data=obj_idx_in_file)
 
-    
-    
-    
-    
-    
-    
-    
+
+
+check_ids = True
+if check_ids:
+    tokenizer = MyTokenizer(model_name = 'sd1_5', device = 'cuda:0')
+    # txt_directory = './prompt_files/txt/'
+    json_words_directory = './prompt_files/json/words/'
+    file_names = get_file_names(directory=json_words_directory)
+    for name in file_names:
+        all_prompts_data = load_json(directory=json_words_directory,file_name=name)
+        for id, entry in all_prompts_data.items():
+            words = []
+            prompt = entry['prompt']
+            prompt_token_ids = tokenizer.simply_tokenize(text = prompt)
+            words = []
+            for idx_list in entry['indices'].values():
+                token_list = []
+                for idx in idx_list:
+                    token_list.append(prompt_token_ids[idx])
+                words.append(tokenizer.decode_a_token_id(token_list=token_list))
+            if words != list(entry['words'].values()):
+                print(name,id)
+
 
 
 

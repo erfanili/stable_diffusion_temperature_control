@@ -203,7 +203,7 @@ a red cylinder and a blue cube
 a blue cylinder and a red cube
 a blue spoon and a silver plate
 a blue bird and a yellow canary
-a canary and a yellow bluebird
+a yellow canary and a blue bird
 a yellow taxi and a black tire
 a black taxi and a yellow tire
 a green snake and a brown log

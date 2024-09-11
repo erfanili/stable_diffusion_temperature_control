@@ -1,6 +1,7 @@
 from diffusers import StableDiffusionPipeline
 from diffusers.schedulers.scheduling_ddim import DDIMScheduler
-from transformers import T5EncoderModel
+from transformers import T5EncoderModel, CLIPTokenizer, T5Tokenizer
+
 from diffusers import PixArtAlphaPipeline
 
 from models.sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
@@ -26,6 +27,83 @@ from typing import Dict
 from PIL import Image
 import json
 
+######prompt
+
+
+def get_prompt_words_n_indices(prompt,tokenizer):
+    words = {}
+    token_ids ={}
+    indices = {}
+    words = prompt.split(' ')
+    index_of_and = words.index('and')
+    if words[0] in ('a' , 'an'):
+        adj1_idx = 1
+    else:
+        adj1_idx = 0
+    if words[index_of_and+1] in ('a' , 'an'):
+        adj2_idx = index_of_and+2
+    else:
+        adj2_idx = index_of_and+1
+    noun1_idx = list(range(adj1_idx+1,index_of_and))
+    noun2_idx = list(range(adj2_idx+1,len(words)))
+    adj1 = words[adj1_idx]
+    noun1 = (' ').join([words[_] for _ in noun1_idx]).strip('\n. ')
+    adj2 = words[adj2_idx]
+    noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')  
+    words = {'adj1': adj1, 'noun1': noun1, 'adj2': adj2, 'noun2': noun2}
+    # token_ids = {'adj1': tokenizer.tokenize_a_word(adj1),
+    #              'noun1': tokenizer.tokenize_a_word(noun1),
+    #              'adj2': tokenizer.tokenize_a_word(adj2),
+    #              'noun2': tokenizer.tokenize_a_word(noun2)}
+
+    prompt_tokens = tokenizer.simply_tokenize(text = prompt)
+
+    pointer = 0
+    for key in words.keys():
+
+        token_ids = tokenizer.tokenize_a_word(words[key])
+        first_id = token_ids[0]
+        num_tokens = len(token_ids)
+        first_index = prompt_tokens[pointer:].index(first_id)
+        indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
+        pointer += first_index
+    return words, indices
+
+class MyTokenizer():
+    def __init__(self,model_name = 'sd1_5',device = 'cuda:0'):
+        self.pipe = load_model(model_name=model_name, device = device)
+        self.tokenizer = self.pipe.tokenizer
+        
+        
+    def tokenize_a_word(self,word):
+        if isinstance(self.tokenizer,CLIPTokenizer):
+            tokens = self.tokenizer(text = word)['input_ids'][1:-1]
+        elif isinstance(self.tokenizer,T5Tokenizer):
+            # print(tokenizer.__class__.__name__)
+            tokens = self.tokenizer(text = word)['input_ids'][:-1]
+            
+        return tokens
+            
+    def simply_tokenize(self,text):
+        tokens = self.tokenizer(text = text)['input_ids']
+    
+    
+        return tokens
+    
+    def decode_a_token_id(self,token_list:list):
+        if isinstance(self.tokenizer,CLIPTokenizer):
+            word = self.tokenizer.decode(token_list)
+        # elif isinstance(self.tokenizer,T5Tokenizer):
+        #     # print(tokenizer.__class__.__name__)
+        #     tokens = self.tokenizer(text = word)['input_ids'][:-1] 
+        
+        return word
+    
+def tokenize_one_word(word):
+    pipe = load_model(model_name='sd1_5',device = 'cuda:0')
+    tokenizer = pipe.tokenizer
+    # print(tokenizer.__class__.__name__)
+
 ####dicts
 def save_dict(data: dict,directory: str, file_name: str):
     os.makedirs(directory, exist_ok = True)
@@ -35,7 +113,7 @@ def save_dict(data: dict,directory: str, file_name: str):
         
         
 
-def load_dict(directory:str, file_name:str):
+def load_pkl(directory:str, file_name:str):
     file_path = os.path.join(directory,file_name)+'.pkl'
     if not os.path.exists(file_path):
         print("File does not exist.")
@@ -51,7 +129,7 @@ def get_prompt_list_by_line(directory:str, file_name = None):
     else:
         file_path = os.path.join(directory,file_name)+'.txt'
         with open(file_path,'r') as f:
-            lines = f.readlines()
+            lines = f.read().splitlines()
      
         return lines
     
@@ -61,7 +139,17 @@ def save_json(directory:str, file_name:str, data:dict):
     with open(output_path, 'w+') as fp:
         json.dump(obj=data,fp=fp, indent = 2, separators=(',', ': '))
 
-    
+
+def load_json(directory:str, file_name:str):
+    file_path = os.path.join(directory,file_name)+'.json'
+    if not os.path.exists(file_path):
+        print("File does not exist.")
+    else:
+        with open(file_path, 'rb') as f:
+            data = json.load(f)
+        return data
+
+
 def get_file_names(directory):
 
     files = os.listdir(directory)

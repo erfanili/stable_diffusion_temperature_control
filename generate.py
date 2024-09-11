@@ -35,11 +35,11 @@ pipe = load_model(model_name = model_name, device = device)
 generate = True
 if generate:
 
-    prompts_dict = get_prompts_dict(directory = prompt_dir, file_name=prompt_file_name)
+    prompts_list = get_prompt_list_by_line(directory = prompt_dir, file_name=prompt_file_name)
     attn_dicts_save_dir = os.path.join(generation_output_dir,model_name,prompt_file_name.replace('.txt', ''),'attn_dicts')
     images_save_dir = os.path.join(generation_output_dir,model_name,prompt_file_name.replace('.txt', ''),'images')
 
-    for idx, prompt in prompts_dict.items():
+    for idx, prompt in enumerate(prompts_list):
         
         seeds = [random.randint(0,10000) for _ in range(num_seeds_per_prompt)]
         
