@@ -86,22 +86,33 @@ class MyTokenizer():
     def __init__(self,model_name,device = 'cuda:0'):
         self.pipe = load_model(model_name=model_name,device = device, transformer = None)
         self.tokenizer = self.pipe.tokenizer
-        print(isinstance(self.tokenizer,T5Tokenizer))
+        self.device = device
+        self.encoder = self.pipe.text_encoder
+        
+        if model_name == 'pixart':
+            self.max_length = 120
+        else:
+            self.max_length = 77
         
     def tokenize_a_word(self,word):
         if isinstance(self.tokenizer,CLIPTokenizer):
-            tokens = self.tokenizer(text = word)['input_ids'][1:-1]
+            tokens = self.tokenizer(text = word,add_special_tokens = True)['input_ids'][1:-1]
         elif isinstance(self.tokenizer,T5Tokenizer):
             # print(tokenizer.__class__.__name__)
-            tokens = self.tokenizer(text = word)['input_ids'][:-1]
+            tokens = self.tokenizer(text = word,add_special_tokens = True)['input_ids'][:-1]
             
         return tokens
-            
+
     def simply_tokenize(self,text):
-        tokens = self.tokenizer(text = text)['input_ids']
+        tokens = self.tokenizer(text = text,
+                padding="max_length",
+                max_length=self.max_length,
+                truncation=True,
+                add_special_tokens=False,
+                return_tensors="pt",)['input_ids']
+        text_embedding = self.encoder(tokens.to(self.device))[0]
     
-    
-        return tokens
+        return tokens, text_embedding
     
     def decode_a_token_id(self,token_list:list):
         # if isinstance(self.tokenizer,CLIPTokenizer):
@@ -184,14 +195,15 @@ def save_image(image,directory,file_name):
     image.save(f'{file_path}_{format_time()}.jpg')
     
     
-def images_to_gif(directory, output_path, duration=200, loop=1000):
-    os.makedirectorys(directory, exist_ok=True)
-    image_paths = os.listdirectory(directory)
+def images_to_gif(directory, output_path,file_name, duration=200, loop=1000):
+    os.makedirs(directory, exist_ok=True)
+    image_paths = os.listdir(directory)
+    save_path = os.path.join(output_path,file_name)+'.gif'
     num_timesteps = len(image_paths)
     sorted_image_paths = [os.path.join(directory,f'{i}.jpg') for i in range(num_timesteps)]
     images = [Image.open(image) for image in sorted_image_paths]
     images[0].save(
-        output_path,
+        save_path,
         save_all=True,
         append_images=images[1:],  # Add the rest of the images
         duration=duration,          # Duration for each frame (in milliseconds)
@@ -261,17 +273,17 @@ def resahpe_n_scale_array(array,size):
     return array
 
 
-def save_attn_by_layer(attn_array, token, output_dir, output_name):
+def save_attn_by_layer(attn_array, token, output_dir, file_name):
     attn = attn_array[:,token]
     size = int(math.sqrt(len(attn)))
     attn = resahpe_n_scale_array(attn,size)
     print(attn.shape)
 
     os.makedirs(output_dir, exist_ok = True)
-    file_path = os.path.join(output_dir,output_name)
+    file_path = os.path.join(output_dir,file_name)
     im = Image.fromarray(attn)
     im = im.resize((256,256))
     if im.mode == 'I;16':
         im = im.convert('L')
-    im.save(file_path)
+    im.save(file_path+'.jpg')
     

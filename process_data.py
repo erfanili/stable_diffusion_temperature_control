@@ -45,7 +45,7 @@ if check_ids:
                 print(entry['words'].values())
 
 
-switch_template = True 
+switch_template = False 
 if switch_template:
     json_dir1 = './prompt_files/json/words_indices'
     json_dir2 = './prompt_files/json/jy_template'
@@ -61,31 +61,38 @@ if switch_template:
 
 test = False
 if test:
-    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:0')
-    ids = tokenizer.simply_tokenize('oblong')
-    print('length: ', len(ids))
-    print('token_ids: ',ids)
-    for id in ids:
-        print('>',tokenizer.decode_a_token_id([id]))
-    print('>',tokenizer.decode_a_token_id(ids))
-
-process_attn_data = False
-if process_attn_data:
-
-    model_name = 'pixart_x'
-    directory =f'./generation_outputs/{model_name}/try/attn_dicts/'
-
-
-    ##if loading all files in directory:
-    files = get_file_names(directory)
-
-    for file_name in files:
-        data = load_dict(directory= directory, file_name=file_name)
-        print(data.keys())
+    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:1')
+    ids, embeddings = tokenizer.simply_tokenize('a desk')
+    print(ids, embeddings)
 
 
 
-    #### if loading a single file:
-    file_name = '0_8125'
-    data = load_dict(directory=directory, file_name=file_name)
-    print(data.keys())
+
+
+get_attn_gif = True
+
+if get_attn_gif:
+    pkl_name = '0_2813'
+    pkl_dir = './generation_outputs/pixart_x/test/attn_dicts'
+    output_maps_image_dir = './generation_outputs/pixart_x/test/maps'
+    prompt = "an apple on a desk near a pencil"
+    data = load_pkl(directory=pkl_dir,file_name=pkl_name)
+    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:1')
+    token_ids = tokenizer.simply_tokenize(text = 'an')
+    prompt_token_ids = [   46,  8947,    30,     3,     9,  4808,  1084,     3,     9, 13966, 1]
+    ## word_token_ids:
+    # an 46
+    # apple 8947
+    # desk 4808
+    # map 
+    # = data['block_13'].shape)
+    # idx = 1
+    # map = data['block_13']
+    
+    for idx in range(len(prompt_token_ids)):
+        for t in range(len(map)):
+            output_dir = os.path.join(output_maps_image_dir,f'{idx}')
+            save_attn_by_layer(attn_array=map[t,:,:], token = idx, output_dir=output_dir, file_name=f'{t}')
+        
+    
+        images_to_gif(directory=output_dir, output_path=output_maps_image_dir, file_name = f'{idx}')

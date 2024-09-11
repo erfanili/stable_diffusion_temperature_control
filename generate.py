@@ -12,11 +12,11 @@ import os
 
 
 #enter prompt_file name
-prompt_file_name = 'try.txt'
+prompt_file_name = 'test'
 prompt_dir = './prompt_files'
 generation_output_dir = './generation_outputs'
-num_seeds_per_prompt = 3
-num_inference_steps = 50
+num_seeds_per_prompt = 1
+num_inference_steps = 20
 device = 'cuda:3'
 
 
