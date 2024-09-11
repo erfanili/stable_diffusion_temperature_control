@@ -71,7 +71,7 @@ def get_prompt_words_n_indices(prompt,tokenizer):
 
 class MyTokenizer():
     def __init__(self,model_name = 'sd1_5',device = 'cuda:0'):
-        self.pipe = load_model(model_name=model_name, device = device)
+        self.pipe = load_model(model_name=model_name,device = device, transformer = None)
         self.tokenizer = self.pipe.tokenizer
         
         
@@ -91,18 +91,15 @@ class MyTokenizer():
         return tokens
     
     def decode_a_token_id(self,token_list:list):
-        if isinstance(self.tokenizer,CLIPTokenizer):
-            word = self.tokenizer.decode(token_list)
+        # if isinstance(self.tokenizer,CLIPTokenizer):
+        word = self.tokenizer.decode(token_list)
         # elif isinstance(self.tokenizer,T5Tokenizer):
         #     # print(tokenizer.__class__.__name__)
         #     tokens = self.tokenizer(text = word)['input_ids'][:-1] 
         
         return word
     
-def tokenize_one_word(word):
-    pipe = load_model(model_name='sd1_5',device = 'cuda:0')
-    tokenizer = pipe.tokenizer
-    # print(tokenizer.__class__.__name__)
+
 
 ####dicts
 def save_dict(data: dict,directory: str, file_name: str):
@@ -192,13 +189,14 @@ def images_to_gif(directory, output_path, duration=200, loop=1000):
 ####model
 
 
-def load_model(model_name,device):
+def load_model(model_name,device, **kwargs):
+
     if model_name== 'sd1_5':
         model_class = StableDiffusionPipeline
         scheduler_class = DDIMScheduler
         model_id = "runwayml/stable-diffusion-v1-5"
         time_step_spacing = 'linspace'
-        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16,**kwargs)
         scheduler = scheduler_class.from_config(model.scheduler.config)
         model.scheduler = scheduler
         model.scheduler.config.timestep_spacing = time_step_spacing
@@ -208,7 +206,7 @@ def load_model(model_name,device):
         scheduler_class = DDIMScheduler
         model_id = "runwayml/stable-diffusion-v1-5"
         time_step_spacing = 'linspace'
-        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id, torch_dtype = torch.float16)
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id, torch_dtype = torch.float16,**kwargs)
         scheduler = scheduler_class.from_config(model.scheduler.config)
         model.scheduler = scheduler
         model.scheduler.config.timestep_spacing = time_step_spacing
@@ -219,7 +217,7 @@ def load_model(model_name,device):
     elif model_name == 'pixart':
         model_class = PixArtAlphaPipeline
         model_id = "PixArt-alpha/PixArt-XL-2-512x512"
-        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16,**kwargs)
         model.to(device)
 
     elif model_name == 'pixart_x':

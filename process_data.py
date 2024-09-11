@@ -7,7 +7,7 @@ from utils.tensor_array_utils import *
 get_words = True
 
 if get_words:
-    tokenizer = MyTokenizer(model_name = 'sd1_5', device = 'cuda:0')
+    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:0')
     txt_directory = './prompt_files/txt/'
     json_words_directory = './prompt_files/json/words/'
     file_names = get_file_names(directory=txt_directory)
@@ -23,7 +23,7 @@ if get_words:
 
 check_ids = True
 if check_ids:
-    tokenizer = MyTokenizer(model_name = 'sd1_5', device = 'cuda:0')
+    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:0')
     # txt_directory = './prompt_files/txt/'
     json_words_directory = './prompt_files/json/words/'
     file_names = get_file_names(directory=json_words_directory)
@@ -40,7 +40,9 @@ if check_ids:
                     token_list.append(prompt_token_ids[idx])
                 words.append(tokenizer.decode_a_token_id(token_list=token_list))
             if words != list(entry['words'].values()):
-                print(name,id)
+                print(name, id)
+                print(words)
+                print(entry['words'])
 
 
 
