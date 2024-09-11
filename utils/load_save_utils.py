@@ -26,7 +26,7 @@ import math
 from typing import Dict
 from PIL import Image
 import json
-
+import copy
 ######prompt
 
 
@@ -51,6 +51,13 @@ def get_prompt_words_n_indices(prompt,tokenizer):
     adj2 = words[adj2_idx]
     noun2 = (' ').join(words[_] for _ in noun2_idx).strip('\n. ')  
     words = {'adj1': adj1, 'noun1': noun1, 'adj2': adj2, 'noun2': noun2}
+    words_copy = copy.deepcopy(words)
+    # if isinstance(tokenizer, T5Tokenizer):
+    #     for key, word in words_copy.items():
+    #         if word =='spherical':
+    #             print('yes')
+    #             words[key] = 'a spherical'
+    
     # token_ids = {'adj1': tokenizer.tokenize_a_word(adj1),
     #              'noun1': tokenizer.tokenize_a_word(noun1),
     #              'adj2': tokenizer.tokenize_a_word(adj2),
@@ -59,21 +66,27 @@ def get_prompt_words_n_indices(prompt,tokenizer):
     prompt_tokens = tokenizer.simply_tokenize(text = prompt)
 
     pointer = 0
-    for key in words.keys():
+    for key ,word in words.items():
+        token_ids = tokenizer.tokenize_a_word(word)
+         
+        if (isinstance(tokenizer.tokenizer, T5Tokenizer) and word in ('spherical', 'oblong')):
+            first_id = token_ids[1]
+            num_tokens = len(token_ids)-1
+        else:
+            first_id = token_ids[0]
+            num_tokens = len(token_ids)
 
-        token_ids = tokenizer.tokenize_a_word(words[key])
-        first_id = token_ids[0]
-        num_tokens = len(token_ids)
+        
         first_index = prompt_tokens[pointer:].index(first_id)
         indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
         pointer += first_index
     return words, indices
 
 class MyTokenizer():
-    def __init__(self,model_name = 'sd1_5',device = 'cuda:0'):
+    def __init__(self,model_name,device = 'cuda:0'):
         self.pipe = load_model(model_name=model_name,device = device, transformer = None)
         self.tokenizer = self.pipe.tokenizer
-        
+        print(isinstance(self.tokenizer,T5Tokenizer))
         
     def tokenize_a_word(self,word):
         if isinstance(self.tokenizer,CLIPTokenizer):
@@ -132,6 +145,7 @@ def get_prompt_list_by_line(directory:str, file_name = None):
     
 
 def save_json(directory:str, file_name:str, data:dict):
+    os.makedirs(directory, exist_ok=True)
     output_path = os.path.join(directory,file_name)+'.json'
     with open(output_path, 'w+') as fp:
         json.dump(obj=data,fp=fp, indent = 2, separators=(',', ': '))

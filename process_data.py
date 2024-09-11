@@ -4,10 +4,10 @@ from utils.tensor_array_utils import *
 
 
 
-get_words = True
+get_words = False
 
 if get_words:
-    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:0')
+    tokenizer = MyTokenizer(model_name = 'sd1_5', device = 'cuda:0')
     txt_directory = './prompt_files/txt/'
     json_words_directory = './prompt_files/json/words/'
     file_names = get_file_names(directory=txt_directory)
@@ -21,9 +21,9 @@ if get_words:
 
 
 
-check_ids = True
+check_ids = False
 if check_ids:
-    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:0')
+    tokenizer = MyTokenizer(model_name = 'sd1_5', device = 'cuda:0')
     # txt_directory = './prompt_files/txt/'
     json_words_directory = './prompt_files/json/words/'
     file_names = get_file_names(directory=json_words_directory)
@@ -33,20 +33,41 @@ if check_ids:
             words = []
             prompt = entry['prompt']
             prompt_token_ids = tokenizer.simply_tokenize(text = prompt)
-            words = []
+            decoded_words = []
             for idx_list in entry['indices'].values():
                 token_list = []
                 for idx in idx_list:
                     token_list.append(prompt_token_ids[idx])
-                words.append(tokenizer.decode_a_token_id(token_list=token_list))
-            if words != list(entry['words'].values()):
+                decoded_words.append(tokenizer.decode_a_token_id(token_list=token_list))
+            if decoded_words != list(entry['words'].values()):
                 print(name, id)
-                print(words)
-                print(entry['words'])
+                print('decoded_words: ',decoded_words)
+                print(entry['words'].values())
 
 
+switch_template = True 
+if switch_template:
+    json_dir1 = './prompt_files/json/words_indices'
+    json_dir2 = './prompt_files/json/jy_template'
+    file_names = get_file_names(directory=json_dir1)
+    for name in file_names:
+        all_prompts_data = load_json(directory = json_dir1, file_name = name)
+        new_data = {}
+        for key,value in all_prompts_data.items():
+            new_data[f'obj_{key}_1'] = value['indices']['noun1']
+            new_data[f'obj_{key}_2'] = value['indices']['noun2']
+        save_json(directory=json_dir2, file_name=name,data=new_data)
+            
 
-
+test = False
+if test:
+    tokenizer = MyTokenizer(model_name = 'pixart', device = 'cuda:0')
+    ids = tokenizer.simply_tokenize('oblong')
+    print('length: ', len(ids))
+    print('token_ids: ',ids)
+    for id in ids:
+        print('>',tokenizer.decode_a_token_id([id]))
+    print('>',tokenizer.decode_a_token_id(ids))
 
 process_attn_data = False
 if process_attn_data:
