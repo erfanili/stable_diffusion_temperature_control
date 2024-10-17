@@ -69,16 +69,34 @@ def load_model(model_name,device, **kwargs):
         
     return model
 
-def generate(model_name,
-             device,
-             prompt,
+def generate(prompt,
+             pipe,
+             model_name,
              processor_name,
              index_data,
              seed,
              num_inference_steps,
              block_to_save='block_13'):
     
-    pipe = load_model(model_name=model_name,device = device)
+    if model_name in ['sd1_5', 'sd1_5x']:
+        try:
+            if block_to_save not in ['down_0', 'down_1', 'down_2', 
+                                    'mid', 'up_1', 'up_2', 'up_3']:
+                
+                raise ValueError('block_to_save is not valid for this model.')
+        except ValueError as e:
+            raise
+
+    elif model_name in ['pixart', 'pixart_x']:
+        try:
+            if block_to_save not in [f'block_{i}' for i in range(28)]:
+                raise ValueError('block_to_save is not valid for this model.')
+        except ValueError as e:
+            raise
+        
+    
+    
+
     processor_classes = {'processor_x':AttnProcessorX,
                 'processor_3': AttnProcessor3,}
     processor = processor_classes[processor_name](idx1 =index_data['obj_1'], idx2 = index_data['obj_2'],eos_idx = index_data['eos'])

@@ -37,7 +37,7 @@ class AttnProcessor3:
         self.positive_prompt = positive_prompt
 
 
-    def correct_it(self,attention_probs:torch.Tensor, idx1, idx2, eos_idx, timestep:int, alpha1:float=2, alpha2:float=3)-> torch.Tensor:
+    def correct_it(self,attention_probs:torch.Tensor, num_heads,idx1, idx2, eos_idx, timestep:int, alpha1:float=2, alpha2:float=3)-> torch.Tensor:
 
         def gaussian_kernel(size: int, sigma: float):
             """Generates a 2D Gaussian kernel."""
@@ -61,14 +61,16 @@ class AttnProcessor3:
             _, idx = torch.sort(tensor[0], descending=True)
             # tensor[0]
             return
+        map_size = int(math.sqrt(attention_probs.size(1)))
+  
+        attention_probs_positive = attention_probs[num_heads:]
 
-        attention_probs_positive = attention_probs[16:]
         kernel = 1
-        attention_probs_positive_reshape = attention_probs_positive.reshape(16, 32, 32, -1)
-        tensor_permuted = attention_probs_positive_reshape.permute(0, 3, 1, 2) # 16, 120, 32, 32
-        pooled = F.avg_pool2d(tensor_permuted, kernel_size=(kernel, kernel))  # 16, 120, 16, 16
-        attention_probs_positive_pooled = pooled.permute(0, 2, 3, 1) # 16, 16, 16, 120
-        attention_probs_positive_pooled = attention_probs_positive_pooled.reshape(16, int(1024/(kernel*kernel)), -1)
+        attention_probs_positive_reshape = attention_probs_positive.reshape(num_heads, map_size, map_size, -1)
+        tensor_permuted = attention_probs_positive_reshape.permute(0, 3, 1, 2) # num_heads, 120, map_size, map_size
+        pooled = F.avg_pool2d(tensor_permuted, kernel_size=(kernel, kernel))  # num_heads, 120, num_heads, num_heads
+        attention_probs_positive_pooled = pooled.permute(0, 2, 3, 1) # num_heads, num_heads, num_heads, 120
+        attention_probs_positive_pooled = attention_probs_positive_pooled.reshape(num_heads, int(map_size**2/(kernel*kernel)), -1)
         
         attn_scr1 = attention_probs_positive_pooled[:,:,idx1]
         attn_scr2 = attention_probs_positive_pooled[:,:,idx2]
@@ -78,7 +80,7 @@ class AttnProcessor3:
 
         if (torch.sum(condition1) < 2400 or torch.sum(condition2) < 2400) and timestep > 800:
             
-            noise = torch.rand(1, 1, int(32/kernel), int(32/kernel))  # Shape: (batch_size, channels, height, width)
+            noise = torch.rand(1, 1, int(map_size/kernel), int(map_size/kernel))  # Shape: (batch_size, channels, height, width)
             gaussian_kernel = torch.tensor([[[[1, 2, 1], [1, 1, 2], [2, 1, 1]]]], dtype=torch.float32)
             gaussian_kernel = gaussian_kernel / gaussian_kernel.sum()
             smoothed_noise = F.conv2d(noise, gaussian_kernel, padding=1)
@@ -86,8 +88,8 @@ class AttnProcessor3:
             binary_mask = mask.squeeze(0).squeeze(0)
             condition1 = binary_mask.flatten()
             condition2 = ~binary_mask.flatten()
-            condition1 = condition1.unsqueeze(0).repeat(16, 1)
-            condition2 = condition2.unsqueeze(0).repeat(16, 1)
+            condition1 = condition1.unsqueeze(0).repeat(num_heads, 1)
+            condition2 = condition2.unsqueeze(0).repeat(num_heads, 1)
             
         attn_sum_except_eos = torch.sum(attention_probs_positive_pooled[:,:,:eos_idx], axis=-1)
 
@@ -101,22 +103,22 @@ class AttnProcessor3:
             if i != idx2:
                 attention_probs_positive_pooled[:,:,i][condition2] = 0
         
-        attention_probs_positive_pooled_reshape = attention_probs_positive_pooled.reshape(16, int(32/kernel), int(32/kernel), -1)
+        attention_probs_positive_pooled_reshape = attention_probs_positive_pooled.reshape(num_heads, int(map_size/kernel), int(map_size/kernel), -1)
         new_height = attention_probs_positive_pooled_reshape.shape[1] * kernel  # Since kernel_size=(2, 2)
         new_width = attention_probs_positive_pooled_reshape.shape[2] * kernel
 
         upsampled = F.upsample(attention_probs_positive_pooled_reshape.permute(0, 3, 1, 2), size=(new_height, new_width), mode='nearest')
         upsampled_result = upsampled.permute(0, 2, 3, 1)
-        upsampled_result = upsampled_result.reshape(16, 1024, -1)
-        attention_probs[16:] = upsampled_result
+        upsampled_result = upsampled_result.reshape(num_heads, map_size**2, -1)
+
+        attention_probs[num_heads:] = upsampled_result
 
         return attention_probs
 
         
     def get_attention_scores(self,
-            query: torch.Tensor, key: torch.Tensor, attention_mask: Optional[torch.Tensor] = None, scale=None,idx1 = None,idx2 = None, eos_idx=None, timestep=None,
+            query: torch.Tensor, key: torch.Tensor, num_heads:int,attention_mask: Optional[torch.Tensor] = None, scale=None,idx1 = None,idx2 = None, eos_idx=None, timestep=None,
         ) -> torch.Tensor:
-
             dtype = query.dtype
 
             if attention_mask is None:
@@ -140,7 +142,7 @@ class AttnProcessor3:
             attention_probs = attention_scores.softmax(dim=-1)
             
             if (idx1 is not None) and (idx2 is not None):
-                attention_probs = self.correct_it(attention_probs=attention_probs, idx1 = idx1, idx2 = idx2, eos_idx=eos_idx, timestep=timestep)
+                attention_probs = self.correct_it(attention_probs=attention_probs,num_heads=num_heads, idx1 = idx1, idx2 = idx2, eos_idx=eos_idx, timestep=timestep)
             
             attention_probs = attention_probs.to(dtype)
 
@@ -218,11 +220,12 @@ class AttnProcessor3:
             if query.shape == key.shape:
                 attention_probs = attn.get_attention_scores(query, key, attention_mask)
             else:
-                attention_probs = self.get_attention_scores(query, key, attention_mask, attn.scale,idx2=self.idx2, idx1=self.idx1, eos_idx=self.eos_idx, timestep=kwargs['kwargs']['timestep'].item()) 
+                attention_probs = self.get_attention_scores(query=query, key=key, attention_mask=attention_mask,num_heads=attn.heads, scale = attn.scale,idx2=self.idx2, idx1=self.idx1, eos_idx=self.eos_idx, timestep=kwargs['kwargs']['timestep'].item()) 
         else:
             attention_probs = attn.get_attention_scores(query, key, attention_mask)
 
-        
+        attention_probs = attn.get_attention_scores(query, key, attention_mask)
+
         shapes = attention_probs.shape
         attn_re = attention_probs.reshape(batch_size, attn.heads, shapes[-2], shapes[-1])
             
@@ -230,7 +233,7 @@ class AttnProcessor3:
         self.attn_data_x = torch.mean(attn_re[batch], dim=0)
         ######_x
         
-        hidden_states = torch.bmm(attention_probs, value) #[32, 1024, 72]
+        hidden_states = torch.bmm(attention_probs, value) #[map_size, 1024, 72]
         hidden_states = attn.batch_to_head_dim(hidden_states) # [2, 1024, 1152]
         
         hidden_states = hidden_states.to(query.dtype)
