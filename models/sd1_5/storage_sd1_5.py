@@ -2,8 +2,8 @@
 
 import torch
 from typing import Dict
-from models.processors import AttnProcessorX
 
+from models.processors import AttnProcessor3, AttnProcessorX
 def to_cpu_numpy(data):
     if isinstance(data, torch.Tensor):
         return data.cpu().numpy()
@@ -60,6 +60,7 @@ class AttnFetchSDX():
         for i0, block in enumerate(unet.down_blocks):
             if block.__class__.__name__ == "CrossAttnDownBlock2D":
                 data = block.attentions[0].transformer_blocks[0].attn2.processor.attn_data_x
+              
                 data += block.attentions[1].transformer_blocks[0].attn2.processor.attn_data_x  #[8,4096,77]
  # [4096, prompt_len]
                 unet_attn_data[f'down_{i0}'] = data/2
@@ -73,12 +74,15 @@ class AttnFetchSDX():
 
         unet_attn_data['mid'] = data
         
-        
         return unet_attn_data
     
     
-    def set_processor(self,unet,processor):
+    def set_processor(self,unet,processor_name, index_data):
+        processor_classes = {'processor_x':AttnProcessorX,
+                                 'processor_3': AttnProcessor3,}
         processors= {}
         for layer in unet.attn_processors.keys():
+            processor = processor_classes[processor_name](idx1 =index_data['obj_1'], idx2 = index_data['obj_2'],eos_idx = index_data['eos'])
+
             processors[layer] = processor
         unet.set_attn_processor(processors)

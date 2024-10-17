@@ -230,7 +230,9 @@ class AttnProcessor3:
         attn_re = attention_probs.reshape(batch_size, attn.heads, shapes[-2], shapes[-1])
             
         ######_x
+
         self.attn_data_x = torch.mean(attn_re[batch], dim=0)
+
         ######_x
         
         hidden_states = torch.bmm(attention_probs, value) #[map_size, 1024, 72]
@@ -360,7 +362,7 @@ class AttnProcessorX:
         hidden_states = attn.batch_to_head_dim(hidden_states)
 
         ######_x
-        if attention_probs.size()[-1]==120:
+        if attention_probs.size()[-1] in [120,77]:
             self.attn_data_x = torch.mean(attn_re[batch],dim=0)
         ######_x
 

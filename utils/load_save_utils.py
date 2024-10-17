@@ -19,7 +19,7 @@ from models.sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
 from models.sd1_5.storage_sd1_5 import AttnFetchSDX
 from models.pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
 from models.pixart.storage_pixart_x import AttnFetchPixartX
-from models.processors import AttnProcessor3, AttnProcessorX
+
 
 
 
@@ -97,14 +97,11 @@ def generate(prompt,
     
     
 
-    processor_classes = {'processor_x':AttnProcessorX,
-                'processor_3': AttnProcessor3,}
-    processor = processor_classes[processor_name](idx1 =index_data['obj_1'], idx2 = index_data['obj_2'],eos_idx = index_data['eos'])
 
     if model_name in ['sd1_5', 'sd1_5x']:
-        pipe.attn_fetch_x.set_processor(unet = pipe.unet,processor=processor)
+        pipe.attn_fetch_x.set_processor(unet = pipe.unet,processor_name=processor_name,index_data = index_data)
     elif model_name in ['pixart', 'pixart_x']:
-        pipe.attn_fetch_x.set_processor(transformer = pipe.transformer,processor=processor)
+        pipe.attn_fetch_x.set_processor(transformer = pipe.transformer,processor_name=processor_name,index_data = index_data)
     else:
         print('not a valid model')
         exit()
@@ -166,7 +163,7 @@ def save_maps(all_maps,
 
 
 def reshape_n_scale_array(array,size):
-    maximum = (np.median(array)+1e-3)*5
+    maximum = (np.median(array)+1e-3)*10
     array = (array - np.min(array))/maximum*255
     array = array.reshape((size,size)).astype(np.uint16)
     return array

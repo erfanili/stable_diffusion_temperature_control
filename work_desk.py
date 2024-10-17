@@ -3,7 +3,7 @@ from utils.load_save_utils import *
 import random
 import torch
 import os
-
+from models.processors import AttnProcessor3, AttnProcessorX
 
 
 all_models = ['sd1_5', 'sd1_5x', 'pixart', 'pixart_x']
@@ -13,14 +13,14 @@ processor_classes = {'processor_x': AttnProcessorX,
                      'processor_3': AttnProcessor3,}
 
 
-single_prompt = False
+single_prompt = True
 if single_prompt:
     device = 'cuda:0'
     num_inference_steps = 20
     gen_dir = './generation_outputs'
     prompt_dir = './prompt_files/txt'
     prompt_file_name = 'texture_train'
-    block_to_save = 'block_1'
+    block_to_save = 'block_13'
     seed = 110101  
     
     processor_name = 'processor_3'
@@ -42,6 +42,7 @@ if single_prompt:
                                 seed = seed,
                                 block_to_save=block_to_save,
                                 num_inference_steps=num_inference_steps)
+
     image_save_dir = os.path.join(gen_dir,'images',model_name,processor_name)
     save_image(image=image,directory=image_save_dir, file_name=f'{prompt}_seed_{seed}')
     for word in ['obj_1', 'obj_2']:
@@ -56,7 +57,7 @@ if single_prompt:
 
 
 
-prompt_files_generate = True
+prompt_files_generate = False
 if prompt_files_generate:
     
     
@@ -66,7 +67,7 @@ if prompt_files_generate:
     gen_dir = './generation_outputs'
     prompt_dir = './prompt_files/txt'
     prompt_file_name = 'texture_train'
-    block_to_save = 'down_0'
+    block_to_save = 'up_3'
     seed = 110101  
    
     processor_name = 'processor_3'
@@ -88,7 +89,6 @@ if prompt_files_generate:
                                     seed = seed,
                                     block_to_save=block_to_save,
                                     num_inference_steps=num_inference_steps)
-
         image_save_dir = os.path.join(gen_dir,'images',model_name,processor_name)
         save_image(image=image,directory=image_save_dir, file_name=f'{prompt}_seed_{seed}')
         for word in ['obj_1', 'obj_2']:

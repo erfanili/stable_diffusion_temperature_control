@@ -3,8 +3,7 @@
 import torch
 from typing import Dict
 
-from models.processors import AttnProcessorX
-
+from models.processors import AttnProcessor3, AttnProcessorX
 
 def to_cpu_numpy(data):
     if isinstance(data, torch.Tensor):
@@ -65,10 +64,15 @@ class AttnFetchPixartX():
         
         return attn_data
 
-    def set_processor(self,transformer,processor):
+    def set_processor(self,transformer,processor_name, index_data):
+        processor_classes = {'processor_x':AttnProcessorX,
+                                 'processor_3': AttnProcessor3,}
+       
         processors = {}
 
         for layer in transformer.attn_processors.keys():
+            processor = processor_classes[processor_name](idx1 =index_data['obj_1'], idx2 = index_data['obj_2'],eos_idx = index_data['eos'])
+
             processors[layer] = processor
             
         transformer.set_attn_processor(processors)
