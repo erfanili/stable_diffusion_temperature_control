@@ -13,8 +13,7 @@
 # limitations under the License.
 
 
-#X
-# from modules.unet_2d_condition_x import UNet2DConditionModelX
+
 from collections import defaultdict
 
 
@@ -275,12 +274,9 @@ class StableDiffusionPipelineX(
         self.register_to_config(requires_safety_checker=requires_safety_checker)
         
         ##_x
-                ##_x
         self.attn_fetch_x = None
-        # self.attn_fetch_x.set_processor_x(self.transformer)
         ##_x
-        ##_x
-    
+
 
         
         
@@ -956,6 +952,7 @@ class StableDiffusionPipelineX(
         # to avoid doing two forward passes
         if self.do_classifier_free_guidance:
             prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds])
+            
 
         if ip_adapter_image is not None or ip_adapter_image_embeds is not None:
             image_embeds = self.prepare_ip_adapter_image_embeds(
@@ -1020,14 +1017,14 @@ class StableDiffusionPipelineX(
                     t,
                     encoder_hidden_states=prompt_embeds,
                     timestep_cond=timestep_cond,
-                    cross_attention_kwargs=self.cross_attention_kwargs,
+                    cross_attention_kwargs={'kwargs':{'timestep':t}},
                     added_cond_kwargs=added_cond_kwargs,
                     return_dict=False,
                 )[0]
                 
                 ##_x
                 if self.attn_fetch_x is not None:
-                    self.attn_fetch_x.store_attn_by_timestep_x(t.item(),self.unet)
+                    self.attn_fetch_x.store_attn_by_timestep(t.item(),self.unet)
                 else:
                     print('no attention_fetch. attention maps are not being stored.')
                 ##_X

@@ -352,9 +352,9 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
 
         # See Section 3.1. of the paper.
         max_length = max_sequence_length
-
         if prompt_embeds is None:
             prompt = self._text_preprocessing(prompt, clean_caption=clean_caption)
+            # breakpoint()
             text_inputs = self.tokenizer(
                 prompt,
                 padding="max_length",
@@ -711,6 +711,9 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
         clean_caption: bool = True,
         use_resolution_binning: bool = True,
         max_sequence_length: int = 120,
+        scale=None,
+        masking_obj1=None,
+        masking_obj2=None,
         **kwargs,
     ) -> Union[ImagePipelineOutput, Tuple]:
         """
@@ -928,11 +931,14 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
                     timestep=current_timestep,
                     added_cond_kwargs=added_cond_kwargs,
                     return_dict=False,
+                    # cross_attention_kwargs={'kwargs':{"attn_scale": scale}}
+                    cross_attention_kwargs={'kwargs':{'timestep':t}}
+                    
                 )[0]
                 
                 ###_x
                 if self.attn_fetch_x is not None:
-                    self.attn_fetch_x.store_attn_by_timestep_x(t.item(),self.transformer)
+                    self.attn_fetch_x.store_attn_by_timestep(t.item(),self.transformer)
                 else:
                     print('no attention fetch. attention maps are not being stored.')            
                 ###_X
