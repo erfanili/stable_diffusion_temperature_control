@@ -199,7 +199,7 @@ class AttnProcessor3:
         inner_dim = key.shape[-1]
         head_dim = inner_dim // attn.heads
 
-
+  
         query = attn.head_to_batch_dim(query) 
         key = attn.head_to_batch_dim(key)
         value = attn.head_to_batch_dim(value)
@@ -218,10 +218,12 @@ class AttnProcessor3:
 
         if kwargs['kwargs']['timestep'].item() > 0:
             if query.shape == key.shape:
+                
                 attention_probs = attn.get_attention_scores(query, key, attention_mask)
             else:
                 attention_probs = self.get_attention_scores(query=query, key=key, attention_mask=attention_mask,num_heads=attn.heads, scale = attn.scale,idx2=self.idx2, idx1=self.idx1, eos_idx=self.eos_idx, timestep=kwargs['kwargs']['timestep'].item()) 
         else:
+
             attention_probs = attn.get_attention_scores(query, key, attention_mask)
 
         attention_probs = attn.get_attention_scores(query, key, attention_mask)

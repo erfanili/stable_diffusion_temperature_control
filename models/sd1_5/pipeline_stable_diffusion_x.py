@@ -998,7 +998,7 @@ class StableDiffusionPipelineX(
             timestep_cond = self.get_guidance_scale_embedding(
                 guidance_scale_tensor, embedding_dim=self.unet.config.time_cond_proj_dim
             ).to(device=device, dtype=latents.dtype)
-
+        
         # 7. Denoising loop
         num_warmup_steps = len(timesteps) - num_inference_steps * self.scheduler.order
         self._num_timesteps = len(timesteps)
@@ -1056,12 +1056,15 @@ class StableDiffusionPipelineX(
                     if callback is not None and i % callback_steps == 0:
                         step_idx = i // getattr(self.scheduler, "order", 1)
                         callback(step_idx, t, latents)
-
+        
         if not output_type == "latent":
+            
             image = self.vae.decode(latents / self.vae.config.scaling_factor, return_dict=False, generator=generator)[
                 0
             ]
-            image, has_nsfw_concept = self.run_safety_checker(image, device, prompt_embeds.dtype)
+            # exit()
+            # image, has_nsfw_concept = self.run_safety_checker(image, device, prompt_embeds.dtype)
+            has_nsfw_concept = None
         else:
             image = latents
             has_nsfw_concept = None
@@ -1070,7 +1073,7 @@ class StableDiffusionPipelineX(
             do_denormalize = [True] * image.shape[0]
         else:
             do_denormalize = [not has_nsfw for has_nsfw in has_nsfw_concept]
-
+        
         image = self.image_processor.postprocess(image, output_type=output_type, do_denormalize=do_denormalize)
 
         # Offload all models
@@ -1078,5 +1081,5 @@ class StableDiffusionPipelineX(
 
         if not return_dict:
             return (image, has_nsfw_concept)
-
+        
         return StableDiffusionPipelineOutput(images=image, nsfw_content_detected=has_nsfw_concept)

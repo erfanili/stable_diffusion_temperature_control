@@ -861,6 +861,16 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
             clean_caption=clean_caption,
             max_sequence_length=max_sequence_length,
         )
+        
+        
+        if self.attn_fetch_x is not None:
+            all_text_sa = self.attn_fetch_x.store_text_sa(text_encoder = self.text_encoder)
+            zeroth_block_text_sa = all_text_sa['block_0']
+
+        else:
+            print('no attention fetch. attention maps are not being stored.')            
+        ###_X
+        
         if do_classifier_free_guidance:
             prompt_embeds = torch.cat([negative_prompt_embeds, prompt_embeds], dim=0)
             prompt_attention_mask = torch.cat([negative_prompt_attention_mask, prompt_attention_mask], dim=0)
@@ -935,6 +945,11 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
                     cross_attention_kwargs={'kwargs':{'timestep':t}}
                     
                 )[0]
+                
+                ###text_self_attention
+                zeroth_block_text_sa = zeroth_block_text_sa
+                #####
+                
                 
                 ###_x
                 if self.attn_fetch_x is not None:

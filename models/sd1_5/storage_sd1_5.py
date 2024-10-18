@@ -86,3 +86,13 @@ class AttnFetchSDX():
 
             processors[layer] = processor
         unet.set_attn_processor(processors)
+        
+        
+    def store_text_sa(self,text_encoder):
+        attn_data = {}
+    
+        for i, block in enumerate(text_encoder.text_model.encoder.layers):
+                data = block.self_attn.attn_data_x
+                attn_data[f'block_{i}'] = data
+
+        return attn_data

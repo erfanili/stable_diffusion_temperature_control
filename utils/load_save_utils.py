@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 import json
 from typing import Dict
-
+from transformers.models.clip.configuration_clip import CLIPTextConfig
 from transformers import T5EncoderModel, CLIPTokenizer, T5Tokenizer
 from diffusers import StableDiffusionPipeline
 from diffusers.schedulers.scheduling_ddim import DDIMScheduler
@@ -19,8 +19,8 @@ from models.sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
 from models.sd1_5.storage_sd1_5 import AttnFetchSDX
 from models.pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
 from models.pixart.storage_pixart_x import AttnFetchPixartX
-
-
+from models.pixart.t5_attention_forward_x import forward_x
+from models.sd1_5.clip_sdpa_attention_x import CLIPSdpaAttentionX
 
 
  
@@ -47,7 +47,15 @@ def load_model(model_name,device, **kwargs):
         model.scheduler.config.timestep_spacing = time_step_spacing
         model.to(device)
         model.attn_fetch_x = AttnFetchSDX(positive_prompt = True)
+        config = model.text_encoder.config
 
+        for i in range(config.num_hidden_layers):
+            spda_x=CLIPSdpaAttentionX(config).to(model.text_encoder.device, dtype=next(model.text_encoder.parameters()).dtype)
+            new_state_dict = {}
+            for key,value in spda_x.state_dict().items():
+                new_state_dict[key] = model.text_encoder.text_model.encoder.layers[i].self_attn.state_dict()[key]
+            spda_x.load_state_dict(new_state_dict)
+            model.text_encoder.text_model.encoder.layers[i].self_attn = spda_x
     elif model_name == 'pixart':
         model_class = PixArtAlphaPipeline
         model_id = "PixArt-alpha/PixArt-XL-2-512x512"
@@ -61,6 +69,11 @@ def load_model(model_name,device, **kwargs):
         model.to(device)
         model.attn_fetch_x = AttnFetchPixartX()
         model.attn_fetch_x.positive_prompt = True
+        for i in range(24):
+            t5_attention = model.text_encoder.encoder.block[i].layer[0].SelfAttention
+            t5_attention.forward =  forward_x.__get__(t5_attention, t5_attention.__class__)
+
+ 
 
     else:
         print('model not accepted')
@@ -102,11 +115,13 @@ def generate(prompt,
         pipe.attn_fetch_x.set_processor(unet = pipe.unet,processor_name=processor_name,index_data = index_data)
     elif model_name in ['pixart', 'pixart_x']:
         pipe.attn_fetch_x.set_processor(transformer = pipe.transformer,processor_name=processor_name,index_data = index_data)
+
     else:
         print('not a valid model')
         exit()
     generator = torch.manual_seed(seed)
     image = pipe(prompt = prompt, num_inference_steps = num_inference_steps , generator = generator).images[0]
+ 
     all_maps = pipe.attn_fetch_x.maps_by_block()[block_to_save]    
 
     return image, all_maps
@@ -160,6 +175,23 @@ def save_maps(all_maps,
             directory = os.path.join(gif_save_dir,'maps',f'{idx}')
             save_image(image=idx_maps[t],directory=directory, file_name = f'{t}')
 
+def save_text_sa(text_sa,
+                 directory,
+                 file_name,
+                 block_to_save = 'block_11'):
+
+    os.makedirs(directory,exist_ok=True)
+    print(text_sa)
+
+    text_sa = text_sa[block_to_save].detach().cpu().numpy()
+    text_sa = text_sa[1:20,1:20]*255*2
+    # text_sa = reshape_n_scale_array(text_sa,size)
+    im = Image.fromarray(text_sa.astype(np.uint16))
+    # im = im.resize((256,256))
+    if im.mode == 'I;16':
+        im = im.convert('L')
+    save_image(image=im,directory=directory, file_name = file_name)
+
 
 
 def reshape_n_scale_array(array,size):
@@ -174,7 +206,6 @@ def reshape_n_scale_array(array,size):
 def maps_to_images(attn_array,idx):
     map_list = []
     for t in range(len(attn_array)):
-        
         map_t = attn_array[t,:,idx]
         size = int(np.sqrt(len(map_t)))
         map_t = reshape_n_scale_array(map_t,size)
@@ -263,6 +294,104 @@ def get_prompt_words_n_indices(prompt,tokenizer):
         print(indices)
     return words, indices
 
+
+
+
+def attend_n_excite_word_n_index_animals(prompt,tokenizer):
+    words = {}
+    token_ids ={}
+    indices = {}
+    words = prompt.split(' ')
+    index_of_and = words.index('and')
+    noun1_idx = 1
+    noun2_idx = index_of_and+2
+
+
+    noun1 = words[noun1_idx].strip('\n. ')
+    noun2 = words[noun2_idx].strip('\n. ')  
+    words = {'noun1': noun1,'noun2': noun2}
+    prompt_tokens = tokenizer.simply_tokenize(text = prompt)
+    prompt_tokens = prompt_tokens.tolist()[0]
+    pointer = 0
+    for key ,word in words.items():
+        token_ids = tokenizer.tokenize_a_word(word)
+
+        if (isinstance(tokenizer.tokenizer, T5Tokenizer) and word in ('spherical', 'oblong')):
+            first_id = token_ids[1]
+            num_tokens = len(token_ids)-1
+        else:
+            first_id = token_ids[0]
+            num_tokens = len(token_ids)
+
+        first_index = prompt_tokens[pointer:].index(first_id)
+        indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
+        pointer += first_index
+        print(indices)
+    return words, indices
+
+
+def attend_n_excite_word_n_index_animals_objects(prompt,tokenizer):
+    words = {}
+    token_ids ={}
+    indices = {}
+    words = prompt.split(' ')
+    if 'with' not in words:
+        index_of_and = words.index('and')
+        noun1_idx = 1
+        adj2_idx = index_of_and+2
+        noun2_idx = adj2_idx+1
+        noun1 = words[noun1_idx].strip('\n. ')
+        adj2 = words[adj2_idx]
+        noun2 = words[noun2_idx].strip('\n. ')  
+        words = {'noun1': noun1, 'adj2': adj2, 'noun2': noun2}
+        prompt_tokens = tokenizer.simply_tokenize(text = prompt)
+        prompt_tokens = prompt_tokens.tolist()[0]
+        pointer = 0
+        for key ,word in words.items():
+            token_ids = tokenizer.tokenize_a_word(word)
+
+            if (isinstance(tokenizer.tokenizer, T5Tokenizer) and word in ('spherical', 'oblong')):
+                first_id = token_ids[1]
+                num_tokens = len(token_ids)-1
+            else:
+                first_id = token_ids[0]
+                num_tokens = len(token_ids)
+
+            first_index = prompt_tokens[pointer:].index(first_id)
+            indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
+            pointer += first_index
+            return words, indices
+    else:
+        words = {}
+        token_ids ={}
+        indices = {}
+        words = prompt.split(' ')
+        index_of_and = words.index('with')
+        noun1_idx = 1
+        noun2_idx = index_of_and+2
+
+
+        noun1 = words[noun1_idx].strip('\n. ')
+        noun2 = words[noun2_idx].strip('\n. ')  
+        words = {'noun1': noun1,'noun2': noun2}
+        prompt_tokens = tokenizer.simply_tokenize(text = prompt)
+        prompt_tokens = prompt_tokens.tolist()[0]
+        pointer = 0
+        for key ,word in words.items():
+            token_ids = tokenizer.tokenize_a_word(word)
+
+            if (isinstance(tokenizer.tokenizer, T5Tokenizer) and word in ('spherical', 'oblong')):
+                first_id = token_ids[1]
+                num_tokens = len(token_ids)-1
+            else:
+                first_id = token_ids[0]
+                num_tokens = len(token_ids)
+
+            first_index = prompt_tokens[pointer:].index(first_id)
+            indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
+            pointer += first_index
+            print(indices)
+        return words, indices
 
 
 class MyTokenizer():
@@ -387,18 +516,18 @@ def rearrange_by_layers(data:dict) -> Dict:
     return rearranged_output
 
 
-def get_text_attn_map(prompt,directory = './'):
-    model_name = "t5-small"  # You can change to other variants like t5-base or t5-large
-    tokenizer = T5Tokenizer.from_pretrained(model_name)
-    text_encoder = T5EncoderModel.from_pretrained(model_name)
-    os.makedirs(directory, exist_ok=True)
-    prompt = prompt
+def get_text_attn_map(prompt,tokenizer, text_encoder):
+    # model_name = "t5-small"  # You can change to other variants like t5-base or t5-large
+    # tokenizer = T5Tokenizer.from_pretrained(model_name)
+    # text_encoder = T5EncoderModel.from_pretrained(model_name)
+    # os.makedirs(directory, exist_ok=True)
+    # prompt = prompt
     
     
     token_ids = get_token_ids(prompt=prompt,tokenizer = tokenizer)
-    decoded_ids = decode_token_ids(token_ids,tokenizer=tokenizer)
+    # decoded_ids = decode_token_ids(token_ids,tokenizer=tokenizer)
 
-    
+    token_ids = token_ids.to(text_encoder.device)
 
 
     embeddings = text_encoder(token_ids)
@@ -406,3 +535,58 @@ def get_text_attn_map(prompt,directory = './'):
     
     
     return attn_maps
+
+
+
+import matplotlib.pyplot as plt
+import imageio
+import numpy as np
+
+
+
+
+
+def map_visualization(all_maps,
+                      idx,
+                      save_dir,
+                      file_name,
+                      num_inference_steps = 20):
+
+
+    # Save each tensor visualization as an image
+    for t in range(num_inference_steps):
+        map_t = all_maps[t,:,idx]
+        size = int(np.sqrt(len(map_t)))
+        map_t = map_t.reshape((size,size)).astype(np.uint16)
+        # Plot the tensor as a heatmap
+        plt.imshow(map_t, cmap='viridis', interpolation='none')
+        plt.colorbar()
+        plt.title(f'Index {idx}, Time Step {t}')
+        # Save the image
+        map_save_dir = os.path.join(save_dir,'visualization','maps',file_name)
+        os.makedirs(map_save_dir,exist_ok=True)
+        plt.savefig(f'{map_save_dir}/{t}.png')
+        plt.close()  # Close the plot to avoid displaying it in the notebook
+    # Create a GIF from the images
+
+        with imageio.get_writer(f'{file_name}.gif', mode='I', duration=0.1) as writer:
+            for t in range(num_inference_steps):
+                path = os.path.join(save_dir,'visualization','gifs',f'{file_name}',f'{t}')
+                os.makedirs(path,exist_ok=True)
+                image = imageio.imread(f'{path}.png')
+                writer.append_data(image)
+            
+            
+def save_maps(all_maps,
+              idx,
+              gif_save_dir = './gifs',
+              file_name = f'{0}',
+              save_maps_by_time = False,
+              num_inference_steps=20):
+    idx_maps = maps_to_images(attn_array = all_maps,idx = idx)
+    os.makedirs(gif_save_dir,exist_ok=True)
+    save_gif(images = idx_maps, directory=gif_save_dir, file_name = file_name)
+    if save_maps_by_time:
+        for t in range(num_inference_steps):
+            directory = os.path.join(gif_save_dir,'maps',f'{idx}')
+            save_image(image=idx_maps[t],directory=directory, file_name = f'{t}')

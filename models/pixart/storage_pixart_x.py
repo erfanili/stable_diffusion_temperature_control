@@ -2,7 +2,7 @@
 
 import torch
 from typing import Dict
-
+# from models.pixart.t5_attention_x import T5AttentionX
 from models.processors import AttnProcessor3, AttnProcessorX
 
 def to_cpu_numpy(data):
@@ -76,3 +76,23 @@ class AttnFetchPixartX():
             processors[layer] = processor
             
         transformer.set_attn_processor(processors)
+        
+        
+        
+    #text_encoder maps:
+    def store_text_sa(self,text_encoder):
+        attn_data = {}
+    
+        for i, block in enumerate(text_encoder.encoder.block):
+                data = block.layer[0].SelfAttention.attn_weights_x
+                attn_data[f'block_{i}'] = data
+
+        return attn_data
+    
+        
+    # def set_text_processor(self, text_encoder):
+    #     for block in text_encoder.encoder.block:
+    #         block.layer[0].SelfAttention = T5AttentionX(
+    #             config=text_encoder.config,
+    #             has_relative_attention_bias=False
+    #         ).to(text_encoder.device)
