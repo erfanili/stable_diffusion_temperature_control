@@ -15,6 +15,7 @@ def forward_x(
     query_length=None,
     use_cache=False,
     output_attentions=False,
+    cache_position=None
 ):
     """
     Self-attention (if key_value_states is None) or attention over source sentence (provided by key_value_states).
@@ -117,7 +118,7 @@ def forward_x(
     )  # (batch_size, n_heads, seq_length, key_length)
     
     ###_X
-    self.attn_weights_x = attn_weights
+    self.attn_weights_x = torch.mean(attn_weights,dim=0)
     
     attn_weights = nn.functional.dropout(
         attn_weights, p=self.dropout, training=self.training

@@ -16,12 +16,14 @@ from diffusers.schedulers.scheduling_ddim import DDIMScheduler
 from diffusers import PixArtAlphaPipeline
 
 from models.sd1_5.pipeline_stable_diffusion_x import StableDiffusionPipelineX
-from models.sd1_5.storage_sd1_5 import AttnFetchSDX
+from models.sd1_5.pipeline_stable_diffusion_x_latent_update import  StableDiffusionPipelineX_2
+from models.sd1_5.storage_sd1_5 import *
 from models.pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
 from models.pixart.storage_pixart_x import AttnFetchPixartX
 from models.pixart.t5_attention_forward_x import forward_x
 from models.sd1_5.clip_sdpa_attention_x import CLIPSdpaAttentionX
-
+from jy_code.latent_update import *
+# from models.pixart.latent_update import LatentUpdatetPixartX
 
  
 def load_model(model_name,device, **kwargs):
@@ -56,6 +58,26 @@ def load_model(model_name,device, **kwargs):
                 new_state_dict[key] = model.text_encoder.text_model.encoder.layers[i].self_attn.state_dict()[key]
             spda_x.load_state_dict(new_state_dict)
             model.text_encoder.text_model.encoder.layers[i].self_attn = spda_x
+    elif model_name == 'sd1_5x_conform':
+        model_class = StableDiffusionPipelineX_2
+        scheduler_class = DDIMScheduler
+        model_id = "runwayml/stable-diffusion-v1-5"
+        time_step_spacing = 'linspace'
+        model = model_class.from_pretrained(pretrained_model_name_or_path=model_id, torch_dtype = torch.float16,**kwargs)
+        scheduler = scheduler_class.from_config(model.scheduler.config)
+        model.scheduler = scheduler
+        model.scheduler.config.timestep_spacing = time_step_spacing
+        model.to(device)
+        model.attn_fetch_x = AttnFetchSDX_2(positive_prompt = True)
+        config = model.text_encoder.config
+
+        for i in range(config.num_hidden_layers):
+            spda_x=CLIPSdpaAttentionX(config).to(model.text_encoder.device, dtype=next(model.text_encoder.parameters()).dtype)
+            new_state_dict = {}
+            for key,value in spda_x.state_dict().items():
+                new_state_dict[key] = model.text_encoder.text_model.encoder.layers[i].self_attn.state_dict()[key]
+            spda_x.load_state_dict(new_state_dict)
+            model.text_encoder.text_model.encoder.layers[i].self_attn = spda_x
     elif model_name == 'pixart':
         model_class = PixArtAlphaPipeline
         model_id = "PixArt-alpha/PixArt-XL-2-512x512"
@@ -68,6 +90,8 @@ def load_model(model_name,device, **kwargs):
         model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
         model.to(device)
         model.attn_fetch_x = AttnFetchPixartX()
+        update_config = LatentUpdateConfig()
+        model.latent_update_x = LatentUpdatePixartX(config = update_config)
         model.attn_fetch_x.positive_prompt = True
         for i in range(24):
             t5_attention = model.text_encoder.encoder.block[i].layer[0].SelfAttention
@@ -89,44 +113,162 @@ def generate(prompt,
              index_data,
              seed,
              num_inference_steps,
-             block_to_save='block_13'):
-    
-    if model_name in ['sd1_5', 'sd1_5x']:
-        try:
-            if block_to_save not in ['down_0', 'down_1', 'down_2', 
-                                    'mid', 'up_1', 'up_2', 'up_3']:
-                
-                raise ValueError('block_to_save is not valid for this model.')
-        except ValueError as e:
-            raise
+             blocks_to_save=['block_13']):
 
-    elif model_name in ['pixart', 'pixart_x']:
-        try:
-            if block_to_save not in [f'block_{i}' for i in range(28)]:
-                raise ValueError('block_to_save is not valid for this model.')
-        except ValueError as e:
-            raise
+    
+    all_maps = {}
+    if model_name in ['sd1_5', 'pixart']:
+        generator = torch.manual_seed(seed)
+        image = pipe(prompt = prompt, num_inference_steps = num_inference_steps , generator = generator).images[0]
+        all_maps = {}
+        return image, all_maps
+    else:
+        if model_name in ['sd1_5x', 'sd1_5x_conform']:
+            pipe.attn_fetch_x.set_processor(unet = pipe.unet,processor_name=processor_name)
+        elif model_name in ['pixart_x']:
+            pipe.attn_fetch_x.set_processor(transformer = pipe.transformer,processor_name=processor_name)
+        else:
+            print('not a valid model')
+            exit()
+        generator = torch.manual_seed(seed)
+        image = pipe(prompt = prompt, num_inference_steps = num_inference_steps , generator = generator).images[0]
         
-    
-    
+    if blocks_to_save is not None:
+        if model_name in ['sd1_5', 'sd1_5x']:
+            try:
+                if blocks_to_save[0] not in ['down_0', 'down_1', 'down_2', 
+                                        'mid', 'up_1', 'up_2', 'up_3']:
+                    
+                    raise ValueError('block_to_save is not valid for this model.')
+            except ValueError as e:
+                raise
+
+        elif model_name in ['pixart', 'pixart_x']:
+            
+                try:
+                    if blocks_to_save[0] not in [f'block_{i}' for i in range(28)]:
+                        raise ValueError('block_to_save is not valid for this model.')
+                except ValueError as e:
+                    raise
+            
+        
+        for block in blocks_to_save:
+            all_maps[block] =pipe.attn_fetch_x.maps_by_block()[block] 
+                
+    return image, all_maps   
 
 
-    if model_name in ['sd1_5', 'sd1_5x']:
+
+
+
+def generate_latent_optimization(prompt,
+                                pipe,
+                                model_name,
+                                processor_name,
+                                seed,
+                                num_inference_steps=50, # Number of steps to run the model
+                                guidance_scale = 7.5, # Guidance scale for diffusion
+                                attn_res = (16, 16), # Resolution of the attention map to apply CONFORM
+                                max_iter_to_alter = 30, # Which steps to stop updating the latents
+                                iterative_refinement_steps = [0, 10, 20], # Iterative refinement steps
+                                refinement_steps = 20, # Number of refinement steps
+                                scale_factor = 20, # Scale factor for the optimization step
+                                do_smoothing = True, # Apply smoothing to the attention maps
+                                smoothing_sigma = 0.5, # Sigma for the smoothing kernel
+                                smoothing_kernel_size = 3, # Kernel size for the smoothing kernel
+                                temperature = 0.5, # Temperature for the contrastive loss
+                                softmax_normalize = False, # Normalize the attention maps
+                                softmax_normalize_attention_maps = False, # Normalize the attention maps
+                                add_previous_attention_maps = True, # Add previous attention maps to the loss calculation
+                                previous_attention_map_anchor_step = None, # Use a specific step as the previous attention map
+                                loss_fn = "ntxent", # Loss function to use
+                                index_data=None,
+                                indices_list=None,
+                                use_conform=False,
+                                update_latent=True):
+    
+    if model_name in ['sd1_5', 'sd1_5x', 'sd1_5x_conform']:
         pipe.attn_fetch_x.set_processor(unet = pipe.unet,processor_name=processor_name,index_data = index_data)
     elif model_name in ['pixart', 'pixart_x']:
         pipe.attn_fetch_x.set_processor(transformer = pipe.transformer,processor_name=processor_name,index_data = index_data)
-
     else:
         print('not a valid model')
         exit()
-    generator = torch.manual_seed(seed)
-    image = pipe(prompt = prompt, num_inference_steps = num_inference_steps , generator = generator).images[0]
- 
-    all_maps = pipe.attn_fetch_x.maps_by_block()[block_to_save]    
-
-    return image, all_maps
-
+    
+    steps_to_save_attention_maps = list(range(num_inference_steps))
+    
+    
+    if len(indices_list.keys()) == 4:
+        token_groups = [
+            [indices_list['attr1'], indices_list['obj1']],
+            [indices_list['attr2'], indices_list['obj2']],  
+            # [4],
+            # [5]
+            # [4,5]
+        ]
+    elif len(indices_list.keys()) == 2:
+        token_groups = [
+            [indices_list['obj1']],
+            [indices_list['obj2']]
+        ]
+    elif len(indices_list.keys()) == 3:
+        token_groups = [
+            [indices_list['obj1']],
+            [indices_list['attr2'],indices_list['obj2']]
+        ]
+    # token_groups = [
+    #     [1,2],
+    #     [1,2]
+    # ]
+    
+    if not update_latent:
+        max_iter_to_alter = 0
+        iterative_refinement_steps = []
+    
+    # images, attention_maps, cos_dict = pipe(    
+    images, attention_maps = pipe(
+        prompt=prompt,
+        token_groups=token_groups,
+        indices_list=indices_list,
+        guidance_scale=guidance_scale,
+        generator=torch.Generator("cuda").manual_seed(seed),
+        num_inference_steps=num_inference_steps,
+        max_iter_to_alter=max_iter_to_alter,
+        attn_res=attn_res,
+        scale_factor=scale_factor,
+        iterative_refinement_steps=iterative_refinement_steps,
+        steps_to_save_attention_maps=steps_to_save_attention_maps,
+        do_smoothing=do_smoothing,
+        smoothing_sigma=smoothing_sigma,
+        smoothing_kernel_size=smoothing_kernel_size,
+        temperature=temperature,
+        refinement_steps=refinement_steps,
+        softmax_normalize=softmax_normalize,
+        softmax_normalize_attention_maps=softmax_normalize_attention_maps,
+        add_previous_attention_maps=add_previous_attention_maps,
+        previous_attention_map_anchor_step=previous_attention_map_anchor_step,
+        loss_fn=loss_fn,
+        conform=use_conform
+    )
+    return images, attention_maps
 ######prompt
+
+def save_text_sa_avg(text_sa,
+                 directory,
+                 file_name,
+                 eos_idx=None):
+
+    os.makedirs(directory,exist_ok=True)
+    # print(text_sa)
+
+    text_sa = text_sa.detach().cpu().numpy()
+    text_sa = text_sa[1:eos_idx,1:eos_idx]*255*2
+    # text_sa = reshape_n_scale_array(text_sa,size)
+    im = Image.fromarray(text_sa.astype(np.uint16))
+    im = im.resize((256,256))
+    if im.mode == 'I;16':
+        im = im.convert('L')
+    save_image(image=im,directory=directory, file_name = file_name)
 
 
 def format_time():
@@ -170,6 +312,7 @@ def save_maps(all_maps,
     idx_maps = maps_to_images(attn_array = all_maps,idx = idx)
     os.makedirs(gif_save_dir,exist_ok=True)
     save_gif(images = idx_maps, directory=gif_save_dir, file_name = file_name)
+    save_pkl(data = all_maps, directory =gif_save_dir, file_name = file_name)
     if save_maps_by_time:
         for t in range(num_inference_steps):
             directory = os.path.join(gif_save_dir,'maps',f'{idx}')
@@ -181,7 +324,7 @@ def save_text_sa(text_sa,
                  block_to_save = 'block_11'):
 
     os.makedirs(directory,exist_ok=True)
-    print(text_sa)
+
 
     text_sa = text_sa[block_to_save].detach().cpu().numpy()
     text_sa = text_sa[1:20,1:20]*255*2
@@ -291,7 +434,7 @@ def get_prompt_words_n_indices(prompt,tokenizer):
         first_index = prompt_tokens[pointer:].index(first_id)
         indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
         pointer += first_index
-        print(indices)
+
     return words, indices
 
 
@@ -326,7 +469,7 @@ def attend_n_excite_word_n_index_animals(prompt,tokenizer):
         first_index = prompt_tokens[pointer:].index(first_id)
         indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
         pointer += first_index
-        print(indices)
+
     return words, indices
 
 
@@ -360,7 +503,7 @@ def attend_n_excite_word_n_index_animals_objects(prompt,tokenizer):
             first_index = prompt_tokens[pointer:].index(first_id)
             indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
             pointer += first_index
-            return words, indices
+        return words, indices
     else:
         words = {}
         token_ids ={}
@@ -390,7 +533,7 @@ def attend_n_excite_word_n_index_animals_objects(prompt,tokenizer):
             first_index = prompt_tokens[pointer:].index(first_id)
             indices[key] = list(range(pointer+first_index,pointer+first_index+num_tokens))
             pointer += first_index
-            print(indices)
+     
         return words, indices
 
 
@@ -444,7 +587,10 @@ def save_pkl(data: dict,directory: str, file_name: str):
         
 
 def load_pkl(directory:str, file_name:str):
-    file_path = os.path.join(directory,file_name)+'.pkl'
+    if file_name.split('.')[-1] == 'pkl':
+        file_path = os.path.join(directory,file_name)
+    else:
+        file_path = os.path.join(directory,file_name)+'.pkl'
     if not os.path.exists(file_path):
         print("File does not exist.")
     else:
@@ -577,16 +723,95 @@ def map_visualization(all_maps,
                 writer.append_data(image)
             
             
-def save_maps(all_maps,
-              idx,
-              gif_save_dir = './gifs',
-              file_name = f'{0}',
-              save_maps_by_time = False,
-              num_inference_steps=20):
-    idx_maps = maps_to_images(attn_array = all_maps,idx = idx)
-    os.makedirs(gif_save_dir,exist_ok=True)
-    save_gif(images = idx_maps, directory=gif_save_dir, file_name = file_name)
-    if save_maps_by_time:
-        for t in range(num_inference_steps):
-            directory = os.path.join(gif_save_dir,'maps',f'{idx}')
-            save_image(image=idx_maps[t],directory=directory, file_name = f'{t}')
+# def save_maps(all_maps,
+#               idx,
+#               gif_save_dir = './gifs',
+#               file_name = f'{0}',
+#               save_maps_by_time = False,
+#               num_inference_steps=20):
+#     idx_maps = maps_to_images(attn_array = all_maps,idx = idx)
+#     os.makedirs(gif_save_dir,exist_ok=True)
+#     save_gif(images = idx_maps, directory=gif_save_dir, file_name = file_name)
+#     if save_maps_by_time:
+#         for t in range(num_inference_steps):
+#             directory = os.path.join(gif_save_dir,'maps',f'{idx}')
+#             save_image(image=idx_maps[t],directory=directory, file_name = f'{t}')
+
+
+
+
+class GaussianSmoothingX(torch.nn.Module):
+    """
+    Arguments:
+    Apply gaussian smoothing on a 1d, 2d or 3d tensor. Filtering is performed seperately for each channel in the input
+    using a depthwise convolution.
+        channels (int, sequence): Number of channels of the input tensors. Output will
+            have this number of channels as well.
+        kernel_size (int, sequence): Size of the gaussian kernel. sigma (float, sequence): Standard deviation of the
+        gaussian kernel. dim (int, optional): The number of dimensions of the data.
+            Default value is 2 (spatial).
+    """
+
+    # channels=1, kernel_size=kernel_size, sigma=sigma, dim=2
+    def __init__(
+        self,
+        channels: int = 1,
+        kernel_size: int = 3,
+        sigma: float = 0.5,
+        dim: int = 2,
+    ):
+        super().__init__()
+
+        if isinstance(kernel_size, int):
+            kernel_size = [kernel_size] * dim
+        if isinstance(sigma, float):
+            sigma = [sigma] * dim
+
+        # The gaussian kernel is the product of the
+        # gaussian function of each dimension.
+        kernel = 1
+        meshgrids = torch.meshgrid(
+            [torch.arange(size, dtype=torch.float32) for size in kernel_size]
+        )
+        for size, std, mgrid in zip(kernel_size, sigma, meshgrids):
+            mean = (size - 1) / 2
+            kernel *= (
+                1
+                / (std * math.sqrt(2 * math.pi))
+                * torch.exp(-(((mgrid - mean) / (2 * std)) ** 2))
+            )
+
+        # Make sure sum of values in gaussian kernel equals 1.
+        kernel = kernel / torch.sum(kernel)
+
+        # Reshape to depthwise convolutional weight
+        kernel = kernel.view(1, 1, *kernel.size())
+        kernel = kernel.repeat(channels, *[1] * (kernel.dim() - 1))
+
+        self.register_buffer("weight", kernel)
+        self.groups = channels
+
+        if dim == 1:
+            self.conv = F.conv1d
+        elif dim == 2:
+            self.conv = F.conv2d
+        elif dim == 3:
+            self.conv = F.conv3d
+        else:
+            raise RuntimeError(
+                "Only 1, 2 and 3 dimensions are supported. Received {}.".format(dim)
+            )
+
+    def forward(self, input):
+        """
+        Arguments:
+        Apply gaussian filter to input.
+            input (torch.Tensor): Input to apply gaussian filter on.
+        Returns:
+            filtered (torch.Tensor): Filtered output.
+        """
+        # print(input.size())
+        return self.conv(input, weight=self.weight.to(input.dtype), groups=self.groups)
+
+
+

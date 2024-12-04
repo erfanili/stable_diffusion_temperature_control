@@ -3,7 +3,17 @@
 import torch
 from typing import Dict
 # from models.pixart.t5_attention_x import T5AttentionX
-from models.processors import AttnProcessor3, AttnProcessorX
+from models.processors import *
+
+# def get_processor_class(processor_name):
+#     processor_classes = {
+#         'processor_x': AttnProcessorX,
+#         'processor_3': AttnProcessor3,
+#         'processor_x_2': AttnProcessorX_2,
+#         'processor_x_conform': AttnProcessorXCONFORM
+# }
+
+    # return processor_classes[processor_name]
 
 def to_cpu_numpy(data):
     if isinstance(data, torch.Tensor):
@@ -64,17 +74,12 @@ class AttnFetchPixartX():
         
         return attn_data
 
-    def set_processor(self,transformer,processor_name, index_data):
-        processor_classes = {'processor_x':AttnProcessorX,
-                                 'processor_3': AttnProcessor3,}
-       
-        processors = {}
+    def set_processor(self,transformer,processor_name):
+        processors= {}
+        for i, layer in enumerate(transformer.attn_processors.keys()):
 
-        for layer in transformer.attn_processors.keys():
-            processor = processor_classes[processor_name](idx1 =index_data['obj_1'], idx2 = index_data['obj_2'],eos_idx = index_data['eos'])
-
+            processor = get_processor_class(processor_name=processor_name)()
             processors[layer] = processor
-            
         transformer.set_attn_processor(processors)
         
         
@@ -85,6 +90,8 @@ class AttnFetchPixartX():
     
         for i, block in enumerate(text_encoder.encoder.block):
                 data = block.layer[0].SelfAttention.attn_weights_x
+                #avg over heads
+                data = torch.mean(data.squeeze(),dim=0)
                 attn_data[f'block_{i}'] = data
 
         return attn_data

@@ -291,6 +291,7 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
     
         ##_x
         self.attn_fetch_x = None
+        self.latent_update_x = None
         ##_x
     
     # Adapted from diffusers.pipelines.deepfloyd_if.pipeline_if.encode_prompt
@@ -863,9 +864,11 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
         )
         
         
+        ######get text self attention
+        
         if self.attn_fetch_x is not None:
             all_text_sa = self.attn_fetch_x.store_text_sa(text_encoder = self.text_encoder)
-            zeroth_block_text_sa = all_text_sa['block_0']
+            # zeroth_block_text_sa = all_text_sa['block_0']
 
         else:
             print('no attention fetch. attention maps are not being stored.')            
@@ -946,9 +949,7 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
                     
                 )[0]
                 
-                ###text_self_attention
-                zeroth_block_text_sa = zeroth_block_text_sa
-                #####
+
                 
                 
                 ###_x
@@ -962,6 +963,29 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
                 if do_classifier_free_guidance:
                     noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
                     noise_pred = noise_pred_uncond + guidance_scale * (noise_pred_text - noise_pred_uncond)
+
+
+                ####latent_update_X
+                if i < self.latent_update_x.config.max_iter_to_update:
+                    latents = self.latent_update_x.optimize(
+                        latent = noise_pred,
+                        text_sa = all_text_sa,
+                        timestep = t,
+                        attn_map =self.attn_fetch_x.storage,)
+                
+                    if i in self.latent_update_x.config.iterative_refinement_steps:
+                        latents = self.latent_update_x.perform_iterative_refinement_step_with_attn(
+                            latents = noise_pred,
+                            text_embeddings = prompt_embeds,
+                            unet = self.unet,
+                            attention_fetch = self.attn_fetch_x,
+                            text_sa = all_text_sa,
+                            timestep = t,
+                            attn_map =self.attn_fetch_x.storage,)
+
+
+                ##### end latent update_X
+
 
                 # learned sigma
                 if self.transformer.config.out_channels // 2 == latent_channels:
