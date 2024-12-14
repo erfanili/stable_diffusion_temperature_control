@@ -17,7 +17,7 @@ import inspect
 import re
 import urllib.parse as ul
 from typing import Callable, List, Optional, Tuple, Union
-
+from utils.load_save_utils import *
 import torch
 from transformers import T5EncoderModel, T5Tokenizer
 
@@ -365,6 +365,7 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
                 return_tensors="pt",
             )
             text_input_ids = text_inputs.input_ids
+            
             untruncated_ids = self.tokenizer(prompt, padding="longest", return_tensors="pt").input_ids
 
             if untruncated_ids.shape[-1] >= text_input_ids.shape[-1] and not torch.equal(
@@ -863,7 +864,21 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
             max_sequence_length=max_sequence_length,
         )
         
+        ####get eos token
+        text_inputs = self.tokenizer(
+                prompt,
+                padding="max_length",
+                max_length=120,
+                truncation=True,
+                add_special_tokens=True,
+                return_tensors="pt",
+            )
         
+        text_input_ids = text_inputs.input_ids
+        print(text_input_ids)
+        print(self.tokenizer.decode(text_input_ids[0][11]))
+        eos_idx =torch.nonzero(text_input_ids[0]==1).item()
+        # breakpoint()
         ######get text self attention
         
         if self.attn_fetch_x is not None:
@@ -945,7 +960,7 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
                     added_cond_kwargs=added_cond_kwargs,
                     return_dict=False,
                     # cross_attention_kwargs={'kwargs':{"attn_scale": scale}}
-                    cross_attention_kwargs={'kwargs':{'timestep':t}}
+                    cross_attention_kwargs={'kwargs':{'eos_idx':eos_idx, 'timestep': t.item()}}
                     
                 )[0]
                 
@@ -966,22 +981,22 @@ class PixArtAlphaPipelineX(DiffusionPipeline):
 
 
                 ####latent_update_X
-                if i < self.latent_update_x.config.max_iter_to_update:
-                    latents = self.latent_update_x.optimize(
-                        latent = noise_pred,
-                        text_sa = all_text_sa,
-                        timestep = t,
-                        attn_map =self.attn_fetch_x.storage,)
+                # if i < self.latent_update_x.config.max_iter_to_update:
+                #     latents = self.latent_update_x.optimize(
+                #         latent = noise_pred,
+                #         text_sa = all_text_sa,
+                #         timestep = t,
+                #         attn_map =self.attn_fetch_x.storage,)
                 
-                    if i in self.latent_update_x.config.iterative_refinement_steps:
-                        latents = self.latent_update_x.perform_iterative_refinement_step_with_attn(
-                            latents = noise_pred,
-                            text_embeddings = prompt_embeds,
-                            unet = self.unet,
-                            attention_fetch = self.attn_fetch_x,
-                            text_sa = all_text_sa,
-                            timestep = t,
-                            attn_map =self.attn_fetch_x.storage,)
+                #     if i in self.latent_update_x.config.iterative_refinement_steps:
+                #         latents = self.latent_update_x.perform_iterative_refinement_step_with_attn(
+                #             latents = noise_pred,
+                #             text_embeddings = prompt_embeds,
+                #             unet = self.unet,
+                #             attention_fetch = self.attn_fetch_x,
+                #             text_sa = all_text_sa,
+                #             timestep = t,
+                #             attn_map =self.attn_fetch_x.storage,)
 
 
                 ##### end latent update_X

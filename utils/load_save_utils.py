@@ -22,7 +22,7 @@ from models.pixart.pipeline_pixart_alpha_x import PixArtAlphaPipelineX
 from models.pixart.storage_pixart_x import AttnFetchPixartX
 from models.pixart.t5_attention_forward_x import forward_x
 from models.sd1_5.clip_sdpa_attention_x import CLIPSdpaAttentionX
-from jy_code.latent_update import *
+# from jy_code.latent_update import *
 # from models.pixart.latent_update import LatentUpdatetPixartX
 
  
@@ -90,8 +90,8 @@ def load_model(model_name,device, **kwargs):
         model = model_class.from_pretrained(pretrained_model_name_or_path=model_id,torch_dtype = torch.float16)
         model.to(device)
         model.attn_fetch_x = AttnFetchPixartX()
-        update_config = LatentUpdateConfig()
-        model.latent_update_x = LatentUpdatePixartX(config = update_config)
+        # update_config = LatentUpdateConfig()
+        # model.latent_update_x = LatentUpdatePixartX(config = update_config)
         model.attn_fetch_x.positive_prompt = True
         for i in range(24):
             t5_attention = model.text_encoder.encoder.block[i].layer[0].SelfAttention

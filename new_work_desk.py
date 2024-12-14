@@ -11,26 +11,27 @@ import pickle as pkl
 all_models = ['sd1_5', 'sd1_5x', 'pixart', 'pixart_x']
 models_with_attn_maps = ['sd1_5x', 'pixart_x']
 
-processor_classes = {'processor_x': AttnProcessorX,
-                     'processor_3': AttnProcessor3,
-                     'processor_x_2': AttnProcessorX_2,
-                     }
+# processor_classes = {'processor_x': AttnProcessorX,
+#                      'processor_3': AttnProcessor3,
+#                      'processor_x_2': AttnProcessorX_2,
+#                      'processor_avg':AttnProcessor4
+#                      }
 
 
 prompt_files_generate_test = True
 if prompt_files_generate_test:
     
   
-    prompt_file_name = 'compbench_color_train'
-    prompt_dir = './prompt_files/comp_bench/txt'
-    device = 'cuda:3'
-    num_inference_steps  = 50
+    prompt_file_name = 'test'
+    prompt_dir = './prompt_files'
+    device = 'cuda:1'
+    num_inference_steps  = 20
     use_conform = False # If False, use our self-attn based loss
     update_latent = False # update z_t. if False, original SDv1.5
     # seed = 4913
-    processor_name = 'processor_x'
-    model_name = 'sd1_5x'
-    gen_dir = f'./generation_outputs/self_attn_hist'
+    processor_name = 'processor_avg'
+    model_name = 'pixart_x'
+    gen_dir = f'./generation_outputs/avg_test/original'
     image_save_dir = os.path.join(gen_dir,'images',model_name,processor_name,prompt_file_name)
     attn_map_save_dir = os.path.join(gen_dir,'attn_maps',model_name,processor_name,prompt_file_name)
     text_sa_save_dir = os.path.join(gen_dir,'text_sa',model_name,processor_name,prompt_file_name)
@@ -38,17 +39,17 @@ if prompt_files_generate_test:
     
     prompt_list = get_prompt_list_by_line(directory=prompt_dir,file_name=prompt_file_name)
    
-    save_gen_images, save_attn_maps,save_text_selfattn = False, True, False
+    save_gen_images, save_attn_maps,save_text_selfattn = True, False, False
     pipe = load_model(model_name=model_name, device=device)
     config = pipe.text_encoder.config
 
     # prompt_loss_dict = {}
     for seed in range(1):
-        for idx, prompt in enumerate(prompt_list[0:1]):
+        for idx, prompt in enumerate(prompt_list[0:30]):
             # prompt = 'aldfkjhadslkvjand lakjdn alkds hnalksdjn alksdj nalkds nalkdjnalksd jnalskd jnaslkd nalksdjn alskdjn'
-            for i in range(12):
+            # for i in range(12):
                 # to get attn score for each prompt
-                pipe.text_encoder.text_model.encoder.layers[i].self_attn.dummy = 0
+                # pipe.text_encoder.text_model.encoder.layers[i].self_attn.dummy = 0
                 
             
             image, all_maps = generate(
@@ -59,7 +60,7 @@ if prompt_files_generate_test:
                             index_data = {},
                             seed = seed,
                             num_inference_steps=num_inference_steps,
-                            blocks_to_save = ['down_0','down_1','down_2','mid', 'up_1','up_2','up_3']
+                            blocks_to_save = ['block_13']
                             )
 
             all_text_maps = pipe.attn_fetch_x.store_text_sa(text_encoder = pipe.text_encoder)
@@ -95,7 +96,7 @@ if save_text:
     use_conform = False # If False, use our self-attn based loss
     update_latent = False # update z_t. if False, original SDv1.5
     # seed = 4913
-    processor_name = 'processor_x'
+    processor_name = 'processor_avg'
     model_name = 'pixart'
     gen_dir = f'./generation_outputs/'
     image_save_dir = os.path.join(gen_dir,'images',model_name,processor_name)
@@ -166,7 +167,7 @@ if new_test_text:
     
     
 
-map_hist = True
+map_hist = False
 if map_hist:
     directory='/home/erfan/repos/stable_diffusion_temperature_control/generation_outputs/self_attn_hist/attn_maps/sd1_5x/processor_x/compbench_color_train'
     data = load_pkl(directory=directory, file_name='0_0')

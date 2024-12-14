@@ -26,10 +26,141 @@ def get_processor_class(processor_name):
         'processor_x': AttnProcessorX,
         'processor_3': AttnProcessor3,
         'processor_x_2': AttnProcessorX_2,
-        'processor_x_conform': AttnProcessorXCONFORM
+        'processor_x_conform': AttnProcessorXCONFORM,
+        'processor_avg': AttnProcessorAvg
+        
 }
 
     return processor_classes[processor_name]
+
+
+
+
+
+
+
+class AttnProcessorX:
+    r"""
+    Processor for implementing scaled dot-product attention (enabled by default if you're using PyTorch 2.0).
+    """
+
+    def __init__(self,positive_prompt:bool = True):
+        if not hasattr(F, "scaled_dot_product_attention"):
+            raise ImportError("AttnProcessor2_0 requires PyTorch 2.0, to use it, please upgrade PyTorch to 2.0.")
+
+        self.positive_prompt = positive_prompt
+
+    
+    def __call__(
+        self,
+        attn: Attention,
+        hidden_states: torch.Tensor,
+        encoder_hidden_states: Optional[torch.Tensor] = None,
+        attention_mask: Optional[torch.Tensor] = None,
+        temb: Optional[torch.Tensor] = None,
+        *args,
+        **kwargs,
+    ) -> torch.Tensor:
+        if len(args) > 0 or kwargs.get("scale", None) is not None:
+            deprecation_message = "The `scale` argument is deprecated and will be ignored. Please remove it, as passing it will raise an error in the future. `scale` should directly be passed while calling the underlying pipeline component i.e., via `cross_attention_kwargs`."
+            deprecate("scale", "1.0.0", deprecation_message)
+
+        residual = hidden_states
+        if attn.spatial_norm is not None:
+            hidden_states = attn.spatial_norm(hidden_states, temb)
+
+        input_ndim = hidden_states.ndim
+
+        if input_ndim == 4:
+            batch_size, channel, height, width = hidden_states.shape
+            hidden_states = hidden_states.view(batch_size, channel, height * width).transpose(1, 2)
+
+        batch_size, sequence_length, _ = (
+            hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
+        )
+
+        if attention_mask is not None:
+            attention_mask = attn.prepare_attention_mask(attention_mask, sequence_length, batch_size)
+
+            attention_mask = attention_mask.view(batch_size, attn.heads, -1, attention_mask.shape[-1])
+
+        if attn.group_norm is not None:
+            hidden_states = attn.group_norm(hidden_states.transpose(1, 2)).transpose(1, 2)
+        # breakpoint()
+        query = attn.to_q(hidden_states)
+
+        if encoder_hidden_states is None:
+            encoder_hidden_states = hidden_states
+        elif attn.norm_cross:
+            encoder_hidden_states = attn.norm_encoder_hidden_states(encoder_hidden_states)
+
+        key = attn.to_k(encoder_hidden_states)
+
+        value = attn.to_v(encoder_hidden_states)
+
+        inner_dim = key.shape[-1]
+        head_dim = inner_dim // attn.heads
+
+        query = attn.head_to_batch_dim(query)
+        key = attn.head_to_batch_dim(key)
+        value = attn.head_to_batch_dim(value)
+        
+
+        if attn.norm_q is not None:
+            query = attn.norm_q(query)
+        if attn.norm_k is not None:
+            key = attn.norm_k(key)
+        
+        batch = 1 if self.positive_prompt else 0
+
+        if attention_mask is not None:
+            mask_shape = attention_mask.shape
+            attention_mask = attention_mask.view(mask_shape[0]*mask_shape[1], 1, -1) 
+
+        attention_probs = attn.get_attention_scores(query, key, attention_mask)
+
+        shapes = attention_probs.shape
+        attn_re = attention_probs.reshape(batch_size, attn.heads, shapes[-2], shapes[-1])
+
+        attention_probs = attn_re.reshape(batch_size* attn.heads, shapes[-2], shapes[-1])
+
+
+        hidden_states = torch.bmm(attention_probs, value)
+
+
+        hidden_states = attn.batch_to_head_dim(hidden_states)
+
+        ######_x
+
+        # if attention_probs.size()[-1] not in [120,77]:
+        self.attn_data_x = torch.mean(attn_re[batch],dim = 0)
+            
+        ######_x
+
+
+        hidden_states = hidden_states.to(query.dtype)
+
+        # linear proj
+        hidden_states = attn.to_out[0](hidden_states)
+        # dropout
+        hidden_states = attn.to_out[1](hidden_states)
+
+        if input_ndim == 4:
+            hidden_states = hidden_states.transpose(-1, -2).reshape(batch_size, channel, height, width)
+
+
+        # attn.residual_connection = True
+        if attn.residual_connection:
+        
+            hidden_states = hidden_states + residual
+
+        hidden_states = hidden_states / attn.rescale_output_factor
+
+        return hidden_states
+
+
+
+
 
 
 class AttnProcessorX_2:
@@ -445,145 +576,6 @@ class AttnProcessor3:
 
 
 
-
-
-
-
-
-
-class AttnProcessorX:
-    r"""
-    Processor for implementing scaled dot-product attention (enabled by default if you're using PyTorch 2.0).
-    """
-
-    def __init__(self,positive_prompt:bool = True):
-        if not hasattr(F, "scaled_dot_product_attention"):
-            raise ImportError("AttnProcessor2_0 requires PyTorch 2.0, to use it, please upgrade PyTorch to 2.0.")
-
-        self.positive_prompt = positive_prompt
-
-    
-    def __call__(
-        self,
-        attn: Attention,
-        hidden_states: torch.Tensor,
-        encoder_hidden_states: Optional[torch.Tensor] = None,
-        attention_mask: Optional[torch.Tensor] = None,
-        temb: Optional[torch.Tensor] = None,
-        *args,
-        **kwargs,
-    ) -> torch.Tensor:
-        if len(args) > 0 or kwargs.get("scale", None) is not None:
-            deprecation_message = "The `scale` argument is deprecated and will be ignored. Please remove it, as passing it will raise an error in the future. `scale` should directly be passed while calling the underlying pipeline component i.e., via `cross_attention_kwargs`."
-            deprecate("scale", "1.0.0", deprecation_message)
-
-        residual = hidden_states
-        if attn.spatial_norm is not None:
-            hidden_states = attn.spatial_norm(hidden_states, temb)
-
-        input_ndim = hidden_states.ndim
-
-        if input_ndim == 4:
-            batch_size, channel, height, width = hidden_states.shape
-            hidden_states = hidden_states.view(batch_size, channel, height * width).transpose(1, 2)
-
-        batch_size, sequence_length, _ = (
-            hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
-        )
-
-        if attention_mask is not None:
-            attention_mask = attn.prepare_attention_mask(attention_mask, sequence_length, batch_size)
-
-            attention_mask = attention_mask.view(batch_size, attn.heads, -1, attention_mask.shape[-1])
-
-        if attn.group_norm is not None:
-            hidden_states = attn.group_norm(hidden_states.transpose(1, 2)).transpose(1, 2)
-        # breakpoint()
-        query = attn.to_q(hidden_states)
-
-        if encoder_hidden_states is None:
-            encoder_hidden_states = hidden_states
-        elif attn.norm_cross:
-            encoder_hidden_states = attn.norm_encoder_hidden_states(encoder_hidden_states)
-
-        key = attn.to_k(encoder_hidden_states)
-
-        value = attn.to_v(encoder_hidden_states)
-
-        inner_dim = key.shape[-1]
-        head_dim = inner_dim // attn.heads
-
-        query = attn.head_to_batch_dim(query)
-        key = attn.head_to_batch_dim(key)
-        value = attn.head_to_batch_dim(value)
-        
-        if key.shape[1] == 77:
-            # hid = hidden_states[1]
-            wk = attn.to_k.weight[:40,:]
-            wq = attn.to_q.weight[:40,:]
-            w = wq.T @wk
-            U,S,Vh = torch.svd(w.float())
-            # cov = torch.cov(hid.T)
-            # U,S,Vh = torch.svd(cov.float())
-            # breakpoint()
-            # breakpoint()
-        # if value.shape[1]==77:
-        #     norm = torch.norm(value[8:],dim=1,keepdim=True)
-        #     temp = (value[8:,1:10] - torch.mean(value[8:,1:10],dim=1,keepdim=True))
-        #     temp = temp/torch.norm(temp,dim=1, keepdim=True)*norm
-  
-        if attn.norm_q is not None:
-            query = attn.norm_q(query)
-        if attn.norm_k is not None:
-            key = attn.norm_k(key)
-        
-        batch = 1 if self.positive_prompt else 0
-
-        if attention_mask is not None:
-            mask_shape = attention_mask.shape
-            attention_mask = attention_mask.view(mask_shape[0]*mask_shape[1], 1, -1) 
-
-        attention_probs = attn.get_attention_scores(query, key, attention_mask)
-
-        shapes = attention_probs.shape
-        attn_re = attention_probs.reshape(batch_size, attn.heads, shapes[-2], shapes[-1])
-
-        attention_probs = attn_re.reshape(batch_size* attn.heads, shapes[-2], shapes[-1])
-
-
-        hidden_states = torch.bmm(attention_probs, value)
-
-
-        hidden_states = attn.batch_to_head_dim(hidden_states)
-
-        ######_x
-        # if attention_probs.size()[-1] in [120,77]:
-        #     self.attn_data_x = torch.mean(attn_re[batch],dim=0
-        if attention_probs.size()[-1] not in [120,77]:
-            self.attn_data_x = torch.mean(attn_re[batch],dim = 0)
-            
-        ######_x
-
-
-        hidden_states = hidden_states.to(query.dtype)
-
-        # linear proj
-        hidden_states = attn.to_out[0](hidden_states)
-        # dropout
-        hidden_states = attn.to_out[1](hidden_states)
-
-        if input_ndim == 4:
-            hidden_states = hidden_states.transpose(-1, -2).reshape(batch_size, channel, height, width)
-
-
-        # attn.residual_connection = True
-        if attn.residual_connection:
-        
-            hidden_states = hidden_states + residual
-
-        hidden_states = hidden_states / attn.rescale_output_factor
-
-        return hidden_states
 
 
 
@@ -1509,3 +1501,180 @@ class GaussianSmoothing(torch.nn.Module):
             filtered (torch.Tensor): Filtered output.
         """
         return self.conv(input, weight=self.weight.to(input.dtype), groups=self.groups)
+    
+    
+    
+    
+class AttnProcessorAvg:
+    r"""
+    Processor for implementing scaled dot-product attention (enabled by default if you're using PyTorch 2.0).
+    """
+
+    def __init__(self,positive_prompt:bool = True,eos_idx=[]):
+        if not hasattr(F, "scaled_dot_product_attention"):
+            raise ImportError("AttnProcessor2_0 requires PyTorch 2.0, to use it, please upgrade PyTorch to 2.0.")
+
+
+        self.eos_idx = eos_idx
+        self.positive_prompt = positive_prompt
+
+
+    def get_attention_scores(self,
+            query: torch.Tensor, key: torch.Tensor, attention_mask: Optional[torch.Tensor] = None, scale=None, **kwargs
+        ) -> torch.Tensor:
+            dtype = query.dtype
+            # breakpoint()
+            if attention_mask is None:
+                baddbmm_input = torch.empty(
+                    query.shape[0], query.shape[1], key.shape[1], dtype=query.dtype, device=query.device
+                )
+                beta = 0
+            else:
+                baddbmm_input = attention_mask
+                beta = 1
+
+            attention_scores = torch.baddbmm(
+                baddbmm_input,
+                query,
+                key.transpose(-1, -2),
+                beta=beta,
+                alpha=scale,
+            )
+            del baddbmm_input
+            # breakpoint()
+            eos_idx = kwargs['eos_idx']
+            
+            # new_scores = attention_scores.clone()
+            # new_scores[16:,:,:eos_idx] = torch.mean(attention_scores[16:,:,:eos_idx],dim = -1,keepdim= True)
+            # breakpoint()
+            attention_probs = attention_scores.softmax(dim=-1)
+            # new_probs = new_scores.softmax(dim = -1)
+            avg_probs = attention_probs.clone().float()
+            breakpoint()
+            avg_probs[16:,:,:eos_idx] =torch.mean(avg_probs[16:,:,:eos_idx],dim =-1, keepdim = True)
+            
+        
+            attention_probs = attention_probs.to(dtype)
+            avg_probs = avg_probs.to(dtype)
+            return avg_probs
+
+
+    def __call__(
+        self,
+        attn: Attention,
+        hidden_states: torch.Tensor,
+        encoder_hidden_states: Optional[torch.Tensor] = None,
+        attention_mask: Optional[torch.Tensor] = None,
+        temb: Optional[torch.Tensor] = None,
+        *args,
+        **kwargs,
+    ) -> torch.Tensor:
+    
+        if len(args) > 0 or kwargs.get("scale", None) is not None:
+            deprecation_message = "The `scale` argument is deprecated and will be ignored. Please remove it, as passing it will raise an error in the future. `scale` should directly be passed while calling the underlying pipeline component i.e., via `cross_attention_kwargs`."
+            deprecate("scale", "1.0.0", deprecation_message)
+
+        residual = hidden_states
+        if attn.spatial_norm is not None:
+            hidden_states = attn.spatial_norm(hidden_states, temb)
+
+        input_ndim = hidden_states.ndim
+
+        if input_ndim == 4:
+            batch_size, channel, height, width = hidden_states.shape
+            hidden_states = hidden_states.view(batch_size, channel, height * width).transpose(1, 2)
+
+        batch_size, sequence_length, _ = (
+            hidden_states.shape if encoder_hidden_states is None else encoder_hidden_states.shape
+        )
+
+        if attention_mask is not None:
+            attention_mask = attn.prepare_attention_mask(attention_mask, sequence_length, batch_size)
+
+            attention_mask = attention_mask.view(batch_size, attn.heads, -1, attention_mask.shape[-1])
+
+        if attn.group_norm is not None:
+            hidden_states = attn.group_norm(hidden_states.transpose(1, 2)).transpose(1, 2)
+
+        query = attn.to_q(hidden_states)
+
+        if encoder_hidden_states is None:
+            encoder_hidden_states = hidden_states
+        elif attn.norm_cross:
+            encoder_hidden_states = attn.norm_encoder_hidden_states(encoder_hidden_states)
+        
+        key = attn.to_k(encoder_hidden_states)
+        value = attn.to_v(encoder_hidden_states)
+
+        inner_dim = key.shape[-1]
+        head_dim = inner_dim // attn.heads
+
+  
+        query = attn.head_to_batch_dim(query) 
+        key = attn.head_to_batch_dim(key)
+        # breakpoint()
+        value = attn.head_to_batch_dim(value)
+
+        if attn.norm_q is not None:
+            query = attn.norm_q(query)
+        if attn.norm_k is not None:
+            key = attn.norm_k(key)
+        
+        batch = 1 if self.positive_prompt else 0
+
+        if attention_mask is not None:
+            mask_shape = attention_mask.shape
+            attention_mask = attention_mask.view(mask_shape[0]*mask_shape[1], 1, -1) 
+
+
+
+        if query.shape != key.shape and kwargs['kwargs']['timestep']>0:
+            print('yes')
+            attention_probs = self.get_attention_scores(query=query, key=key, attention_mask=attention_mask,num_heads=attn.heads, scale = attn.scale,
+                                                         eos_idx=kwargs['kwargs']['eos_idx'])     
+
+        else:
+            attention_probs = attn.get_attention_scores(query, key, attention_mask)
+    
+            
+        # else:
+
+            # attention_probs = attn.get_attention_scores(query, key, attention_mask)
+
+        # attention_probs = attn.get_attention_scores(query, key, attention_mask)
+
+        shapes = attention_probs.shape
+        attn_re = attention_probs.reshape(batch_size, attn.heads, shapes[-2], shapes[-1])
+            
+        ######_x
+
+        self.attn_data_x = torch.mean(attn_re[batch], dim=0)
+
+        ######_x
+        
+        hidden_states = torch.bmm(attention_probs, value) #[map_size, 1024, 72]
+        hidden_states = attn.batch_to_head_dim(hidden_states) # [2, 1024, 1152]
+        
+        hidden_states = hidden_states.to(query.dtype)
+        # linear proj
+        hidden_states = attn.to_out[0](hidden_states)
+        # dropout
+        hidden_states = attn.to_out[1](hidden_states)
+
+        if input_ndim == 4:
+            hidden_states = hidden_states.transpose(-1, -2).reshape(batch_size, channel, height, width)
+
+        if attn.residual_connection:
+            hidden_states = hidden_states + residual
+
+        hidden_states = hidden_states / attn.rescale_output_factor
+
+        return hidden_states
+
+
+
+
+
+
+
+
